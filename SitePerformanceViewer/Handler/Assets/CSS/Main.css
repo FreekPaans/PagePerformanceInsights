@@ -1,0 +1,42 @@
+﻿body {
+	font-family: Verdana;
+	font-size: 10pt;
+}
+table {
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+.pages_date_selector {
+	 margin-right: 10px;
+	 float: left;
+}
+
+.pane {
+	width: 50%;
+	float:left;
+}
+.distribution_chart_container,.trend_chart_container {
+	height: 400px;
+}
+
+/*.choose_aggregation_container {
+	float: left;
+	margin-bottom: -15px;
+}
+
+.choose_aggregation {
+	float: right;
+	margin: 0;
+	margin-left: 5px;	
+	padding: 0;
+}
+
+.choose_aggregation li {
+	margin: 0;
+	padding: 0;
+	display: inline;
+	font-size: 9pt;
+	text-decoration: underline;
+	cursor: pointer;
+}*/

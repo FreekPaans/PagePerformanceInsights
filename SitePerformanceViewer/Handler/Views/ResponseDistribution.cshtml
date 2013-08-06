@@ -1,0 +1,51 @@
+﻿@*Generator:Template*@
+
+@functions {
+	public SitePerformanceViewer.Handler.ViewModels.ResponseDistributionViewModel Buckets{get;set;}
+}
+
+
+<script type="text/javascript">
+	(function () {
+		//google.load("visualization", "1", { packages: ["corechart"] });
+		
+		//google.setOnLoadCallback(drawPingChart);
+
+
+		//drawPingChart();
+		function drawPingChart() {
+			var tbl = [["Duration", "Count", "Cumulative %"]];
+
+			tbl = tbl.concat(@(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Buckets.Buckets.Select(b=>new [] { b.MaxExcl,b.Count,b.CumulativePercentage}).ToArray())));
+
+			
+
+			//console.log(tbl);
+
+			var data = google.visualization.arrayToDataTable(tbl);
+
+			data.addColumn({ type: 'string', role: 'annotation' })
+
+			data.setValue(@Buckets.MedianBucketIndex, tbl[0].length, "50%");
+			data.setValue(@Buckets._90PctBucketIndex, tbl[0].length, "90%");
+
+			var options = {
+				title: 'Distribution',
+				series: { 1: { targetAxisIndex: 1 } }
+				//vAxis: { logScale: true },
+				//legend: { position: "right" },
+				//chartArea: {
+				//	width: "70%",
+				//	left: 50
+				//}
+			};
+
+			var chart = new google.visualization.LineChart(document.getElementsByClassName('distribution_chart_container')[0]);
+			chart.draw(data, options);
+		}
+		drawPingChart();
+	})();
+</script>
+<div class="distribution_chart_container">
+
+</div>

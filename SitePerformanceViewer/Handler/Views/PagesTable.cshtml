@@ -1,0 +1,37 @@
+﻿@* Generator: Template *@
+@functions {
+	public ICollection<SitePerformanceViewer.Handler.ViewModels.PagePerformanceDataViewModel> PagePerformanceData { get; set; }
+}
+
+@*<div class="choose_aggregation_container">Show:
+<ul class="choose_aggregation">
+<li id="aggregation_now">now</li>
+<li id="aggregation_15min">15 min</li>
+<li id="aggregation_previous_hour">previous hour</li>
+<li id="aggregation_current_hour">current hour</li>
+<li id="aggregation_today">today</li>
+<li id="aggregation_yesterday">yesterday</li>
+</ul>
+</div>*@
+<table>
+<thead>
+	<tr>
+		<th>Page</th>
+		<th>Count</th>
+		<th>Median</th>
+		<th>Average</th>
+		<th>Sum</th>
+	</tr>
+</thead>
+<tbody>
+ @foreach(var page in PagePerformanceData) {
+ <tr>
+	<td>@page.PageName</td>
+	<td>@page.Count</td>
+	<td>@page.Mean</td>
+	<td>@page.Median</td>
+	<td>@page.Sum</td>
+ </tr>
+ }
+</tbody>
+</table>

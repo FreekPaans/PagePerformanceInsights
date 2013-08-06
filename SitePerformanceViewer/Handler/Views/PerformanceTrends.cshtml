@@ -1,0 +1,37 @@
+﻿@*Generator:Template*@
+
+@functions {
+	public SitePerformanceViewer.Handler.ViewModels.TrendViewModel Trend{get;set;}
+}
+
+<script type="text/javascript">
+	//google.setOnLoadCallback();
+	(function () {
+		function drawChart() {
+			var tbl = [
+				['Time', 'Count', 'Mean', 'Median', '90%']
+			];
+
+			tbl = tbl.concat(@(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Trend.Partitioned.Select(t=>new object[] { t.TimeStamp.TimeOfDay.ToString("hh\\:mm"), t.Count, t.Mean,t.Median, t._90PCT}).ToArray())));
+
+			var data = google.visualization.arrayToDataTable(tbl);
+
+			var options = {
+				title: 'Trend',
+				series: { 0: { targetAxisIndex: 1 } }
+				//hAxis: { title: 'Year', titleTextStyle: { color: 'red' } }
+			};
+
+			//var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+			var chart = new google.visualization.LineChart(document.getElementsByClassName('trend_chart_container')[0]);
+			chart.draw(data, options);
+		}
+
+		drawChart();
+
+	})();
+</script>
+
+<div class="trend_chart_container">
+
+</div>

@@ -1,0 +1,57 @@
+﻿@* Generator: Template *@
+
+
+@*@{ 
+	Layout = "test.cshtml";
+}*@
+
+<!doctype html>
+<html>
+<head>
+<title>ASP.NET Site Performance Viewer</title>
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+	google.load("visualization", "1", { packages: ["corechart"] });
+</script>
+
+@SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeStyleSheet("/CSS/Main.css")
+@SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeStyleSheet("/CSS/jquery.dataTables.css")
+
+@SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/jquery-2.0.3.js")
+@SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/jquery.dataTables.js")
+
+@SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/Main.js")
+
+<script type="text/javascript">
+	window.GetDataUrl = function (url) {
+		var handlerUrl = '@SitePerformanceViewer.Handler.Helpers.HandlerHelpers.HandlerPath';
+		return handlerUrl + '?data=' + url;
+	}
+</script>
+
+</head>
+<body>
+
+<div class="body_wrapper">
+	<div class="pages_table_pane pane">
+	<form style="display:none;">
+	<div class="pages_date_selector">
+	<label>Show: 
+	<select>
+		<option value="today">Today</option>
+		<option value="@SitePerformanceViewer.Helpers.DateContext.Today.AddDays(-1).ToString("yyyy-MM-dd")">Yesterday</option>
+	</select>
+	</label>
+	</div>
+	</form>
+	<div class="pages_table_container">
+	</div>
+	</div>
+	<div class="distribution_pane pane">
+	</div>
+	<div class="trend_pane pane">
+	</div>
+</div>
+</body>
+</html>
