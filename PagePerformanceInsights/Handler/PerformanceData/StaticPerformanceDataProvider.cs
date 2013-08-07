@@ -36,12 +36,7 @@ namespace PagePerformanceInsights.Handler.PerformanceData {
 			_perPageCache[forDate] = new Dictionary<string,SortedIntArray>();
 			foreach(var page in _data[forDate].GroupBy(v => v.Page)) {
 				_perPageCache[forDate][page.Key] =new SortedIntArray(page.Select(p=>p.Duration).ToArray());
-				////.Select(pg => new PerformanceStatisticsForPage {
-				//Count = pg.Count(),
-				//Mean = (int)pg.Average(p => p.Duration),
-				//Sum = (int)(pg.Average(p => p.Duration)*pg.Count()),
-				//PageName = pg.Key,
-				//Median = GetMedian(pg)
+				
 			}
 			
 		}

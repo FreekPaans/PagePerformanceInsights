@@ -13,7 +13,7 @@ namespace PagePerformanceInsights.Handler.PerformanceData.DataTypes {
 
 		public static PerformanceStatisticsForPage Calculate(int[] distribution,string pageName) {
 			
-			 var res=  new PerformanceStatisticsForPage {
+			var res=  new PerformanceStatisticsForPage {
 					Count = distribution.Length,
 					Mean = (int)distribution.Average(),
 					Median = distribution[distribution.Length/2],
