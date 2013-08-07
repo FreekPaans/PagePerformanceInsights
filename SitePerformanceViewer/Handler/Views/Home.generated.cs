@@ -21,12 +21,22 @@ namespace SitePerformanceViewer.Handler.Views
     {
 #line hidden
 
+        #line 8 "..\..\Handler\Views\Home.cshtml"
+
+	public DateTime ActiveDate{get;set;}
+
+        #line default
+        #line hidden
+
         public override void Execute()
         {
 
 
 WriteLiteral("\r\n\r\n\r\n");
 
+
+
+WriteLiteral("\r\n\r\n");
 
 
 WriteLiteral(@"
@@ -42,11 +52,13 @@ WriteLiteral(@"
 </script>
 
 
+
+
 ");
 
 
             
-            #line 19 "..\..\Handler\Views\Home.cshtml"
+            #line 25 "..\..\Handler\Views\Home.cshtml"
 Write(SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeStyleSheet("/CSS/jquery.dataTables.css"));
 
             
@@ -56,7 +68,7 @@ WriteLiteral("\r\n");
 
 
             
-            #line 20 "..\..\Handler\Views\Home.cshtml"
+            #line 26 "..\..\Handler\Views\Home.cshtml"
 Write(SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeStyleSheet("/CSS/Main.css"));
 
             
@@ -66,7 +78,7 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 22 "..\..\Handler\Views\Home.cshtml"
+            #line 28 "..\..\Handler\Views\Home.cshtml"
 Write(SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/jquery-2.0.3.js"));
 
             
@@ -76,7 +88,7 @@ WriteLiteral("\r\n");
 
 
             
-            #line 23 "..\..\Handler\Views\Home.cshtml"
+            #line 29 "..\..\Handler\Views\Home.cshtml"
 Write(SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/jquery.dataTables.js"));
 
             
@@ -86,53 +98,67 @@ WriteLiteral("\r\n\r\n");
 
 
             
-            #line 25 "..\..\Handler\Views\Home.cshtml"
+            #line 31 "..\..\Handler\Views\Home.cshtml"
 Write(SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/Main.js"));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n\r\n<script type=\"text/javascript\">\r\n\twindow.GetDataUrl = function (url) {\r\n\t\tvar" +
-" handlerUrl = \'");
+WriteLiteral("\r\n\r\n");
+
+
+
+WriteLiteral(@"
+<script type=""text/javascript"" src=""http://code.jquery.com/ui/1.10.3/jquery-ui.js""></script>
+<link rel=""stylesheet"" href=""http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"" />
+
+<script type=""text/javascript"">
+	(function () {
+		var handlerUrl = '");
 
 
             
-            #line 29 "..\..\Handler\Views\Home.cshtml"
+            #line 39 "..\..\Handler\Views\Home.cshtml"
                Write(SitePerformanceViewer.Handler.Helpers.HandlerHelpers.HandlerPath);
 
             
             #line default
             #line hidden
 WriteLiteral(@"';
-		return handlerUrl + '?data=' + encodeURIComponent(url);
-	}
+		window.GetRelativeUrl =	function (url) {
+			return handlerUrl + '?'+url;
+		}
+		window.GetDataUrl = function (url) {
+			return handlerUrl + '?data=' + encodeURIComponent(url);
+		}
+	})();
 </script>
 
 </head>
 <body>
 
+
 <div class=""body_wrapper"">
-	
+	<div class=""date_selector"">
 	<form>
 	<div class=""pages_date_selector"">
-	<label>Show: 
-	<select>
-		<option value=""today"">Today</option>
-		<option value=""");
+		<input class=""active_date"" name=""active_date"" type=""hidden"" value=""");
 
 
             
-            #line 44 "..\..\Handler\Views\Home.cshtml"
-            Write(SitePerformanceViewer.Helpers.DateContext.Today.AddDays(-1).ToString("yyyy-MM-dd"));
+            #line 57 "..\..\Handler\Views\Home.cshtml"
+                                                                Write(ActiveDate.Date.ToString("yyyy-MM-dd"));
 
             
             #line default
             #line hidden
-WriteLiteral(@""">Yesterday</option>
-	</select>
+WriteLiteral(@""" />
+	<label>Date 
+		<input class=""select_day"" type=""text"" value=""today"" />
 	</label>
 	</div>
 	</form>
+	</div>
 	<div class=""pages_table_pane pane col2 loading_data"">
 		
 	</div>

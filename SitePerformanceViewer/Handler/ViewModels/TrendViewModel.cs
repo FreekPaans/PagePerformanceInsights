@@ -11,6 +11,10 @@ namespace SitePerformanceViewer.Handler.ViewModels {
 			public int Median{get;set;}
 			public int Count{get;set;}
 			public int Mean{get;set;}
+
+			public static TrendData Empty(DateTime ts) {
+				return new TrendData { TimeStamp = ts};
+			}
 		}
 
 		public TrendData[] Partitioned { get; set; }

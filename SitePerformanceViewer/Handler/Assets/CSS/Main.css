@@ -148,9 +148,15 @@ div.no_data {
 .chart_col {
 	position: fixed;
 	left: 50%;
-	top: 0px;
+	top: 30px;
 }
 
 tr.selected td {
 	font-weight: bold;
+}
+
+.date_selector {
+	text-align:center;
+	margin-top:5px;
+	margin-bottom: 10px;
 }

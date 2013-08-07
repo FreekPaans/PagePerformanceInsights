@@ -5,6 +5,10 @@
 	Layout = "test.cshtml";
 }*@
 
+@functions {
+	public DateTime ActiveDate{get;set;}
+}
+
 <!doctype html>
 <html>
 <head>
@@ -16,6 +20,8 @@
 </script>
 
 
+
+
 @SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeStyleSheet("/CSS/jquery.dataTables.css")
 @SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeStyleSheet("/CSS/Main.css")
 
@@ -24,28 +30,37 @@
 
 @SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/Main.js")
 
+@*todo: put local*@
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
 <script type="text/javascript">
-	window.GetDataUrl = function (url) {
+	(function () {
 		var handlerUrl = '@SitePerformanceViewer.Handler.Helpers.HandlerHelpers.HandlerPath';
-		return handlerUrl + '?data=' + encodeURIComponent(url);
-	}
+		window.GetRelativeUrl =	function (url) {
+			return handlerUrl + '?'+url;
+		}
+		window.GetDataUrl = function (url) {
+			return handlerUrl + '?data=' + encodeURIComponent(url);
+		}
+	})();
 </script>
 
 </head>
 <body>
 
+
 <div class="body_wrapper">
-	
+	<div class="date_selector">
 	<form>
 	<div class="pages_date_selector">
-	<label>Show: 
-	<select>
-		<option value="today">Today</option>
-		<option value="@SitePerformanceViewer.Helpers.DateContext.Today.AddDays(-1).ToString("yyyy-MM-dd")">Yesterday</option>
-	</select>
+		<input class="active_date" name="active_date" type="hidden" value="@ActiveDate.Date.ToString("yyyy-MM-dd")" />
+	<label>Date 
+		<input class="select_day" type="text" value="today" />
 	</label>
 	</div>
 	</form>
+	</div>
 	<div class="pages_table_pane pane col2 loading_data">
 		
 	</div>

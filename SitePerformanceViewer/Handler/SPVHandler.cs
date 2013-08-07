@@ -9,6 +9,8 @@ using System.Web;
 using SitePerformanceViewer.Handler.Helpers;
 using SitePerformanceViewer.Handler.ViewModels;
 using SitePerformanceViewer.Handler.Views;
+using SitePerformanceViewer.Helpers;
+using System.Collections.Specialized;
 
 namespace SitePerformanceViewer {
 	public class SPVHandler : IHttpHandler{
@@ -27,21 +29,34 @@ namespace SitePerformanceViewer {
 				return;
 			}
 
-			context.Response.Write(new Home { }.TransformText());
+			var activeDate = DateContext.Now.Date;
+			if(!string.IsNullOrEmpty(context.Request["date"])) {
+				activeDate = DateTime.Parse(context.Request["date"]);
+			}
+
+			context.Response.Write(new Home { ActiveDate = activeDate }.TransformText());
 		}
 
 		private void Data(HttpContext context, string data) {
-			var elements = data.Split(new [] { "/" }, StringSplitOptions.RemoveEmptyEntries);
+			var elements = data.Substring(1) .Split(new [] { "?" }, StringSplitOptions.RemoveEmptyEntries);
+
+			string qs = "?";
+
+			if(elements.Length>1) {
+				qs = elements[1];
+			}
+			var parsedQueryString = HttpUtility.ParseQueryString(qs);
+			
 
 			switch(elements[0]) {
 				case "pages":
-					context.Response.Write(new PagesTable { PagePerformanceData = GetPerformanceData() }.TransformText());
+					context.Response.Write(new PagesTable { PagePerformanceData = GetPerformanceData(parsedQueryString) }.TransformText());
 					break;
 				case "distribution":
-					context.Response.Write(new ResponseDistribution { Buckets = GetResponseDistribution(elements.Length>1?HttpUtility.UrlDecode(elements[1]):null) }.TransformText() );
+					context.Response.Write(new ResponseDistribution { Buckets = GetResponseDistribution(parsedQueryString) }.TransformText());
 					break;
 				case "trend":
-					context.Response.Write(new PerformanceTrends { Trend = GetTrends(elements.Length>1?HttpUtility.UrlDecode(elements[1]):null) }.TransformText());
+					context.Response.Write(new PerformanceTrends { Trend = GetTrends(parsedQueryString) }.TransformText());
 					break;
 				default:
 					throw new HttpException(404,"not found");		
@@ -52,15 +67,22 @@ namespace SitePerformanceViewer {
 
 		readonly static DateTime Ref = new DateTime(2012,1,1);
 
-		private TrendViewModel GetTrends(string page) {
+		private TrendViewModel GetTrends(NameValueCollection queryString) {
 			Func<DateTime,DateTime> snap = d=>Ref.AddHours((int)(d-Ref).TotalHours);
 
-			var pageRows = _data.Value;
-			
-			if(page!=null) {
-				pageRows= pageRows.Where(d=>d.Page == page).ToArray();
+			var dt = DateContext.Now.Date;
+
+			if(queryString["date"]!=null) {
+				dt = DateTime.Parse(queryString["date"]).Date;
 			}
-			 
+
+			var pageRows = _data[dt];
+
+
+			if(queryString["page"]!=null) {
+				pageRows= pageRows.Where(d => d.Page == queryString["page"]).ToArray();
+			}
+
 
 			var data = pageRows.GroupBy(d=>snap(d.DateTime)).Select(d=>{ 
 			
@@ -73,9 +95,12 @@ namespace SitePerformanceViewer {
 					Mean = (int)sorted.Average(),
 					Count = sorted.Count()
 				};
-			}).OrderBy(td=>td.TimeStamp).ToArray();
+			}).ToDictionary(t=>t.TimeStamp, t=>t);
 
-			return new TrendViewModel { Partitioned = data };
+			var min  = data.Keys.OrderBy(k=>k).FirstOrDefault();
+
+			//var min = snap(DateContext.Now.AddDays(-1).AddHours(1));
+			return new TrendViewModel { Partitioned = Enumerable.Range(0,24).Select(i=>min.AddHours(i)).Select(ts=>data.ContainsKey(ts)?data[ts]:TrendViewModel.TrendData.Empty(ts)).ToArray() };
 		}
 
 
@@ -90,8 +115,25 @@ namespace SitePerformanceViewer {
 
 		const int BucketCount = 100;
 
-		readonly static Lazy<DistributionRow[]> _data =new Lazy<DistributionRow[]>(()=> {
-			return  File.ReadAllLines(@"c:\tmp\filter\rapp_26sum").Select(l => {
+		readonly static Lazy<DistributionRow[]> _data02 =new Lazy<DistributionRow[]>(()=>LoadData(@"c:\tmp\filter\rapp_02sum"));
+		readonly static Lazy<DistributionRow[]> _data26 =new Lazy<DistributionRow[]>(() => LoadData(@"c:\tmp\filter\rapp_26sum"));
+
+		class DataWrapper {
+			public DistributionRow[] this[DateTime dt]  {
+				get {
+					if(dt.Day%2==0) {
+						return _data02.Value;
+					}
+					return _data26.Value;
+				}
+			}
+		}
+
+		static DataWrapper _data = new DataWrapper();
+
+		
+		static DistributionRow[] LoadData(string filename) {
+			return File.ReadAllLines(filename).Select(l => {
 				var spl = l.Split(new []  { ' '} ,StringSplitOptions.RemoveEmptyEntries);
 				try {
 					var res = new DistributionRow {
@@ -105,16 +147,24 @@ namespace SitePerformanceViewer {
 					return null;
 				}
 			}).Where(r => r!=null).OrderBy(r => r.Duration).ToArray();
-		});
+		}
 
-		private ResponseDistributionViewModel GetResponseDistribution(string page) {
+		private ResponseDistributionViewModel GetResponseDistribution(NameValueCollection queryString) {
 			//return new ResponseDistributionViewModel { Buckets = new ResponseDistributionViewModel.Bucket[0]};
-			
-			var data = _data.Value;
 
-			if(page!=null) {
-				data = data.Where(d=>d.Page == page).ToArray();
+			var dt = DateContext.Now.Date;
+
+			if(queryString["date"]!=null) {
+				dt = DateTime.Parse(queryString["date"]).Date;
 			}
+
+			var data = _data[dt];
+
+			if(queryString["page"]!=null) {
+				data = data.Where(d=>d.Page == queryString["page"]).ToArray();
+			}
+
+			
 
 			if(data.Length == 0) {
 				return new ResponseDistributionViewModel { Buckets  =new ResponseDistributionViewModel.Bucket[0], _90PctBucketIndex = 0, MedianBucketIndex = 0};
@@ -169,8 +219,15 @@ namespace SitePerformanceViewer {
 
 		//readonly static string TempData = File.ReadAllText(@"c:\tmp\filter\page_data");
 
-		private Handler.ViewModels.PagePerformanceDataViewModel GetPerformanceData() {
-			var res = _data.Value.GroupBy(v=>v.Page).Select(pg=>new PagePerformanceDataViewModel.PagePerformanceDataRow {
+		private Handler.ViewModels.PagePerformanceDataViewModel GetPerformanceData(NameValueCollection queryString) {
+
+			var dt = DateContext.Now.Date;
+
+			if(queryString["date"]!=null) {
+				dt = DateTime.Parse(queryString["date"]);
+			}
+
+			var res = _data[dt].GroupBy(v=>v.Page).Select(pg=>new PagePerformanceDataViewModel.PagePerformanceDataRow {
 				Count = pg.Count(),
 				Mean = (int)pg.Average(p=>p.Duration),
 				Sum = (int)(pg.Average(p => p.Duration)*pg.Count()),

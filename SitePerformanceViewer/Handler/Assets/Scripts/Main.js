@@ -13,18 +13,30 @@
 		date = this;
 		return date.getFullYear()+'-'+pad(date.getMonth()+1)+'-'+pad(date.getDate())+' '+pad(date.getHours())+':'+pad(date.getMinutes())+':'+pad(date.getSeconds());
 	}
+
+
+	SPVDate = function() {
+		this._date = new Date();
+	};
+	SPVDate.prototype = {
+		getDate: function () {
+			return this._date;
+		}
+	};
 })();
 
 $(function () {
 	var $pagesContainer = $('.pages_table_pane');
 
-	var loadPages = function (date) {
-		if(date===undefined) {
-			date = "today";
-		}
+	var $active_date = $('.active_date');
 
+	var getSelectedDate = function() {
+		return $active_date.val();
+	}
+
+	var loadPages = function (date) {
 		$.ajax({
-			url: GetDataUrl('/pages/' + encodeURIComponent(date)),
+			url: GetDataUrl('/pages?date=' + encodeURIComponent(getSelectedDate())),
 			success: function (data) {
 				$pagesContainer.html(data);
 
@@ -75,9 +87,10 @@ $(function () {
 	var $distributionPane = $('.distribution_pane');
 
 	var loadDistribution = function (page) {
-		var url = '/distribution';
+		var url = '/distribution?date=' + encodeURIComponent(getSelectedDate());
+
 		if (page) {
-			url += '/' + encodeURIComponent(page);
+			url += '&page=' + encodeURIComponent(page);
 		}
 
 		if (!$distributionPane.hasClass("loading_data")) {
@@ -103,9 +116,12 @@ $(function () {
 	$trendPane = $('.trend_pane');
 
 	var loadTrend = function (page) {
-		var url = '/trend';
+		var url = '/trend?date=' + encodeURIComponent(getSelectedDate());
+
+		
+
 		if (page) {
-			url += '/' + encodeURIComponent(page);
+			url += '&page=' + encodeURIComponent(page);
 		}
 
 		if (!$trendPane.hasClass("loading_data")) {
@@ -136,5 +152,22 @@ $(function () {
 	loadPages();
 	loadDistribution();
 	loadTrend();
-});
 
+	//$('.select_day').after(''); 
+
+	
+
+	$('.select_day').datepicker({
+		maxDate: new SPVDate().getDate(),
+		dateFormat: $.datepicker.RFC_822,
+		altField: $active_date,
+		altFormat: $.datepicker.ATOM,
+		onSelect: function (dateText,dp) {
+			window.location = GetRelativeUrl('date=' + $active_date.val());
+		}
+		//defaultDate: $active_date.val()
+	});
+
+	$('.select_day').datepicker('setDate', new Date($active_date.val()));
+
+});
