@@ -68,6 +68,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Handler\Helpers\HandlerHelpers.cs" />
+    <Compile Include="Handler\RequestHandling\DataHandler.cs" />
+    <Compile Include="Handler\RequestHandling\HomeHandler.cs" />
+    <Compile Include="Handler\RequestHandling\IHandleRoutes.cs" />
+    <Compile Include="Handler\RequestHandling\InternalUrl.cs" />
+    <Compile Include="Handler\RequestHandling\MimeHelpers.cs" />
+    <Compile Include="Handler\RequestHandling\RequestRouter.cs" />
+    <Compile Include="Handler\RequestHandling\ResourceRequestHandler.cs" />
     <Compile Include="Handler\ViewModels\PagePerformanceDataViewModel.cs" />
     <Compile Include="Handler\ViewModels\ResponseDistributionViewModel.cs" />
     <Compile Include="Handler\ViewModels\TrendViewModel.cs" />
