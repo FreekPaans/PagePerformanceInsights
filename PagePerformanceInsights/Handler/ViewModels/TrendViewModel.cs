@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 
 namespace PagePerformanceInsights.Handler.ViewModels {
-	public class TrendViewModel {
+	class TrendViewModel {
 		
 		public PageStatisticsTrend Data { get; set; }
 	}

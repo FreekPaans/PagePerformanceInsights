@@ -23,7 +23,7 @@ namespace PagePerformanceInsights.Handler.Views
 
         #line 2 "..\..\Handler\Views\PagesTable.cshtml"
 
-	public PagePerformanceInsights.Handler.ViewModels.PagePerformanceDataViewModel ViewModel { get; set; }
+	internal PagePerformanceInsights.Handler.ViewModels.PagePerformanceDataViewModel ViewModel { get; set; }
 
         #line default
         #line hidden

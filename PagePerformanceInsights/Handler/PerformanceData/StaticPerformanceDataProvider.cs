@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 
 namespace PagePerformanceInsights.Handler.PerformanceData {
-	public class StaticPerformanceDataProvider  : IProvidePerformanceData{
+	class StaticPerformanceDataProvider  : IProvidePerformanceData{
 		public DataTypes.PerformanceStatisticsForPageCollection GetStatisticsForAllPages(DateTime forDate) {
 			var res = _data[forDate].GroupBy(v => v.Page).Select(pg => new PerformanceStatisticsForPage{
 				Count = pg.Count(),

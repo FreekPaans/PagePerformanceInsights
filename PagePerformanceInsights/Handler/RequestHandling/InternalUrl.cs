@@ -5,7 +5,7 @@ using System.Text;
 using System.Web;
 
 namespace PagePerformanceInsights.Handler.RequestHandling {
-	public class InternalUrl {
+	class InternalUrl {
 		readonly string _localPath;
 
 		public string LocalPath {

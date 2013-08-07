@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 
 namespace PagePerformanceInsights.Handler.PerformanceData {
-	public interface IProvidePerformanceData {
+	interface IProvidePerformanceData {
 		PerformanceStatisticsForPageCollection GetStatisticsForAllPages(DateTime forDate);
 
 

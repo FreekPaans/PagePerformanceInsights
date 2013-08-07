@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 
 namespace PagePerformanceInsights.Handler.RequestHandling {
-	public class RequestRouter {
+	class RequestRouter {
 		private HttpContext _context;
 
 		public IHandleRoutes GetHandler(HttpContext context) {

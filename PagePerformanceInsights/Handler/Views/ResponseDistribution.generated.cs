@@ -23,7 +23,7 @@ namespace PagePerformanceInsights.Handler.Views
 
         #line 3 "..\..\Handler\Views\ResponseDistribution.cshtml"
 
-	public PagePerformanceInsights.Handler.ViewModels.ResponseDistributionViewModel ViewModel{get;set;}
+	internal PagePerformanceInsights.Handler.ViewModels.ResponseDistributionViewModel ViewModel{get;set;}
 
         #line default
         #line hidden

@@ -23,7 +23,7 @@ namespace PagePerformanceInsights.Handler.Views
 
         #line 3 "..\..\Handler\Views\PerformanceTrends.cshtml"
 
-	public PagePerformanceInsights.Handler.ViewModels.TrendViewModel ViewModel{get;set;}
+	internal PagePerformanceInsights.Handler.ViewModels.TrendViewModel ViewModel{get;set;}
 
         #line default
         #line hidden
