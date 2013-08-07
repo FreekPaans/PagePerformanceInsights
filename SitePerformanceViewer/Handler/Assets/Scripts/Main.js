@@ -33,6 +33,7 @@ $(function () {
 					'bLengthChange': false,
 					'bFilter': true,
 					'bInfo': false,
+					"aaSorting": [[1, "desc"]],
 					'fnInitComplete': function () {
 						//var $pds = $('.pages_date_selector');//.clone();
 
@@ -45,6 +46,8 @@ $(function () {
 						//$('.dataTables_filter').prepend($pds);
 
 						$pagesContainer.find('tbody tr').bind('click', function () {
+							$(this).siblings('tr').removeClass('selected');
+							$(this).addClass('selected');
 							var $pageCell = $(this).find('td').first();
 							var page = null;
 

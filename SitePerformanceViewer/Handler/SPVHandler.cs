@@ -38,10 +38,10 @@ namespace SitePerformanceViewer {
 					context.Response.Write(new PagesTable { PagePerformanceData = GetPerformanceData() }.TransformText());
 					break;
 				case "distribution":
-					context.Response.Write(new ResponseDistribution { Buckets = GetResponseDistribution() }.TransformText() );
+					context.Response.Write(new ResponseDistribution { Buckets = GetResponseDistribution(elements.Length>1?HttpUtility.UrlDecode(elements[1]):null) }.TransformText() );
 					break;
 				case "trend":
-					context.Response.Write(new PerformanceTrends { Trend = GetTrends() }.TransformText());
+					context.Response.Write(new PerformanceTrends { Trend = GetTrends(elements.Length>1?HttpUtility.UrlDecode(elements[1]):null) }.TransformText());
 					break;
 				default:
 					throw new HttpException(404,"not found");		
@@ -52,10 +52,17 @@ namespace SitePerformanceViewer {
 
 		readonly static DateTime Ref = new DateTime(2012,1,1);
 
-		private TrendViewModel GetTrends() {
+		private TrendViewModel GetTrends(string page) {
 			Func<DateTime,DateTime> snap = d=>Ref.AddHours((int)(d-Ref).TotalHours);
 
-			var data = _data.Value.GroupBy(d=>snap(d.DateTime)).Select(d=>{ 
+			var pageRows = _data.Value;
+			
+			if(page!=null) {
+				pageRows= pageRows.Where(d=>d.Page == page).ToArray();
+			}
+			 
+
+			var data = pageRows.GroupBy(d=>snap(d.DateTime)).Select(d=>{ 
 			
 				var sorted = d.Select(r=>r.Duration).OrderBy(r=>r).ToArray();
 
@@ -85,7 +92,7 @@ namespace SitePerformanceViewer {
 
 		readonly static Lazy<DistributionRow[]> _data =new Lazy<DistributionRow[]>(()=> {
 			return  File.ReadAllLines(@"c:\tmp\filter\rapp_26sum").Select(l => {
-				var spl = l.Split(' ');
+				var spl = l.Split(new []  { ' '} ,StringSplitOptions.RemoveEmptyEntries);
 				try {
 					var res = new DistributionRow {
 						DateTime = DateTime.Parse(spl[0]).Add(TimeSpan.Parse(spl[1])),
@@ -100,10 +107,18 @@ namespace SitePerformanceViewer {
 			}).Where(r => r!=null).OrderBy(r => r.Duration).ToArray();
 		});
 
-		private ResponseDistributionViewModel GetResponseDistribution() {
+		private ResponseDistributionViewModel GetResponseDistribution(string page) {
 			//return new ResponseDistributionViewModel { Buckets = new ResponseDistributionViewModel.Bucket[0]};
 			
 			var data = _data.Value;
+
+			if(page!=null) {
+				data = data.Where(d=>d.Page == page).ToArray();
+			}
+
+			if(data.Length == 0) {
+				return new ResponseDistributionViewModel { Buckets  =new ResponseDistributionViewModel.Bucket[0], _90PctBucketIndex = 0, MedianBucketIndex = 0};
+			}
 
 			var _99 = data[(int)(data.Length*0.99)].Duration;
 
@@ -112,6 +127,8 @@ namespace SitePerformanceViewer {
 			var buckets = Enumerable.Range(0,BucketCount).Select(i => new ResponseDistributionViewModel.Bucket { Count = 0,MinIncl = i*bucketSize,MaxExcl = (i+1)*bucketSize }).ToArray();
 			Func<int,int> getBucketIndex = d=>(int)(d/(double)bucketSize);
 
+			var avg = (int)data.Average(d=>d.Duration);
+			
 			foreach(var row in data) {
 				var idx = getBucketIndex(row.Duration);
 				if(idx>=buckets.Length) {
@@ -125,6 +142,7 @@ namespace SitePerformanceViewer {
 
 			int? medianBucketIndex = null;
 			int? _90pctBucketIndex=  null;
+			int? meanBucketIndex = null;
 
 			var ct = 0;
 			foreach(var bucket in buckets) {
@@ -138,29 +156,27 @@ namespace SitePerformanceViewer {
 					_90pctBucketIndex = ct;
 				}
 
+				if(meanBucketIndex==null && bucket.MinIncl>=avg) {
+					meanBucketIndex = ct;
+				}
+
 				ct++;
 			}
 
-			return new ResponseDistributionViewModel { Buckets = buckets, MedianBucketIndex = medianBucketIndex??0, _90PctBucketIndex = _90pctBucketIndex??0 };
+			return new ResponseDistributionViewModel { Buckets = buckets, MedianBucketIndex = medianBucketIndex??0, _90PctBucketIndex = _90pctBucketIndex??0, MeanBucketIndex = meanBucketIndex??0 };
 			//var sorted = data.ToArray();
 		}
 
-		readonly static string TempData = File.ReadAllText(@"c:\tmp\filter\page_data");
+		//readonly static string TempData = File.ReadAllText(@"c:\tmp\filter\page_data");
 
 		private Handler.ViewModels.PagePerformanceDataViewModel GetPerformanceData() {
-			var res = new List<PagePerformanceDataViewModel.PagePerformanceDataRow>();
-			using(var str = new StringReader(TempData)) {
-				while(true) {
-					var line = str.ReadLine();
-
-					if(line==null) {
-						break;
-					}
-
-					var spl = line.Split('\t');
-					res.Add(new PagePerformanceDataViewModel.PagePerformanceDataRow { PageName = spl[0], Count = int.Parse(spl[1]), Mean = int.Parse(spl[2]), Median = int.Parse(spl[2]), Sum = int.Parse(spl[3]) });
-				}
-			}
+			var res = _data.Value.GroupBy(v=>v.Page).Select(pg=>new PagePerformanceDataViewModel.PagePerformanceDataRow {
+				Count = pg.Count(),
+				Mean = (int)pg.Average(p=>p.Duration),
+				Sum = (int)(pg.Average(p => p.Duration)*pg.Count()),
+				PageName = pg.Key,
+				Median = GetMedian(pg)
+			}).ToArray();
 			return new PagePerformanceDataViewModel { Pages  = res, AllPages = new PagePerformanceDataViewModel.PagePerformanceDataRow {	
 				Count = res.Sum(r=>r.Count),
 				Mean = res.Sum(r=>r.Mean * r.Count)/res.Sum(r=>r.Count),
@@ -169,6 +185,14 @@ namespace SitePerformanceViewer {
 				Sum = res.Sum(r=>r.Sum)
 			}
 			};
+		}
+
+		private int GetMedian(IEnumerable<DistributionRow> pg) {
+			var sorted = pg.OrderBy(r=>r.Duration).ToArray();
+			if(sorted.Length==0) {
+				return 0;
+			}
+			return sorted[sorted.Length/2].Duration;
 		}
 
 		readonly static Assembly _selfAssembly = Assembly.GetAssembly(typeof(SPVHandler));

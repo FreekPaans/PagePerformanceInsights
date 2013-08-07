@@ -17,5 +17,7 @@ namespace SitePerformanceViewer.Handler.ViewModels {
 		public int _90PctBucketIndex { get; set; }
 
 		public int MedianBucketIndex { get; set; }
+
+		public int MeanBucketIndex { get; set; }
 	}
 }

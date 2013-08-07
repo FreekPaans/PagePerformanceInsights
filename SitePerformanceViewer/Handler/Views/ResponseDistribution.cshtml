@@ -11,12 +11,22 @@
 		
 		//google.setOnLoadCallback(drawPingChart);
 
+		var drawNoData = function() {
+			var $container = $('.distribution_chart_container');
+			$container.html('<div class="no_data">No data available</div>');
+		}
 
 		//drawPingChart();
 		function drawPingChart() {
 			var tbl = [["Duration", "Count", "Cumulative %"]];
 
-			tbl = tbl.concat(@(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Buckets.Buckets.Select(b=>new [] { b.MaxExcl,b.Count,b.CumulativePercentage}).ToArray())));
+			var _tblData = @(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Buckets.Buckets.Select(b=>new [] { b.MaxExcl,b.Count,b.CumulativePercentage}).ToArray()));
+
+			if(_tblData.length==0) {
+				return drawNoData();
+			}
+
+			tbl = tbl.concat(_tblData);
 
 			
 
@@ -26,6 +36,7 @@
 
 			data.addColumn({ type: 'string', role: 'annotation' })
 
+			data.setValue(@Buckets.MeanBucketIndex, tbl[0].length, "Mean");
 			data.setValue(@Buckets.MedianBucketIndex, tbl[0].length, "50%");
 			data.setValue(@Buckets._90PctBucketIndex, tbl[0].length, "90%");
 

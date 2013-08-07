@@ -27,7 +27,7 @@
 <script type="text/javascript">
 	window.GetDataUrl = function (url) {
 		var handlerUrl = '@SitePerformanceViewer.Handler.Helpers.HandlerHelpers.HandlerPath';
-		return handlerUrl + '?data=' + url;
+		return handlerUrl + '?data=' + encodeURIComponent(url);
 	}
 </script>
 
@@ -49,7 +49,7 @@
 	<div class="pages_table_pane pane col2 loading_data">
 		
 	</div>
-	<div class="pane col2">
+	<div class="pane col2 chart_col">
 		<div class="distribution_pane pane loading_data">
 		</div>
 		<div class="trend_pane pane loading_data">

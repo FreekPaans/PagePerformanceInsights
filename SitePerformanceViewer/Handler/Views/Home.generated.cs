@@ -103,9 +103,22 @@ WriteLiteral("\r\n\r\n<script type=\"text/javascript\">\r\n\twindow.GetDataUrl =
             
             #line default
             #line hidden
-WriteLiteral("\';\r\n\t\treturn handlerUrl + \'?data=\' + url;\r\n\t}\r\n</script>\r\n\r\n</head>\r\n<body>\r\n\r\n<d" +
-"iv class=\"body_wrapper\">\r\n\t\r\n\t<form>\r\n\t<div class=\"pages_date_selector\">\r\n\t<labe" +
-"l>Show: \r\n\t<select>\r\n\t\t<option value=\"today\">Today</option>\r\n\t\t<option value=\"");
+WriteLiteral(@"';
+		return handlerUrl + '?data=' + encodeURIComponent(url);
+	}
+</script>
+
+</head>
+<body>
+
+<div class=""body_wrapper"">
+	
+	<form>
+	<div class=""pages_date_selector"">
+	<label>Show: 
+	<select>
+		<option value=""today"">Today</option>
+		<option value=""");
 
 
             
@@ -123,7 +136,7 @@ WriteLiteral(@""">Yesterday</option>
 	<div class=""pages_table_pane pane col2 loading_data"">
 		
 	</div>
-	<div class=""pane col2"">
+	<div class=""pane col2 chart_col"">
 		<div class=""distribution_pane pane loading_data"">
 		</div>
 		<div class=""trend_pane pane loading_data"">

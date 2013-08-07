@@ -53,12 +53,12 @@ WriteLiteral(@"
 	</tr>
 </thead>
 <tbody>
-<tr><td class=""total"">All Pages</td><td>");
+<tr class=""selected""><td class=""total"">All Pages</td><td>");
 
 
             
             #line 29 "..\..\Handler\Views\PagesTable.cshtml"
-                                   Write(PagePerformanceData.AllPages.Count);
+                                                    Write(PagePerformanceData.AllPages.Count);
 
             
             #line default
@@ -68,7 +68,7 @@ WriteLiteral("</td><td>");
 
             
             #line 29 "..\..\Handler\Views\PagesTable.cshtml"
-                                                                               Write(PagePerformanceData.AllPages.Median);
+                                                                                                Write(PagePerformanceData.AllPages.Median);
 
             
             #line default
@@ -78,7 +78,7 @@ WriteLiteral("</td><td>");
 
             
             #line 29 "..\..\Handler\Views\PagesTable.cshtml"
-                                                                                                                            Write(PagePerformanceData.AllPages.Mean);
+                                                                                                                                             Write(PagePerformanceData.AllPages.Mean);
 
             
             #line default
@@ -88,7 +88,7 @@ WriteLiteral("</td><td>");
 
             
             #line 29 "..\..\Handler\Views\PagesTable.cshtml"
-                                                                                                                                                                       Write(PagePerformanceData.AllPages.Sum);
+                                                                                                                                                                                        Write(PagePerformanceData.AllPages.Sum);
 
             
             #line default

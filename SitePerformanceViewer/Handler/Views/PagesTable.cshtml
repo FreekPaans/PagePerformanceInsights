@@ -26,7 +26,7 @@
 	</tr>
 </thead>
 <tbody>
-<tr><td class="total">All Pages</td><td>@PagePerformanceData.AllPages.Count</td><td>@PagePerformanceData.AllPages.Median</td><td>@PagePerformanceData.AllPages.Mean</td><td>@PagePerformanceData.AllPages.Sum</td></tr>
+<tr class="selected"><td class="total">All Pages</td><td>@PagePerformanceData.AllPages.Count</td><td>@PagePerformanceData.AllPages.Median</td><td>@PagePerformanceData.AllPages.Mean</td><td>@PagePerformanceData.AllPages.Sum</td></tr>
  @foreach(var page in PagePerformanceData.Pages) {
  <tr>
 	<td>@page.PageName</td>
