@@ -53,7 +53,7 @@ namespace PagePerformanceInsights.Handler.RequestHandling {
 			
 		}
 
-		PagePerformanceInsights.Handler.PerformanceData.StaticPerformanceDataProvider.DataWrapper _data = StaticPerformanceDataProvider._data;
+		//PagePerformanceInsights.Handler.PerformanceData.StaticPerformanceDataProvider.DataWrapper _data = StaticPerformanceDataProvider._data;
 
 
 		

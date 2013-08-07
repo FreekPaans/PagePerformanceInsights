@@ -1,5 +1,7 @@
-﻿using PagePerformanceInsights.Handler.PerformanceData.DataTypes;
+﻿using PagePerformanceInsights.Handler.DataStructures;
+using PagePerformanceInsights.Handler.PerformanceData.DataTypes;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,23 +9,41 @@ using System.Web;
 
 namespace PagePerformanceInsights.Handler.PerformanceData {
 	class StaticPerformanceDataProvider  : IProvidePerformanceData{
+		static ConcurrentDictionary<DateTime, PerformanceStatisticsForPageCollection>  _statisticsForAllPages = new ConcurrentDictionary<DateTime,PerformanceStatisticsForPageCollection>();
+
+
+		readonly static ConcurrentDictionary<DateTime,SortedIntArray> _getStatisticsForAllPagesCache = new ConcurrentDictionary<DateTime,SortedIntArray>();
+		readonly static ConcurrentDictionary<DateTime,Dictionary<string,SortedIntArray>> _perPageCache = new ConcurrentDictionary<DateTime,Dictionary<string,SortedIntArray>>();
+
 		public DataTypes.PerformanceStatisticsForPageCollection GetStatisticsForAllPages(DateTime forDate) {
-			var res = _data[forDate].GroupBy(v => v.Page).Select(pg => new PerformanceStatisticsForPage{
-				Count = pg.Count(),
-				Mean = (int)pg.Average(p => p.Duration),
-				Sum = (int)(pg.Average(p => p.Duration)*pg.Count()),
-				PageName = pg.Key,
-				Median = GetMedian(pg)
-			}).ToArray();
-			return new PerformanceStatisticsForPageCollection(res,
-				new PerformanceStatisticsForPage  {
-					Count = res.Sum(r => r.Count),
-					Mean = res.Sum(r => r.Mean * r.Count)/res.Sum(r => r.Count),
-					Median = (int)res.Average(r => r.Median),
-					PageName = "All Pages",
-					Sum = res.Sum(r => r.Sum)
-				}
+			if(!_getStatisticsForAllPagesCache.ContainsKey(forDate)) {
+				FillCache(forDate);
+			}
+
+			var allStats = _getStatisticsForAllPagesCache[forDate].ToArray();
+
+			return new PerformanceStatisticsForPageCollection(
+				_perPageCache[forDate].Keys.Select(pp=>PerformanceStatisticsForPage.Calculate(_perPageCache[forDate][pp].ToArray(),pp)).ToArray(),
+				PerformanceStatisticsForPage.Calculate(allStats,"All Pages")
 			);
+
+			
+		}
+
+		private void FillCache(DateTime forDate) {
+			_getStatisticsForAllPagesCache[forDate] = new SortedIntArray(_data[forDate].Select(f=>f.Duration).ToArray());
+
+			_perPageCache[forDate] = new Dictionary<string,SortedIntArray>();
+			foreach(var page in _data[forDate].GroupBy(v => v.Page)) {
+				_perPageCache[forDate][page.Key] =new SortedIntArray(page.Select(p=>p.Duration).ToArray());
+				////.Select(pg => new PerformanceStatisticsForPage {
+				//Count = pg.Count(),
+				//Mean = (int)pg.Average(p => p.Duration),
+				//Sum = (int)(pg.Average(p => p.Duration)*pg.Count()),
+				//PageName = pg.Key,
+				//Median = GetMedian(pg)
+			}
+			
 		}
 
 		
