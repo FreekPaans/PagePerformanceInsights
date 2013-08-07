@@ -22,13 +22,13 @@
 
 
 
-@SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeStyleSheet("/CSS/jquery.dataTables.css")
-@SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeStyleSheet("/CSS/Main.css")
+@PagePerformanceInsights.Handler.Helpers.HandlerHelpers.IncludeStyleSheet("/CSS/jquery.dataTables.css")
+@PagePerformanceInsights.Handler.Helpers.HandlerHelpers.IncludeStyleSheet("/CSS/Main.css")
 
-@SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/jquery-2.0.3.js")
-@SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/jquery.dataTables.js")
+@PagePerformanceInsights.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/jquery-2.0.3.js")
+@PagePerformanceInsights.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/jquery.dataTables.js")
 
-@SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/Main.js")
+@PagePerformanceInsights.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/Main.js")
 
 @*todo: put local*@
 <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -36,7 +36,7 @@
 
 <script type="text/javascript">
 	(function () {
-		var handlerUrl = '@SitePerformanceViewer.Handler.Helpers.HandlerHelpers.HandlerPath';
+		var handlerUrl = '@PagePerformanceInsights.Handler.Helpers.HandlerHelpers.HandlerPath';
 		window.GetRelativeUrl =	function (url) {
 			return handlerUrl + '?'+url;
 		}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace SitePerformanceViewer.Handler.ViewModels {
+namespace PagePerformanceInsights.Handler.ViewModels {
 	public class PagePerformanceDataViewModel {
 		public class PagePerformanceDataRow {
 			public string PageName { get; set; }

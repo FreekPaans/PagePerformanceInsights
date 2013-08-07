@@ -6,13 +6,13 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using SitePerformanceViewer.Handler.Helpers;
-using SitePerformanceViewer.Handler.ViewModels;
-using SitePerformanceViewer.Handler.Views;
-using SitePerformanceViewer.Helpers;
+using PagePerformanceInsights.Handler.Helpers;
+using PagePerformanceInsights.Handler.ViewModels;
+using PagePerformanceInsights.Helpers;
 using System.Collections.Specialized;
+using PagePerformanceInsights.Handler.Views;
 
-namespace SitePerformanceViewer {
+namespace PagePerformanceInsights {
 	public class SPVHandler : IHttpHandler{
 		public bool IsReusable {
 			get { return false; }
@@ -318,7 +318,7 @@ namespace SitePerformanceViewer {
 		}
 
 		private string GetResourceName(string resourceValue) {
-			return "SitePerformanceViewer.Handler.Assets"+resourceValue.Replace('/', '.');
+			return "PagePerformanceInsights.Handler.Assets"+resourceValue.Replace('/', '.');
 		}
 	}
 }

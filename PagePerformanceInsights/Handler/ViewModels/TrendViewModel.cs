@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace SitePerformanceViewer.Handler.ViewModels {
+namespace PagePerformanceInsights.Handler.ViewModels {
 	public class TrendViewModel {
 		public class TrendData {	
 			public DateTime TimeStamp{get;set;}

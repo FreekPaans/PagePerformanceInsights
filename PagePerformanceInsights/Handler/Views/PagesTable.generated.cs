@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SitePerformanceViewer.Handler.Views
+namespace PagePerformanceInsights.Handler.Views
 {
     using System;
     using System.Collections.Generic;
@@ -23,7 +23,7 @@ namespace SitePerformanceViewer.Handler.Views
 
         #line 2 "..\..\Handler\Views\PagesTable.cshtml"
 
-	public SitePerformanceViewer.Handler.ViewModels.PagePerformanceDataViewModel PagePerformanceData { get; set; }
+	public PagePerformanceInsights.Handler.ViewModels.PagePerformanceDataViewModel PagePerformanceData { get; set; }
 
         #line default
         #line hidden

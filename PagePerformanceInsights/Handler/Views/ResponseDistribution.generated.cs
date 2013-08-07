@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SitePerformanceViewer.Handler.Views
+namespace PagePerformanceInsights.Handler.Views
 {
     using System;
     using System.Collections.Generic;
@@ -23,7 +23,7 @@ namespace SitePerformanceViewer.Handler.Views
 
         #line 3 "..\..\Handler\Views\ResponseDistribution.cshtml"
 
-	public SitePerformanceViewer.Handler.ViewModels.ResponseDistributionViewModel Buckets{get;set;}
+	public PagePerformanceInsights.Handler.ViewModels.ResponseDistributionViewModel Buckets{get;set;}
 
         #line default
         #line hidden

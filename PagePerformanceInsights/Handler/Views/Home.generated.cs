@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SitePerformanceViewer.Handler.Views
+namespace PagePerformanceInsights.Handler.Views
 {
     using System;
     using System.Collections.Generic;
@@ -59,7 +59,7 @@ WriteLiteral(@"
 
             
             #line 25 "..\..\Handler\Views\Home.cshtml"
-Write(SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeStyleSheet("/CSS/jquery.dataTables.css"));
+Write(PagePerformanceInsights.Handler.Helpers.HandlerHelpers.IncludeStyleSheet("/CSS/jquery.dataTables.css"));
 
             
             #line default
@@ -69,7 +69,7 @@ WriteLiteral("\r\n");
 
             
             #line 26 "..\..\Handler\Views\Home.cshtml"
-Write(SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeStyleSheet("/CSS/Main.css"));
+Write(PagePerformanceInsights.Handler.Helpers.HandlerHelpers.IncludeStyleSheet("/CSS/Main.css"));
 
             
             #line default
@@ -79,7 +79,7 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 28 "..\..\Handler\Views\Home.cshtml"
-Write(SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/jquery-2.0.3.js"));
+Write(PagePerformanceInsights.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/jquery-2.0.3.js"));
 
             
             #line default
@@ -89,7 +89,7 @@ WriteLiteral("\r\n");
 
             
             #line 29 "..\..\Handler\Views\Home.cshtml"
-Write(SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/jquery.dataTables.js"));
+Write(PagePerformanceInsights.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/jquery.dataTables.js"));
 
             
             #line default
@@ -99,7 +99,7 @@ WriteLiteral("\r\n\r\n");
 
             
             #line 31 "..\..\Handler\Views\Home.cshtml"
-Write(SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/Main.js"));
+Write(PagePerformanceInsights.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/Main.js"));
 
             
             #line default
@@ -119,7 +119,7 @@ WriteLiteral(@"
 
             
             #line 39 "..\..\Handler\Views\Home.cshtml"
-               Write(SitePerformanceViewer.Handler.Helpers.HandlerHelpers.HandlerPath);
+               Write(PagePerformanceInsights.Handler.Helpers.HandlerHelpers.HandlerPath);
 
             
             #line default

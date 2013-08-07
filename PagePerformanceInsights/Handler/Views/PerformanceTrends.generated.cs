@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SitePerformanceViewer.Handler.Views
+namespace PagePerformanceInsights.Handler.Views
 {
     using System;
     using System.Collections.Generic;
@@ -23,7 +23,7 @@ namespace SitePerformanceViewer.Handler.Views
 
         #line 3 "..\..\Handler\Views\PerformanceTrends.cshtml"
 
-	public SitePerformanceViewer.Handler.ViewModels.TrendViewModel Trend{get;set;}
+	public PagePerformanceInsights.Handler.ViewModels.TrendViewModel Trend{get;set;}
 
         #line default
         #line hidden

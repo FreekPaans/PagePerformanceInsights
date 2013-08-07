@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace SitePerformanceViewer.Handler.Helpers {
+namespace PagePerformanceInsights.Handler.Helpers {
 	public static class HandlerHelpers {
 		public static string IncludeStyleSheet(string path) {
 			return string.Format(@"<link rel=""stylesheet"" href=""{0}"" />", GetResourcePath(path));
