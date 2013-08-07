@@ -13,7 +13,13 @@ using System.Collections.Specialized;
 using PagePerformanceInsights.Handler.Views;
 
 namespace PagePerformanceInsights {
-	public class SPVHandler : IHttpHandler{
+	public class rendertest {
+		public string rendertemplate() {
+			return new PagesTable { PagePerformanceData = new PagePerformanceDataViewModel { AllPages = new PagePerformanceDataViewModel.PagePerformanceDataRow(), Pages = new PagePerformanceDataViewModel.PagePerformanceDataRow[0] } }.TransformText();
+		}
+
+	}
+	public class PPIHandler : IHttpHandler{
 		public bool IsReusable {
 			get { return false; }
 		}
@@ -97,7 +103,7 @@ namespace PagePerformanceInsights {
 				};
 			}).ToDictionary(t=>t.TimeStamp, t=>t);
 
-			var min  = data.Keys.OrderBy(k=>k).FirstOrDefault();
+			var min  = data.Keys.First().Date;
 
 			//var min = snap(DateContext.Now.AddDays(-1).AddHours(1));
 			return new TrendViewModel { Partitioned = Enumerable.Range(0,24).Select(i=>min.AddHours(i)).Select(ts=>data.ContainsKey(ts)?data[ts]:TrendViewModel.TrendData.Empty(ts)).ToArray() };
@@ -252,7 +258,7 @@ namespace PagePerformanceInsights {
 			return sorted[sorted.Length/2].Duration;
 		}
 
-		readonly static Assembly _selfAssembly = Assembly.GetAssembly(typeof(SPVHandler));
+		readonly static Assembly _selfAssembly = Assembly.GetAssembly(typeof(PPIHandler));
 
 		private void Resource(HttpContext context, string resourceValue) {
 			

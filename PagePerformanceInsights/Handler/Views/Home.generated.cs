@@ -153,7 +153,7 @@ WriteLiteral(@"';
             #line default
             #line hidden
 WriteLiteral(@""" />
-	<label>Date 
+	<label>Insights for
 		<input class=""select_day"" type=""text"" value=""today"" />
 	</label>
 	</div>
