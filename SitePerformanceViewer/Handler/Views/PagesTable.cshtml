@@ -1,6 +1,6 @@
 ﻿@* Generator: Template *@
 @functions {
-	public ICollection<SitePerformanceViewer.Handler.ViewModels.PagePerformanceDataViewModel> PagePerformanceData { get; set; }
+	public SitePerformanceViewer.Handler.ViewModels.PagePerformanceDataViewModel PagePerformanceData { get; set; }
 }
 
 @*<div class="choose_aggregation_container">Show:
@@ -13,25 +13,29 @@
 <li id="aggregation_yesterday">yesterday</li>
 </ul>
 </div>*@
+<div class="pages_table_container loading">
+		
 <table>
 <thead>
 	<tr>
-		<th>Page</th>
+		<th class="head_page"><span>Page</span></th>
 		<th>Count</th>
 		<th>Median</th>
-		<th>Average</th>
+		<th>Mean</th>
 		<th>Sum</th>
 	</tr>
 </thead>
 <tbody>
- @foreach(var page in PagePerformanceData) {
+<tr><td class="total">All Pages</td><td>@PagePerformanceData.AllPages.Count</td><td>@PagePerformanceData.AllPages.Median</td><td>@PagePerformanceData.AllPages.Mean</td><td>@PagePerformanceData.AllPages.Sum</td></tr>
+ @foreach(var page in PagePerformanceData.Pages) {
  <tr>
 	<td>@page.PageName</td>
 	<td>@page.Count</td>
-	<td>@page.Mean</td>
 	<td>@page.Median</td>
+	<td>@page.Mean</td>
 	<td>@page.Sum</td>
  </tr>
  }
 </tbody>
 </table>
+</div>

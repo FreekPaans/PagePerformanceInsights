@@ -144,6 +144,8 @@
     <EmbeddedResource Include="Handler\Assets\images\sort_asc.png" />
     <EmbeddedResource Include="Handler\Assets\images\sort_both.png" />
     <EmbeddedResource Include="Handler\Assets\images\sort_desc.png" />
+    <EmbeddedResource Include="Handler\Assets\images\ajax-loader.gif" />
+    <EmbeddedResource Include="Handler\Assets\images\ajax-loader-black.gif" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

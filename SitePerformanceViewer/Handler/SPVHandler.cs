@@ -147,8 +147,8 @@ namespace SitePerformanceViewer {
 
 		readonly static string TempData = File.ReadAllText(@"c:\tmp\filter\page_data");
 
-		private ICollection<Handler.ViewModels.PagePerformanceDataViewModel> GetPerformanceData() {
-			var res = new List<PagePerformanceDataViewModel>();
+		private Handler.ViewModels.PagePerformanceDataViewModel GetPerformanceData() {
+			var res = new List<PagePerformanceDataViewModel.PagePerformanceDataRow>();
 			using(var str = new StringReader(TempData)) {
 				while(true) {
 					var line = str.ReadLine();
@@ -158,10 +158,17 @@ namespace SitePerformanceViewer {
 					}
 
 					var spl = line.Split('\t');
-					res.Add(new PagePerformanceDataViewModel { PageName = spl[0], Count = int.Parse(spl[1]), Mean = int.Parse(spl[2]), Median = int.Parse(spl[2]), Sum = int.Parse(spl[3]) });
+					res.Add(new PagePerformanceDataViewModel.PagePerformanceDataRow { PageName = spl[0], Count = int.Parse(spl[1]), Mean = int.Parse(spl[2]), Median = int.Parse(spl[2]), Sum = int.Parse(spl[3]) });
 				}
 			}
-			return res;
+			return new PagePerformanceDataViewModel { Pages  = res, AllPages = new PagePerformanceDataViewModel.PagePerformanceDataRow {	
+				Count = res.Sum(r=>r.Count),
+				Mean = res.Sum(r=>r.Mean * r.Count)/res.Sum(r=>r.Count),
+				Median = (int)res.Average(r=>r.Median),
+				PageName = "All Pages",
+				Sum = res.Sum(r=>r.Sum)
+			}
+			};
 		}
 
 		readonly static Assembly _selfAssembly = Assembly.GetAssembly(typeof(SPVHandler));
@@ -221,6 +228,10 @@ namespace SitePerformanceViewer {
 					return "application/x-javascript";
 				case "css":
 					return "text/css";
+				case "png":
+					return "image/png";
+				case "gif":
+					return "image/gif";
 			}
 			return "application/octet-stream";
 		}

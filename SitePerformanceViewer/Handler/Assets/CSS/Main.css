@@ -13,11 +13,39 @@ table {
 }
 
 .pane {
-	width: 50%;
-	float:left;
+	position: relative;
+	width:100%;
 }
-.distribution_chart_container,.trend_chart_container {
+
+.col2 {
+	width: 50%;
+}
+
+.pane {
+	float:left;
+	min-height:100px;
+}
+
+.pages_table_container {
+	width:100%;
+}
+
+.pages_table_pane {
+	clear:left;
+}
+
+.pages_table_pane,.distribution_pane,.trend_pane{
 	height: 400px;
+}
+
+.loading_data {
+	background-image: url({baseDir}/images/ajax-loader.gif);
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+}
+
+.distribution_chart_container, .trend_chart_container {
+	height:100%;
 }
 
 /*.choose_aggregation_container {
@@ -40,3 +68,72 @@ table {
 	text-decoration: underline;
 	cursor: pointer;
 }*/
+
+table.dataTable tr.odd { background-color: #FAFAFA; }
+table.dataTable tr.even { background-color: white; }
+
+table.dataTable tr.odd td.sorting_1 { background-color: #FAFAFA; }
+table.dataTable tr.odd td.sorting_2 { background-color: #DADCFF; }
+table.dataTable tr.odd td.sorting_3 { background-color: #E0E2FF; }
+table.dataTable tr.even td.sorting_1 { background-color: white; }
+table.dataTable tr.even td.sorting_2 { background-color: #F2F3FF; }
+table.dataTable tr.even td.sorting_3 { background-color: #F9F9FF; }
+
+
+
+table.dataTable {
+	border: 1px solid #BBBBBB;
+    border-collapse: collapse;
+}
+table.dataTable tbody td,table.dataTable thead th,table.dataTable thead td {
+	border: 1px solid #BBBBBB;
+}
+
+table.dataTable thead th {
+	/*border-bottom:0;*/
+}
+
+table.dataTable tbody tr {
+	cursor:pointer;
+}
+
+table.dataTable tr:hover,table.dataTable tr:hover td {
+	background-color: #e7e9f9 !important; 
+}
+
+th.head_page {
+	text-align: left;
+	vertical-align:text-bottom;
+}
+
+th.head_page span {
+	float:left;
+	margin-top:2px;
+}
+
+th.head_page input {
+	float:right;
+}
+
+td.total {
+	font-style:italic;
+}
+
+
+
+/*a.page_link {
+	color: black;
+	text-decoration: none;
+}*/
+
+.overlay_loading {
+	position: absolute;
+	background-color: black;
+	opacity: 0.5;
+	filter: alpha(opacity = 50);
+	left: 0;
+	top: 0;
+	background-image: url({baseDir}/images/ajax-loader-black.gif);
+	background-position:50% 50%;
+	background-repeat: no-repeat;
+}

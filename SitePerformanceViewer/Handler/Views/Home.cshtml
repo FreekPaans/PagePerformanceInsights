@@ -15,8 +15,9 @@
 	google.load("visualization", "1", { packages: ["corechart"] });
 </script>
 
-@SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeStyleSheet("/CSS/Main.css")
+
 @SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeStyleSheet("/CSS/jquery.dataTables.css")
+@SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeStyleSheet("/CSS/Main.css")
 
 @SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/jquery-2.0.3.js")
 @SitePerformanceViewer.Handler.Helpers.HandlerHelpers.IncludeJavaScript("/Scripts/jquery.dataTables.js")
@@ -34,8 +35,8 @@
 <body>
 
 <div class="body_wrapper">
-	<div class="pages_table_pane pane">
-	<form style="display:none;">
+	
+	<form>
 	<div class="pages_date_selector">
 	<label>Show: 
 	<select>
@@ -45,12 +46,14 @@
 	</label>
 	</div>
 	</form>
-	<div class="pages_table_container">
+	<div class="pages_table_pane pane col2 loading_data">
+		
 	</div>
-	</div>
-	<div class="distribution_pane pane">
-	</div>
-	<div class="trend_pane pane">
+	<div class="pane col2">
+		<div class="distribution_pane pane loading_data">
+		</div>
+		<div class="trend_pane pane loading_data">
+		</div>
 	</div>
 </div>
 </body>
