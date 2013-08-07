@@ -1,7 +1,7 @@
 ﻿@*Generator:Template*@
 
 @functions {
-	public PagePerformanceInsights.Handler.ViewModels.TrendViewModel Trend{get;set;}
+	public PagePerformanceInsights.Handler.ViewModels.TrendViewModel ViewModel{get;set;}
 }
 
 <script type="text/javascript">
@@ -12,7 +12,7 @@
 				['Time', 'Count', 'Mean', 'Median', '90%']
 			];
 
-			tbl = tbl.concat(@(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Trend.Partitioned.Select(t=>new object[] { t.TimeStamp.TimeOfDay.ToString("hh\\:mm"), t.Count, t.Mean,t.Median, t._90PCT}).ToArray())));
+			tbl = tbl.concat(@(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewModel.Data.TrendData.Select(t=>new object[] { t.TimeStamp.TimeOfDay.ToString("hh\\:mm"), t.Count, t.Mean,t.Median, t._90PCT}).ToArray())));
 
 			var data = google.visualization.arrayToDataTable(tbl);
 

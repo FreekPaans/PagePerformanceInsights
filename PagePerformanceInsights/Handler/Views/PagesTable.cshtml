@@ -1,6 +1,6 @@
 ﻿@* Generator: Template *@
 @functions {
-	public PagePerformanceInsights.Handler.ViewModels.PagePerformanceDataViewModel PagePerformanceData { get; set; }
+	public PagePerformanceInsights.Handler.ViewModels.PagePerformanceDataViewModel ViewModel { get; set; }
 }
 
 @*<div class="choose_aggregation_container">Show:
@@ -26,8 +26,8 @@
 	</tr>
 </thead>
 <tbody>
-<tr class="selected"><td class="total">All Pages</td><td>@PagePerformanceData.AllPages.Count</td><td>@PagePerformanceData.AllPages.Median</td><td>@PagePerformanceData.AllPages.Mean</td><td>@PagePerformanceData.AllPages.Sum</td></tr>
- @foreach(var page in PagePerformanceData.Pages) {
+<tr class="selected"><td class="total">All Pages</td><td>@ViewModel.Data.StatisticsForAllPages.Count</td><td>@ViewModel.Data.StatisticsForAllPages.Median</td><td>@ViewModel.Data.StatisticsForAllPages.Mean</td><td>@ViewModel.Data.StatisticsForAllPages.Sum</td></tr>
+ @foreach(var page in ViewModel.Data.PageStatistics) {
  <tr>
 	<td>@page.PageName</td>
 	<td>@page.Count</td>

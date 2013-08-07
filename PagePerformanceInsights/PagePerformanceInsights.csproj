@@ -68,6 +68,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Handler\Helpers\HandlerHelpers.cs" />
+    <Compile Include="Handler\PerformanceData\DataTypes\PageDurationDistributionHistogram.cs" />
+    <Compile Include="Handler\PerformanceData\DataTypes\PageStatisticsTrend.cs" />
+    <Compile Include="Handler\PerformanceData\DataTypes\PerformanceStatisticsForPage.cs" />
+    <Compile Include="Handler\PerformanceData\DataTypes\PerformanceStatisticsForPageCollection.cs" />
+    <Compile Include="Handler\PerformanceData\IProvidePerformanceData.cs" />
+    <Compile Include="Handler\PerformanceData\SettingsPerformanceProviderFactory.cs" />
+    <Compile Include="Handler\PerformanceData\StaticPerformanceDataProvider.cs" />
     <Compile Include="Handler\RequestHandling\DataHandler.cs" />
     <Compile Include="Handler\RequestHandling\HomeHandler.cs" />
     <Compile Include="Handler\RequestHandling\IHandleRoutes.cs" />

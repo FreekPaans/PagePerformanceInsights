@@ -23,7 +23,7 @@ namespace PagePerformanceInsights.Handler.Views
 
         #line 3 "..\..\Handler\Views\PerformanceTrends.cshtml"
 
-	public PagePerformanceInsights.Handler.ViewModels.TrendViewModel Trend{get;set;}
+	public PagePerformanceInsights.Handler.ViewModels.TrendViewModel ViewModel{get;set;}
 
         #line default
         #line hidden
@@ -42,7 +42,7 @@ WriteLiteral("\r\n\r\n<script type=\"text/javascript\">\r\n\t//google.setOnLoadC
 
             
             #line 15 "..\..\Handler\Views\PerformanceTrends.cshtml"
-                Write(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Trend.Partitioned.Select(t=>new object[] { t.TimeStamp.TimeOfDay.ToString("hh\\:mm"), t.Count, t.Mean,t.Median, t._90PCT}).ToArray()));
+                Write(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewModel.Data.TrendData.Select(t=>new object[] { t.TimeStamp.TimeOfDay.ToString("hh\\:mm"), t.Count, t.Mean,t.Median, t._90PCT}).ToArray()));
 
             
             #line default

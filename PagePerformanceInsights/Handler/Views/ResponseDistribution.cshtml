@@ -1,7 +1,7 @@
 ﻿@*Generator:Template*@
 
 @functions {
-	public PagePerformanceInsights.Handler.ViewModels.ResponseDistributionViewModel Buckets{get;set;}
+	public PagePerformanceInsights.Handler.ViewModels.ResponseDistributionViewModel ViewModel{get;set;}
 }
 
 
@@ -20,7 +20,7 @@
 		function drawPingChart() {
 			var tbl = [["Duration", "Count", "Cumulative %"]];
 
-			var _tblData = @(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Buckets.Buckets.Select(b=>new [] { b.MaxExcl,b.Count,b.CumulativePercentage}).ToArray()));
+			var _tblData = @(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewModel.Data.Buckets.Select(b=>new [] { b.MaxExcl,b.Count,b.CumulativePercentage}).ToArray()));
 
 			if(_tblData.length==0) {
 				return drawNoData();
@@ -36,9 +36,9 @@
 
 			data.addColumn({ type: 'string', role: 'annotation' })
 
-			data.setValue(@Buckets.MeanBucketIndex, tbl[0].length, "Mean");
-			data.setValue(@Buckets.MedianBucketIndex, tbl[0].length, "50%");
-			data.setValue(@Buckets._90PctBucketIndex, tbl[0].length, "90%");
+			data.setValue(@ViewModel.Data.MeanBucketIndex, tbl[0].length, "Mean");
+			data.setValue(@ViewModel.Data.MedianBucketIndex, tbl[0].length, "50%");
+			data.setValue(@ViewModel.Data._90PercentileBucketIndex, tbl[0].length, "90%");
 
 			var options = {
 				title: 'Distribution',

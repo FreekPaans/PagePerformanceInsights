@@ -23,7 +23,7 @@ namespace PagePerformanceInsights.Handler.Views
 
         #line 3 "..\..\Handler\Views\ResponseDistribution.cshtml"
 
-	public PagePerformanceInsights.Handler.ViewModels.ResponseDistributionViewModel Buckets{get;set;}
+	public PagePerformanceInsights.Handler.ViewModels.ResponseDistributionViewModel ViewModel{get;set;}
 
         #line default
         #line hidden
@@ -58,7 +58,7 @@ WriteLiteral(@"
 
             
             #line 23 "..\..\Handler\Views\ResponseDistribution.cshtml"
-              Write(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Buckets.Buckets.Select(b=>new [] { b.MaxExcl,b.Count,b.CumulativePercentage}).ToArray()));
+              Write(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewModel.Data.Buckets.Select(b=>new [] { b.MaxExcl,b.Count,b.CumulativePercentage}).ToArray()));
 
             
             #line default
@@ -84,7 +84,7 @@ WriteLiteral(@";
 
             
             #line 39 "..\..\Handler\Views\ResponseDistribution.cshtml"
-            Write(Buckets.MeanBucketIndex);
+            Write(ViewModel.Data.MeanBucketIndex);
 
             
             #line default
@@ -94,7 +94,7 @@ WriteLiteral(", tbl[0].length, \"Mean\");\r\n\t\t\tdata.setValue(");
 
             
             #line 40 "..\..\Handler\Views\ResponseDistribution.cshtml"
-            Write(Buckets.MedianBucketIndex);
+            Write(ViewModel.Data.MedianBucketIndex);
 
             
             #line default
@@ -104,7 +104,7 @@ WriteLiteral(", tbl[0].length, \"50%\");\r\n\t\t\tdata.setValue(");
 
             
             #line 41 "..\..\Handler\Views\ResponseDistribution.cshtml"
-            Write(Buckets._90PctBucketIndex);
+            Write(ViewModel.Data._90PercentileBucketIndex);
 
             
             #line default

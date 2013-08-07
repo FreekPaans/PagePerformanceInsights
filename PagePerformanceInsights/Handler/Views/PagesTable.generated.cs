@@ -23,7 +23,7 @@ namespace PagePerformanceInsights.Handler.Views
 
         #line 2 "..\..\Handler\Views\PagesTable.cshtml"
 
-	public PagePerformanceInsights.Handler.ViewModels.PagePerformanceDataViewModel PagePerformanceData { get; set; }
+	public PagePerformanceInsights.Handler.ViewModels.PagePerformanceDataViewModel ViewModel { get; set; }
 
         #line default
         #line hidden
@@ -58,7 +58,7 @@ WriteLiteral(@"
 
             
             #line 29 "..\..\Handler\Views\PagesTable.cshtml"
-                                                    Write(PagePerformanceData.AllPages.Count);
+                                                    Write(ViewModel.Data.StatisticsForAllPages.Count);
 
             
             #line default
@@ -68,7 +68,7 @@ WriteLiteral("</td><td>");
 
             
             #line 29 "..\..\Handler\Views\PagesTable.cshtml"
-                                                                                                Write(PagePerformanceData.AllPages.Median);
+                                                                                                        Write(ViewModel.Data.StatisticsForAllPages.Median);
 
             
             #line default
@@ -78,7 +78,7 @@ WriteLiteral("</td><td>");
 
             
             #line 29 "..\..\Handler\Views\PagesTable.cshtml"
-                                                                                                                                             Write(PagePerformanceData.AllPages.Mean);
+                                                                                                                                                             Write(ViewModel.Data.StatisticsForAllPages.Mean);
 
             
             #line default
@@ -88,7 +88,7 @@ WriteLiteral("</td><td>");
 
             
             #line 29 "..\..\Handler\Views\PagesTable.cshtml"
-                                                                                                                                                                                        Write(PagePerformanceData.AllPages.Sum);
+                                                                                                                                                                                                                Write(ViewModel.Data.StatisticsForAllPages.Sum);
 
             
             #line default
@@ -98,7 +98,7 @@ WriteLiteral("</td></tr>\n");
 
             
             #line 30 "..\..\Handler\Views\PagesTable.cshtml"
-  foreach(var page in PagePerformanceData.Pages) {
+  foreach(var page in ViewModel.Data.PageStatistics) {
 
             
             #line default
