@@ -76,7 +76,8 @@ $(function () {
 				});
 			},
 			error: function (err) {
-				$pagesContainer.html("Error loading page data: " + err.statusText + ' (' + err.status + ')');
+				//$pagesContainer.html("Error loading page data: " + err.statusText + ' (' + err.status + ')');
+				$pagesContainer.html(err.responseText);
 			},
 			complete: function () {
 				$pagesContainer.removeClass('loading_data');
@@ -104,7 +105,8 @@ $(function () {
 				$distributionPane.html(data);
 			},
 			error: function (err) {
-				$distributionPane.html('Error getting distribution: ' + err.statusText + ' (' + err.status + ')');
+				//$distributionPane.html('Error getting distribution: ' + err.statusText + ' (' + err.status + ')');
+				$distributionPane.html(err.responseText);
 			},
 			complete: function () {
 				$distributionPane.removeClass('loading_data');
@@ -135,7 +137,8 @@ $(function () {
 				$trendPane.html(data);
 			},
 			error: function (err) {
-				$trendPane.html('Error getting trend: ' + err.statusText + ' (' + err.status + ')');
+				//$trendPane.html('Error getting trend: ' + err.statusText + ' (' + err.status + ')');
+				$trendPane.html(err.responseText);
 			},
 			complete: function () {
 				$trendPane.removeClass('loading_data');

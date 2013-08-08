@@ -35,19 +35,39 @@ namespace PagePerformanceInsights.Handler.Views
 WriteLiteral("\r\n\r\n");
 
 
-WriteLiteral("\r\n\r\n<script type=\"text/javascript\">\r\n\t//google.setOnLoadCallback();\r\n\t(function (" +
-") {\r\n\t\tfunction drawChart() {\r\n\t\t\tvar tbl = [\r\n\t\t\t\t[\'Time\', \'Count\', \'Mean\', \'Me" +
-"dian\', \'90%\']\r\n\t\t\t];\r\n\r\n\t\t\ttbl = tbl.concat(");
+WriteLiteral(@"
+
+<script type=""text/javascript"">
+	//google.setOnLoadCallback();
+	(function () {	
+		var drawNoData = function () {
+			var $container = $('.trend_chart_container');
+			$container.html('<div class=""no_data"">No data available</div>');
+		}
+		function drawChart() {
+			var tbl = [
+				['Time', 'Count', 'Mean', 'Median', '90%']
+			];
+
+
+			var rows = ");
 
 
             
-            #line 15 "..\..\Handler\Views\PerformanceTrends.cshtml"
-                Write(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewModel.Data.TrendData.Select(t=>new object[] { t.TimeStamp.TimeOfDay.ToString("hh\\:mm"), t.Count, t.Mean,t.Median, t._90PCT}).ToArray()));
+            #line 20 "..\..\Handler\Views\PerformanceTrends.cshtml"
+          Write(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewModel.Data.TrendData.Select(t=>new object[] { t.TimeStamp.TimeOfDay.ToString("hh\\:mm"), t.Count, t.Mean,t.Median, t._90PCT}).ToArray()));
 
             
             #line default
             #line hidden
-WriteLiteral(@");
+WriteLiteral(@";
+
+			if(rows.length==0) {
+				drawNoData();
+				return;
+			}
+
+			tbl = tbl.concat(rows);
 
 			var data = google.visualization.arrayToDataTable(tbl);
 

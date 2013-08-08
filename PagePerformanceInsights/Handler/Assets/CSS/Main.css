@@ -19,6 +19,7 @@ table {
 
 .col2 {
 	width: 50%;
+	overflow:auto;
 }
 
 .pane {
@@ -34,8 +35,9 @@ table {
 	clear:left;
 }
 
-.pages_table_pane,.distribution_pane,.trend_pane{
+.distribution_pane,.trend_pane{
 	height: 400px;
+	overflow:hidden;
 }
 
 .loading_data {

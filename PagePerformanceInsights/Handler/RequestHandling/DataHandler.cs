@@ -18,7 +18,7 @@ namespace PagePerformanceInsights.Handler.RequestHandling {
 
 		public DataHandler(string localPath) {
 			_localPath = localPath;
-			_performanceDataProvider  = SettingsPerformanceProviderFactory.GetDataProvider();
+			_performanceDataProvider  = SettingsStoreFactory.GetDataProvider();
 		}
 
 		public void Run(System.Web.HttpContext context) {
@@ -70,11 +70,11 @@ namespace PagePerformanceInsights.Handler.RequestHandling {
 			PageStatisticsTrend trend;
 
 			if(queryString["page"]!=null) {
-				trend = _performanceDataProvider.GetTrend(dt,queryString["page"]);
+				trend = _performanceDataProvider.GetHourlyTrend(dt,queryString["page"]);
 				
 			}
 			else {
-				trend = _performanceDataProvider.GetTrend(dt);
+				trend = _performanceDataProvider.GetHourlyTrend(dt);
 			}
 
 			return new TrendViewModel { Data = trend };

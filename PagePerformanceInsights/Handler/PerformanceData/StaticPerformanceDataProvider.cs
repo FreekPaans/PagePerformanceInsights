@@ -189,7 +189,7 @@ namespace PagePerformanceInsights.Handler.PerformanceData {
 		}
 
 
-		public PageStatisticsTrend GetTrend(DateTime forDate,string forPage) {
+		public PageStatisticsTrend GetHourlyTrend(DateTime forDate,string forPage) {
 			var pageRows =  _data[forDate];
 			
 			if(forPage!=null) {
@@ -216,8 +216,8 @@ namespace PagePerformanceInsights.Handler.PerformanceData {
 			return new PageStatisticsTrend(Enumerable.Range(0,24).Select(i => min.AddHours(i)).Select(ts => data.ContainsKey(ts)?data[ts]:PageStatisticsTrend._TrendData.Empty(ts)).ToArray());
 		}
 
-		public PageStatisticsTrend GetTrend(DateTime forDate) {
-			return GetTrend(forDate,null);
+		public PageStatisticsTrend GetHourlyTrend(DateTime forDate) {
+			return GetHourlyTrend(forDate,null);
 		}
 
 		readonly static DateTime Ref = new DateTime(2012,1,1);

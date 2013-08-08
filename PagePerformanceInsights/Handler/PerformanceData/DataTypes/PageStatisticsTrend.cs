@@ -26,5 +26,11 @@ namespace PagePerformanceInsights.Handler.PerformanceData.DataTypes {
 		public PageStatisticsTrend (ICollection<_TrendData> trendData) {
 			_trendData = trendData;
 		}
+
+		public static PageStatisticsTrend Empty {
+			get {
+				return new PageStatisticsTrend(new _TrendData[0]);
+			}
+		}
 	}
 }

@@ -6,13 +6,25 @@
 
 <script type="text/javascript">
 	//google.setOnLoadCallback();
-	(function () {
+	(function () {	
+		var drawNoData = function () {
+			var $container = $('.trend_chart_container');
+			$container.html('<div class="no_data">No data available</div>');
+		}
 		function drawChart() {
 			var tbl = [
 				['Time', 'Count', 'Mean', 'Median', '90%']
 			];
 
-			tbl = tbl.concat(@(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewModel.Data.TrendData.Select(t=>new object[] { t.TimeStamp.TimeOfDay.ToString("hh\\:mm"), t.Count, t.Mean,t.Median, t._90PCT}).ToArray())));
+
+			var rows = @(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewModel.Data.TrendData.Select(t=>new object[] { t.TimeStamp.TimeOfDay.ToString("hh\\:mm"), t.Count, t.Mean,t.Median, t._90PCT}).ToArray()));
+
+			if(rows.length==0) {
+				drawNoData();
+				return;
+			}
+
+			tbl = tbl.concat(rows);
 
 			var data = google.visualization.arrayToDataTable(tbl);
 

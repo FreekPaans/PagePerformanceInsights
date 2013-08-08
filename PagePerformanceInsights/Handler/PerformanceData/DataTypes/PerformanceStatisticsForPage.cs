@@ -25,6 +25,12 @@ namespace PagePerformanceInsights.Handler.PerformanceData.DataTypes {
 
 			return res;
 		}
+
+		public static PerformanceStatisticsForPage Empty {
+			get {
+				return new PerformanceStatisticsForPage{};
+			}
+		}
 	}
 
 	//from: http://en.wikipedia.org/wiki/Selection_algorithm

@@ -22,6 +22,12 @@ namespace PagePerformanceInsights.Handler.PerformanceData.DataTypes {
 			_pageStatistics = pageStatistics;
 			_statisticsForAllPages = preCalculatedStatisticsForAllPages;
 		}
-		
+
+
+		public static PerformanceStatisticsForPageCollection Empty {
+			get {
+				return new PerformanceStatisticsForPageCollection(new PerformanceStatisticsForPage[0], PerformanceStatisticsForPage.Empty);
+			}
+		}
 	}
 }

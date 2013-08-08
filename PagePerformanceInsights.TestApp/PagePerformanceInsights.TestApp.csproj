@@ -208,6 +208,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PagePerformanceInsights.MemoryStore\PagePerformanceInsights.MemoryStore.csproj">
+      <Project>{617ef40e-aabb-4ec3-b91d-743af4758de8}</Project>
+      <Name>PagePerformanceInsights.MemoryStore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PagePerformanceInsights\PagePerformanceInsights.csproj">
       <Project>{cc70fced-7ea6-4311-9756-0e88dcb9c22e}</Project>
       <Name>PagePerformanceInsights</Name>

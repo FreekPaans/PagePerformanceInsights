@@ -5,16 +5,15 @@ using System.Linq;
 using System.Web;
 
 namespace PagePerformanceInsights.Handler.PerformanceData {
-	interface IProvidePerformanceData {
+	public interface IProvidePerformanceData {
 		PerformanceStatisticsForPageCollection GetStatisticsForAllPages(DateTime forDate);
-
 
 		PageDurationDistributionHistogram GetPageDistribution(DateTime forDate,string forPage);
 
 		PageDurationDistributionHistogram GetAllPagesDistribution(DateTime forDate);
 
-		PageStatisticsTrend GetTrend(DateTime forDate,string forPage);
+		PageStatisticsTrend GetHourlyTrend(DateTime forDate,string forPage);
 
-		PageStatisticsTrend GetTrend(DateTime forDate);
+		PageStatisticsTrend GetHourlyTrend(DateTime forDate);
 	}
 }
