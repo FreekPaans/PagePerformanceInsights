@@ -44,9 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.cs" />
     <Compile Include="INeedNewRequestData.cs" />
     <Compile Include="MemoryStoreDataProvider.cs" />
-    <Compile Include="PageStatistics.cs" />
+    <Compile Include="DurationStatistics.cs" />
+    <Compile Include="PageDistribution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

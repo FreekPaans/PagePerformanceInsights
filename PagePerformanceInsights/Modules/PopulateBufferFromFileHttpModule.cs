@@ -23,7 +23,7 @@ namespace PagePerformanceInsights.Modules {
 				var date = DateTime.Today.AddDays(-dateCount);
 				foreach(var rec in data) {
 					CommBus.Buffer.EnqueueRequest(new CommBus.HttpRequestData {
-						Duration = (int)(rec.Duration *rnd.NextDouble()),
+						Duration = (int)(rec.Duration),
 						Page = rec.Page,
 						Timestamp = date.Add(rec.DateTime.TimeOfDay)
 					});	

@@ -9,28 +9,30 @@ namespace PagePerformanceInsights.MemoryStore {
 	public class MemoryStoreDataProvider : IProvidePerformanceData, IStorePerformanceData{
 		
 		readonly INeedNewRequestData[] _interestedParties;
-		readonly PageStatistics _pageStatistics;
+		readonly DurationStatistics _durationStatistics;
+		//readonly PageDistribution _pageDistribution;
 
 		public MemoryStoreDataProvider() {
-			_pageStatistics = new PageStatistics();
-
+			_durationStatistics = new DurationStatistics();
+			//_pageDistribution = new PageDistribution();
 			_interestedParties = new INeedNewRequestData [] {
-				_pageStatistics
+				_durationStatistics,
+				//_pageDistribution
 			};			
 		}
 
 		public Handler.PerformanceData.DataTypes.PerformanceStatisticsForPageCollection GetStatisticsForAllPages(DateTime forDate) {
 			//throw new NotImplementedException();
-			return _pageStatistics.GetStatisticsForAllPages(forDate);
+			return _durationStatistics.GetStatisticsForAllPages(forDate);
 				//return PerformanceStatisticsForPageCollection.Empty;
 		}
 
 		public Handler.PerformanceData.DataTypes.PageDurationDistributionHistogram GetPageDistribution(DateTime forDate,string forPage) {
-			return PageDurationDistributionHistogram.Empty;
+			return _durationStatistics.GetPageDistribution(forDate,forPage);
 		}
 
 		public Handler.PerformanceData.DataTypes.PageDurationDistributionHistogram GetAllPagesDistribution(DateTime forDate) {
-			return PageDurationDistributionHistogram.Empty;
+			return _durationStatistics.GetPageDistribution(forDate,null);
 			//throw new NotImplementedException();
 		}
 
