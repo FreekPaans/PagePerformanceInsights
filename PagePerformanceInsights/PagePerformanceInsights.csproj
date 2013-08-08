@@ -108,6 +108,7 @@
     </Compile>
     <Compile Include="Helpers\DateContext.cs" />
     <Compile Include="Modules\PopulateBufferFromFileHttpModule.cs" />
+    <Compile Include="Modules\RecordPageStatisticsModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Handler\PPIHandler.cs" />
     <Compile Include="Handler\Views\Home.generated.cs">
