@@ -4,6 +4,48 @@ using System.Linq;
 using System.Web;
 
 namespace PagePerformanceInsights.Handler.Algorithms.Median {
+	class QuickSelect2 {
+		public static int selectKth(int[] arr,int k) {
+			if(arr == null || arr.Length <= k)
+				throw new InvalidOperationException();
+
+			int from = 0,to = arr.Length - 1;
+
+			// if from == to we reached the kth element
+			while(from < to) {
+				int r = from,w = to;
+				int mid = arr[(r + w) / 2];
+
+				// stop if the reader and writer meets
+				while(r < w) {
+
+					if(arr[r] >= mid) { // put the large values at the end
+						int tmp = arr[w];
+						arr[w] = arr[r];
+						arr[r] = tmp;
+						w--;
+					}
+					else { // the value is smaller than the pivot, skip
+						r++;
+					}
+				}
+
+				// if we stepped up (r++) we need to step one down
+				if(arr[r] > mid)
+					r--;
+
+				// the r pointer is on the end of the first k elements
+				if(k <= r) {
+					to = r;
+				}
+				else {
+					from = r + 1;
+				}
+			}
+
+			return arr[k];
+		}
+	}
 	public class QuickSelect {
 		public int Select(int[] list,double percentile) {
 			return Select(list,(int)(percentile*(list.Length-1)));
@@ -15,6 +57,9 @@ namespace PagePerformanceInsights.Handler.Algorithms.Median {
 			if(k==0) {
 				return list[0];
 			}
+
+			return QuickSelect2.selectKth(list,k);
+
 			return Select(list,0,list.Length-1,k);
 		}
 		int Select(int[] list,int left,int right,int k) {
@@ -57,6 +102,10 @@ namespace PagePerformanceInsights.Handler.Algorithms.Median {
 			var tmp = items[idx1];
 			items[idx1] = items[idx2];
 			items[idx2] = tmp;
+		}
+
+		public static int Median(List<int> list) {
+			return new QuickSelect().Select(list.ToArray(), 0.5);
 		}
 	}
 }

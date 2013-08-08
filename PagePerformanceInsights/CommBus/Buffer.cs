@@ -23,13 +23,20 @@ namespace PagePerformanceInsights.CommBus {
 			new Thread(StartReader).Start();
 		}
 		
+		static Dictionary<DateTime,int> counts = new Dictionary<DateTime,int>();
+
 		private static void StartReader() {
 			while(true) {
 				var queueSize = _requestsQueue.Count;
 				var res = new HttpRequestData[queueSize];
 				for(var i=0;i<queueSize;i++) {
 					_requestsQueue.TryDequeue(out res[i]);
+					if(!counts.ContainsKey(res[i].Timestamp.Date)) {
+						counts[res[i].Timestamp.Date] = 0;
+					}
+					counts[res[i].Timestamp.Date]++;
 				}
+				//}	 
 
  				_store.Store(res);
 

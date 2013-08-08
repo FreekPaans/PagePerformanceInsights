@@ -7,9 +7,22 @@ using System.Text;
 
 namespace PagePerformanceInsights.MemoryStore {
 	public class MemoryStoreDataProvider : IProvidePerformanceData, IStorePerformanceData{
+		
+		readonly INeedNewRequestData[] _interestedParties;
+		readonly PageStatistics _pageStatistics;
+
+		public MemoryStoreDataProvider() {
+			_pageStatistics = new PageStatistics();
+
+			_interestedParties = new INeedNewRequestData [] {
+				_pageStatistics
+			};			
+		}
+
 		public Handler.PerformanceData.DataTypes.PerformanceStatisticsForPageCollection GetStatisticsForAllPages(DateTime forDate) {
 			//throw new NotImplementedException();
-				return PerformanceStatisticsForPageCollection.Empty;
+			return _pageStatistics.GetStatisticsForAllPages(forDate);
+				//return PerformanceStatisticsForPageCollection.Empty;
 		}
 
 		public Handler.PerformanceData.DataTypes.PageDurationDistributionHistogram GetPageDistribution(DateTime forDate,string forPage) {
@@ -30,8 +43,9 @@ namespace PagePerformanceInsights.MemoryStore {
 		}
 
 		public void Store(CommBus.HttpRequestData[] res) {
-
-			return;
+			foreach(var party in _interestedParties) {
+				party.NewRequestDataArrived(res);
+			}
 		}
 	}
 }

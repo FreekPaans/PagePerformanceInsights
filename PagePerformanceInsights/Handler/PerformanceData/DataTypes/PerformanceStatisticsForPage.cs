@@ -13,6 +13,9 @@ namespace PagePerformanceInsights.Handler.PerformanceData.DataTypes {
 		public int Sum { get; set; }
 
 		public static PerformanceStatisticsForPage Calculate(int[] distribution,string pageName) {
+			if(distribution.Length==0) {
+				return new PerformanceStatisticsForPage { PageName = pageName };
+			}
 			var res=  new PerformanceStatisticsForPage {
 					Count = distribution.Length,
 					Mean = (int)distribution.Average(),

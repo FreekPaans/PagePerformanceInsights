@@ -15,17 +15,25 @@ namespace PagePerformanceInsights.Modules {
 			var data = StaticPerformanceDataProvider._data[DateTime.Now];
 			
 			var ct = 0;
+			var dateCount = 0;
 
-			foreach(var rec in data) {
-				CommBus.Buffer.EnqueueRequest(new CommBus.HttpRequestData {
-					Duration = rec.Duration,
-					Page = rec.Page,
-					Timestamp = rec.DateTime
-				});	
+			var rnd = new Random();
 
-				if(ct++%1000==0) {
-					Thread.Sleep(100);
+			while(true) {
+				var date = DateTime.Today.AddDays(-dateCount);
+				foreach(var rec in data) {
+					CommBus.Buffer.EnqueueRequest(new CommBus.HttpRequestData {
+						Duration = (int)(rec.Duration *rnd.NextDouble()),
+						Page = rec.Page,
+						Timestamp = date.Add(rec.DateTime.TimeOfDay)
+					});	
+
+					if(ct++%1000==0) {
+						Thread.Sleep(20);
+					}
 				}
+
+				dateCount++;
 			}
 		}
 
