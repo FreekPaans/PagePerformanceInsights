@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Web;
 
 namespace PagePerformanceInsights.Modules {
@@ -19,13 +20,20 @@ namespace PagePerformanceInsights.Modules {
 		//TODO: eat exceptions
 		public void Init(HttpApplication context) {
 			context.BeginRequest+=(s,e) => {
+				Trace.TraceInformation(string.Format("BeginRequest: {0}",HttpContext.Current.Request.Url.LocalPath));
 				var sw=  new Stopwatch();
 				HttpContext.Current.Items[PPI_Stopwatch_Key] = sw;
 				HttpContext.Current.Items[PPI_StartDateTime_Key] = DateContext.Now;
 				sw.Start();
 			};
 			context.EndRequest+=(s,e) =>{
+				if(HttpContext.Current.Items[PPI_Stopwatch_Key]==null) {
+					//this happens when we have a rewritten url
+					return;
+				}
+				Trace.TraceInformation(string.Format("EndRequest: {0}",HttpContext.Current.Request.Url.LocalPath));
 				var sw = (Stopwatch)HttpContext.Current.Items[PPI_Stopwatch_Key];
+				
 				sw.Stop();
 				CommBus.Buffer.EnqueueRequest(new HttpRequestData {
 					Duration = (int)sw.ElapsedMilliseconds,
