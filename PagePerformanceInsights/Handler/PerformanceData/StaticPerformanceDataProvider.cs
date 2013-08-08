@@ -1,4 +1,5 @@
-﻿using PagePerformanceInsights.Handler.DataStructures;
+﻿using PagePerformanceInsights.Handler.Algorithms.Median;
+using PagePerformanceInsights.Handler.DataStructures;
 using PagePerformanceInsights.Handler.PerformanceData.DataTypes;
 using System;
 using System.Collections.Concurrent;
@@ -12,18 +13,18 @@ namespace PagePerformanceInsights.Handler.PerformanceData {
 		static ConcurrentDictionary<DateTime, PerformanceStatisticsForPageCollection>  _statisticsForAllPages = new ConcurrentDictionary<DateTime,PerformanceStatisticsForPageCollection>();
 
 
-		readonly static ConcurrentDictionary<DateTime,SortedIntArray> _getStatisticsForAllPagesCache = new ConcurrentDictionary<DateTime,SortedIntArray>();
-		readonly static ConcurrentDictionary<DateTime,Dictionary<string,SortedIntArray>> _perPageCache = new ConcurrentDictionary<DateTime,Dictionary<string,SortedIntArray>>();
+		readonly static ConcurrentDictionary<DateTime,int[]> _getStatisticsForAllPagesCache = new ConcurrentDictionary<DateTime,int[]>();
+		readonly static ConcurrentDictionary<DateTime,Dictionary<string,int[]>> _perPageCache = new ConcurrentDictionary<DateTime,Dictionary<string,int[]>>();
 
 		public DataTypes.PerformanceStatisticsForPageCollection GetStatisticsForAllPages(DateTime forDate) {
 			if(!_getStatisticsForAllPagesCache.ContainsKey(forDate)) {
 				FillCache(forDate);
 			}
 
-			var allStats = _getStatisticsForAllPagesCache[forDate].ToArray();
+			var allStats = _getStatisticsForAllPagesCache[forDate];
 
 			return new PerformanceStatisticsForPageCollection(
-				_perPageCache[forDate].Keys.Select(pp=>PerformanceStatisticsForPage.Calculate(_perPageCache[forDate][pp].ToArray(),pp)).ToArray(),
+				_perPageCache[forDate].Keys.Select(pp=>PerformanceStatisticsForPage.Calculate(_perPageCache[forDate][pp],pp)).ToArray(),
 				PerformanceStatisticsForPage.Calculate(allStats,"All Pages")
 			);
 
@@ -31,12 +32,11 @@ namespace PagePerformanceInsights.Handler.PerformanceData {
 		}
 
 		private void FillCache(DateTime forDate) {
-			_getStatisticsForAllPagesCache[forDate] = new SortedIntArray(_data[forDate].Select(f=>f.Duration).ToArray());
+			_getStatisticsForAllPagesCache[forDate] = _data[forDate].Select(f=>f.Duration).ToArray();
 
-			_perPageCache[forDate] = new Dictionary<string,SortedIntArray>();
+			_perPageCache[forDate] = new Dictionary<string,int[]>();
 			foreach(var page in _data[forDate].GroupBy(v => v.Page)) {
-				_perPageCache[forDate][page.Key] =new SortedIntArray(page.Select(p=>p.Duration).ToArray());
-				
+				_perPageCache[forDate][page.Key] =page.Select(p=>p.Duration).ToArray();
 			}
 			
 		}
@@ -53,13 +53,13 @@ namespace PagePerformanceInsights.Handler.PerformanceData {
 		}
 
 
-		private int GetMedian(IEnumerable<DistributionRow> pg) {
-			var sorted = pg.OrderBy(r => r.Duration).ToArray();
-			if(sorted.Length==0) {
-				return 0;
-			}
-			return sorted[sorted.Length/2].Duration;
-		}
+		//private int GetMedian(IEnumerable<DistributionRow> pg) {
+		//	var sorted = pg.OrderBy(r => r.Duration).ToArray();
+		//	if(sorted.Length==0) {
+		//		return 0;
+		//	}
+		//	return sorted[sorted.Length/2].Duration;
+		//}
 
 
 		public class DataWrapper {
@@ -90,46 +90,76 @@ namespace PagePerformanceInsights.Handler.PerformanceData {
 				catch {
 					return null;
 				}
-			}).Where(r => r!=null).OrderBy(r => r.Duration).ToArray();
+			}).Where(r => r!=null).ToArray();
 		}
 
 
-		public PageDurationDistributionHistogram GetPageDistribution(DateTime forDate,string forPage) {
-			var data = _data[forDate];
+		ConcurrentDictionary<DateTime,int[]> CachedAllPageDuration =new ConcurrentDictionary<DateTime,int[]>();
+		ConcurrentDictionary<DateTime,Dictionary<string,int[]>> CachedPageDuration =new ConcurrentDictionary<DateTime,Dictionary<string,int[]>>();
 
-			if(forPage!=null) {
-				data = data.Where(d=>d.Page == forPage).ToArray();
+
+
+		public PageDurationDistributionHistogram GetPageDistribution(DateTime forDate,string forPage) {
+			//var data = _data[forDate];
+
+
+			//if(forPage!=null) {
+			//	data = data.Where(d=>d.Page == forPage).ToArray();
+			//}
+
+
+			int[] dataDuration;// = data.Select(d=>d.Duration).ToArray();
+
+			if(forPage==null) {
+				if(!CachedAllPageDuration.ContainsKey(forDate)) {
+					CachedAllPageDuration[forDate] = _data[forDate].Select(f=>f.Duration).ToArray();
+				}
+				dataDuration = CachedAllPageDuration[forDate];
+			}
+			else {
+				if(!CachedPageDuration.ContainsKey(forDate)) {
+					CachedPageDuration[forDate] = new Dictionary<string,int[]>();
+				}
+				if(!CachedPageDuration[forDate].ContainsKey(forPage)) {
+					CachedPageDuration[forDate][forPage] = _data[forDate].Where(d=>d.Page == forPage).Select(d=>d.Duration).ToArray();
+				}
+				dataDuration = CachedPageDuration[forDate][forPage];
 			}
 
-			if(data.Length == 0) {
+
+
+			if(dataDuration.Length == 0) {
 				return PageDurationDistributionHistogram.Empty;
 				//return new ResponseDistributionViewModel { Buckets  =new ResponseDistributionViewModel.Bucket[0],_90PctBucketIndex = 0,MedianBucketIndex = 0 };
 			}
 
-			var _99 = data[(int)(data.Length*0.99)].Duration;
+
+			var _99 = new QuickSelect().Select(dataDuration,0.99);
+
+			//var _99 = data[(int)(data.Length*0.99)].Duration;
 
 			var bucketSize = (int)Math.Ceiling(_99/(double)BucketCount);
 
 			var buckets = Enumerable.Range(0,BucketCount).Select(i => new PageDurationDistributionHistogram.Bucket { Count = 0,MinIncl = i*bucketSize,MaxExcl = (i+1)*bucketSize }).ToArray();
+
 			Func<int,int> getBucketIndex = d => (int)(d/(double)bucketSize);
 
-			var avg = (int)data.Average(d => d.Duration);
-
-			foreach(var row in data) {
-				var idx = getBucketIndex(row.Duration);
+			foreach(var row in dataDuration) {
+				var idx = getBucketIndex(row);
 				if(idx>=buckets.Length) {
 					continue;
 				}
 				buckets[idx].Count++;
 			}
 
-			var total = data.Count();
+			var total = dataDuration.Length;
 			var sum = 0;
 
 			int? medianBucketIndex = null;
 			int? _90pctBucketIndex=  null;
 			int? meanBucketIndex = null;
 
+			var avg = (int)dataDuration.Average();
 			var ct = 0;
 			foreach(var bucket in buckets) {
 				sum+=bucket.Count;
@@ -168,14 +198,15 @@ namespace PagePerformanceInsights.Handler.PerformanceData {
 
 			var data = pageRows.GroupBy(d => SnapHour(d.DateTime)).Select(d => {
 
-				var sorted = d.Select(r => r.Duration).OrderBy(r => r).ToArray();
+				var duration = d.Select(r=>r.Duration).ToArray();
+				//var sorted = d.Select(r => r.Duration).OrderBy(r => r).ToArray();
 
 				return new PageStatisticsTrend._TrendData {
 					TimeStamp = d.Key,
-					_90PCT = sorted[(int)(sorted.Length*0.9)],
-					Median = sorted[(int)(sorted.Length*0.5)],
-					Mean = (int)sorted.Average(),
-					Count = sorted.Count()
+					_90PCT = new QuickSelect().Select(duration, 0.9),
+					Median = new QuickSelect().Select(duration,0.5),
+					Mean = (int)duration.Average(),
+					Count = duration.Length
 				};
 			}).ToDictionary(t => t.TimeStamp,t => t);
 
