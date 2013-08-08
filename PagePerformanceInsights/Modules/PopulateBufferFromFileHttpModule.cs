@@ -21,7 +21,9 @@ namespace PagePerformanceInsights.Modules {
 
 			while(true) {
 				var date = DateTime.Today.AddDays(-dateCount);
-				foreach(var rec in data) {
+				var total= data.Count();
+
+				foreach(var rec in data.Take(total-dateCount*200000)) {
 					CommBus.Buffer.EnqueueRequest(new CommBus.HttpRequestData {
 						Duration = (int)(rec.Duration),
 						Page = rec.Page,

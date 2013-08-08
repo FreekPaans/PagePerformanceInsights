@@ -62,6 +62,9 @@ namespace PagePerformanceInsights.MemoryStore {
 		public void NewRequestDataArrived(CommBus.HttpRequestData[] res) {
 			lock(_notProcessed) {
 				_notProcessed.AddRange(res);
+				if(_notProcessed.Count()>50000) {
+					FlushRequests();
+				}
 			}
 		}
 	}
