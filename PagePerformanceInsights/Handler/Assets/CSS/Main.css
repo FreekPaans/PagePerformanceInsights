@@ -162,3 +162,7 @@ tr.selected td {
 	margin-top:5px;
 	margin-bottom: 10px;
 }
+
+th.head_page {
+	min-width: 160px;
+}
