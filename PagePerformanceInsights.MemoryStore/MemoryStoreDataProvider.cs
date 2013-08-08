@@ -10,13 +10,16 @@ namespace PagePerformanceInsights.MemoryStore {
 		
 		readonly INeedNewRequestData[] _interestedParties;
 		readonly DurationStatistics _durationStatistics;
+		readonly TrendStatistics _trendStatistics;
 		//readonly PageDistribution _pageDistribution;
 
 		public MemoryStoreDataProvider() {
 			_durationStatistics = new DurationStatistics();
+			_trendStatistics = new TrendStatistics();
 			//_pageDistribution = new PageDistribution();
 			_interestedParties = new INeedNewRequestData [] {
 				_durationStatistics,
+				_trendStatistics
 				//_pageDistribution
 			};			
 		}
@@ -37,11 +40,11 @@ namespace PagePerformanceInsights.MemoryStore {
 		}
 
 		public Handler.PerformanceData.DataTypes.PageStatisticsTrend GetHourlyTrend(DateTime forDate,string forPage) {
-			return PageStatisticsTrend.Empty;
+			return _trendStatistics.GetHourlyTrend(forDate,forPage);
 		}
 
 		public Handler.PerformanceData.DataTypes.PageStatisticsTrend GetHourlyTrend(DateTime forDate) {
-			return PageStatisticsTrend.Empty;
+			return _trendStatistics.GetHourlyTrend(forDate,null);
 		}
 
 		public void Store(CommBus.HttpRequestData[] res) {

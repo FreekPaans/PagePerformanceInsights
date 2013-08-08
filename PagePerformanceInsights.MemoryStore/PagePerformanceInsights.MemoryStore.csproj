@@ -48,8 +48,9 @@
     <Compile Include="INeedNewRequestData.cs" />
     <Compile Include="MemoryStoreDataProvider.cs" />
     <Compile Include="DurationStatistics.cs" />
-    <Compile Include="PageDistribution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TrendDataCache.cs" />
+    <Compile Include="TrendStatistics.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PagePerformanceInsights\PagePerformanceInsights.csproj">
