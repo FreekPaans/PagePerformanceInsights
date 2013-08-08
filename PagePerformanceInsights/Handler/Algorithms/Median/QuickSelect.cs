@@ -9,9 +9,16 @@ namespace PagePerformanceInsights.Handler.Algorithms.Median {
 			return Select(list,(int)(percentile*(list.Length-1)));
 		}
 		public int Select(int[] list,int k) {
+			if(list.Length==0) {
+				return 0;
+			}
+			if(k==0) {
+				return list[0];
+			}
 			return Select(list,0,list.Length-1,k);
 		}
 		int Select(int[] list,int left,int right,int k) {
+			
 			if(left==right) {
 				return list[left];
 			}
