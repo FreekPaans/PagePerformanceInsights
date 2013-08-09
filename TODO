@@ -8,3 +8,6 @@ regex filter
 soap filter
 static resources filter
 redo html
+make buffer flush timeout configable
+make buffer limit configable
+remove/refactor logging so it doesn't intrude in code 
