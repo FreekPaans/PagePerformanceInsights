@@ -12,7 +12,7 @@ namespace PagePerformanceInsights.CommBus {
 	class Buffer {
 		readonly static ConcurrentQueue<HttpRequestData> _requestsQueue = new ConcurrentQueue<HttpRequestData>();
 		//todo config
-		readonly static TimeSpan WriteInterval = TimeSpan.FromSeconds(30);
+		readonly static TimeSpan WriteInterval = TimeSpan.FromSeconds(1);
 		readonly static Logger _logger = LogManager.GetCurrentClassLogger();
 		const int MaxQueueSize = 10000000;
 

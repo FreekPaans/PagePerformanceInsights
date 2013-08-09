@@ -1,15 +1,22 @@
+Prioritized
+===========
+sql backend
+generic page filter
+remote access
+download trend data as CSV
+make buffer flush timeout configable
+make buffer limit configable
+sort out logging
+
+Non-prioritized
+===============
 filter on count in UI
 don't include ppi calls
 make ppi resources cachable
 weekly trend
-sql backend
-generic page filter
 regex filter
 soap filter
 static resources filter
 redo html
-make buffer flush timeout configable
-make buffer limit configable
 remove/refactor logging so it doesn't intrude in code 
 handle timezones
-remote access

@@ -43,7 +43,7 @@ namespace PagePerformanceInsights.Handler.PerformanceData {
 
 		
 
-		readonly static Lazy<DistributionRow[]> _data02 =new Lazy<DistributionRow[]>(() => LoadData(@"c:\tmp\filter\rapp_02sum"));
+		readonly static Lazy<DistributionRow[]> _data02 =new Lazy<DistributionRow[]>(() => LoadData(@"c:\tmp\filter\rapp_09sum"));
 		readonly static Lazy<DistributionRow[]> _data26 =new Lazy<DistributionRow[]>(() => LoadData(@"c:\tmp\filter\rapp_26sum"));
 
 		public class DistributionRow {
@@ -90,7 +90,7 @@ namespace PagePerformanceInsights.Handler.PerformanceData {
 				catch {
 					return null;
 				}
-			}).Where(r => r!=null).ToArray();
+			}).Where(r => r!=null && r.DateTime.TimeOfDay<TimeSpan.Parse("15:00")).ToArray();
 		}
 
 
