@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Web;
+using NLog;
 
 namespace PagePerformanceInsights.Modules {
 	public class RecordPageStatisticsModule : IHttpModule{
@@ -19,19 +20,18 @@ namespace PagePerformanceInsights.Modules {
 
 		//TODO: eat exceptions
 		public void Init(HttpApplication context) {
-			context.BeginRequest+=(s,e) => {
-				Trace.TraceInformation(string.Format("BeginRequest: {0}",HttpContext.Current.Request.Url.LocalPath));
+			context.BeginRequest+=(s,e) => LogExceptions("BeginRequest", ()=>{
 				var sw=  new Stopwatch();
 				HttpContext.Current.Items[PPI_Stopwatch_Key] = sw;
 				HttpContext.Current.Items[PPI_StartDateTime_Key] = DateContext.Now;
 				sw.Start();
-			};
-			context.EndRequest+=(s,e) =>{
+			});
+			context.EndRequest+=(s,e) =>LogExceptions("EndRequest", ()=>{
 				if(HttpContext.Current.Items[PPI_Stopwatch_Key]==null) {
 					//this happens when we have a rewritten url
 					return;
 				}
-				Trace.TraceInformation(string.Format("EndRequest: {0}",HttpContext.Current.Request.Url.LocalPath));
+				
 				var sw = (Stopwatch)HttpContext.Current.Items[PPI_Stopwatch_Key];
 				
 				sw.Stop();
@@ -40,10 +40,21 @@ namespace PagePerformanceInsights.Modules {
 					Timestamp = (DateTime)HttpContext.Current.Items[PPI_StartDateTime_Key],
 					Page = HttpContext.Current.Request.Url.LocalPath
 				});
-			};
+			});
 
 
 			//throw new NotImplementedException();
+		}
+
+		readonly static Logger _logger = LogManager.GetCurrentClassLogger();
+
+		static void LogExceptions(string @event, Action code) {
+			try {
+				code();
+			}
+			catch(Exception e) {
+				_logger.LogException(LogLevel.Error, string.Format("Error raising {0}", @event), e);
+			}
 		}
 	}
 }

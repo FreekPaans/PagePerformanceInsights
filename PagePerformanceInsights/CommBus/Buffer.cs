@@ -6,14 +6,21 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 using System.Diagnostics;
+using NLog;
 
 namespace PagePerformanceInsights.CommBus {
 	class Buffer {
 		readonly static ConcurrentQueue<HttpRequestData> _requestsQueue = new ConcurrentQueue<HttpRequestData>();
 		//todo config
-		readonly static TimeSpan WriteInterval = TimeSpan.FromSeconds(1);
+		readonly static TimeSpan WriteInterval = TimeSpan.FromSeconds(30);
+		readonly static Logger _logger = LogManager.GetCurrentClassLogger();
+		const int MaxQueueSize = 100000;
 
 		public static void EnqueueRequest(HttpRequestData data) {
+			if(_requestsQueue.Count >= MaxQueueSize) {
+				_logger.Warn(()=>string.Format("Queue size reached max size ({0}), ignoring", MaxQueueSize));
+				return;
+			}
 			_requestsQueue.Enqueue(data);
 		}
 
@@ -21,7 +28,14 @@ namespace PagePerformanceInsights.CommBus {
 
 		static Buffer() {
 			_store = SettingsStoreFactory.GetDataStorer();
-			new Thread(StartReader).Start();
+			new Thread(() => {
+				try {
+					StartReader();
+				}
+				catch(Exception e) {
+					_logger.LogException(LogLevel.Error, string.Format("Error in queue runner thread, stopping execution"), e);
+				}
+			}).Start();
 		}
 		
 		static Dictionary<DateTime,int> counts = new Dictionary<DateTime,int>();
@@ -32,7 +46,7 @@ namespace PagePerformanceInsights.CommBus {
 
 		private static void StartReader() {
 			while(true) {
-				UpdateBufferFlushFrequency();
+				
 				var sw = new Stopwatch();
 				sw.Start();
 				var items = RunQueue();
@@ -41,11 +55,11 @@ namespace PagePerformanceInsights.CommBus {
 				if(items!=0) {
 					lock(_flushFrequencyLockerObject) {
 						_analyzedRequestsFrequency =  (0.2*_analyzedRequestsFrequency) + 0.8 * (double)items/sw.ElapsedMilliseconds;
-						Trace.TraceInformation(string.Format("Items: {0}, Elapsed: {1}, Freq: {2}", items,sw.ElapsedMilliseconds,_analyzedRequestsFrequency));
 					}
 				}
 								
 				Thread.Sleep(WriteInterval);
+				UpdateBufferFlushFrequency();
 			}
 		}
 
@@ -62,7 +76,6 @@ namespace PagePerformanceInsights.CommBus {
 				var frequency = 1 / sinceLast.TotalSeconds;
 				lock(_bufferFlushFrequencyLocker) {
 					_bufferFlushFrequency = (0.2 * _bufferFlushFrequency) + 0.8 * frequency;
-					Trace.TraceInformation("sinceLast: {0}", sinceLast.TotalMilliseconds);
 				}
 			}
 
@@ -81,9 +94,14 @@ namespace PagePerformanceInsights.CommBus {
 				}
 				counts[res[i].Timestamp.Date]++;
 			}
-			//}	 
 
-			_store.Store(res);
+			try {
+				_store.Store(res);
+			}
+			catch(Exception e) {
+				_logger.LogException(LogLevel.Error, "Exception storing data", e);
+				return 0;
+			}
 
 			return queueSize;
 		}

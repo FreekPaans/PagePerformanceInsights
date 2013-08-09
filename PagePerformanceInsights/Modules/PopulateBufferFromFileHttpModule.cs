@@ -31,7 +31,7 @@ namespace PagePerformanceInsights.Modules {
 					});	
 
 					if(ct++%1000==0) {
-						Thread.Sleep(20);
+						Thread.Sleep(500);
 					}
 				}
 
