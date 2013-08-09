@@ -1,0 +1,15 @@
+This is an ASP.NET Module/Handler pair for generating page performance insights. 
+
+To use it, build the project, drop DLLs in your web project's bin dir and add this to your web.config:
+<configuration>
+	<system.webServer>
+		<handlers>
+			<add verb="*" name="PPIHandler" path="ppi.axd" type="PagePerformanceInsights.PPIHandler" />
+		</handlers>
+	  <modules>
+		<add name="RecordPageRequestDuration" type="PagePerformanceInsights.Modules.RecordPageStatisticsModule"/>
+	  </modules>
+	</system.webServer>
+</configuration>
+
+For any questions or feedback (I'd greatly appreciate it), contact me via twitter (http://www.twitter.com/FreekPaans) or GitHub (http://www.github.com/FreekPaans).

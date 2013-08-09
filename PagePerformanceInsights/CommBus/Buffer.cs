@@ -14,7 +14,7 @@ namespace PagePerformanceInsights.CommBus {
 		//todo config
 		readonly static TimeSpan WriteInterval = TimeSpan.FromSeconds(30);
 		readonly static Logger _logger = LogManager.GetCurrentClassLogger();
-		const int MaxQueueSize = 100000;
+		const int MaxQueueSize = 10000000;
 
 		static bool _seenMaxSize=  false;
 

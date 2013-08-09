@@ -65,10 +65,10 @@ namespace PagePerformanceInsights.Handler.PerformanceData {
 		public class DataWrapper {
 			public DistributionRow[] this[DateTime dt] {
 				get {
-					if(dt.Day%2==0) {
+					//if(dt.Day%2==0) {
 						return _data02.Value;
-					}
-					return _data26.Value;
+					//}
+					//return _data26.Value;
 				}
 			}
 		}
