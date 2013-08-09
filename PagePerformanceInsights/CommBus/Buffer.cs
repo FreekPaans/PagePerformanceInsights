@@ -16,9 +16,14 @@ namespace PagePerformanceInsights.CommBus {
 		readonly static Logger _logger = LogManager.GetCurrentClassLogger();
 		const int MaxQueueSize = 100000;
 
+		static bool _seenMaxSize=  false;
+
 		public static void EnqueueRequest(HttpRequestData data) {
 			if(_requestsQueue.Count >= MaxQueueSize) {
-				_logger.Warn(()=>string.Format("Queue size reached max size ({0}), ignoring", MaxQueueSize));
+				if(!_seenMaxSize) {
+					_logger.Warn(()=>string.Format("Queue size reached max size ({0}), ignoring", MaxQueueSize));
+				}
+				_seenMaxSize = true;
 				return;
 			}
 			_requestsQueue.Enqueue(data);
@@ -45,6 +50,7 @@ namespace PagePerformanceInsights.CommBus {
 		readonly static object _flushFrequencyLockerObject = new object();
 
 		private static void StartReader() {
+			_logger.Info(()=>"starting the reader");
 			while(true) {
 				
 				var sw = new Stopwatch();
@@ -52,7 +58,7 @@ namespace PagePerformanceInsights.CommBus {
 				var items = RunQueue();
 				sw.Stop();
 
-				if(items!=0) {
+				if(items!=0 && sw.ElapsedMilliseconds!=0) {
 					lock(_flushFrequencyLockerObject) {
 						_analyzedRequestsFrequency =  (0.2*_analyzedRequestsFrequency) + 0.8 * (double)items/sw.ElapsedMilliseconds;
 					}
@@ -83,6 +89,7 @@ namespace PagePerformanceInsights.CommBus {
 		}
 
 		private static int RunQueue() {
+			_seenMaxSize = false;
 			var queueSize = _requestsQueue.Count;
 
 			var res = new HttpRequestData[queueSize];
