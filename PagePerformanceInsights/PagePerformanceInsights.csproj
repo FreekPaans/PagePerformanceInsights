@@ -89,6 +89,7 @@
     <Compile Include="Handler\RequestHandling\RequestRouter.cs" />
     <Compile Include="Handler\RequestHandling\ResourceRequestHandler.cs" />
     <Compile Include="Handler\ViewModels\PagePerformanceDataViewModel.cs" />
+    <Compile Include="Handler\ViewModels\PPIOperationalInfoViewModel.cs" />
     <Compile Include="Handler\ViewModels\ResponseDistributionViewModel.cs" />
     <Compile Include="Handler\ViewModels\TrendViewModel.cs" />
     <Compile Include="Handler\Views\PagesTable.generated.cs">

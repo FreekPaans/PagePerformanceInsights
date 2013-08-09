@@ -20,6 +20,9 @@ namespace PagePerformanceInsights {
 		}
 
 		public void ProcessRequest(HttpContext context) {
+			if(!context.Request.IsLocal) {
+				throw new HttpException(403, "Not allowed");
+			}
 			var handler = new RequestRouter().GetHandler(context);
 
 			handler.Run(context);

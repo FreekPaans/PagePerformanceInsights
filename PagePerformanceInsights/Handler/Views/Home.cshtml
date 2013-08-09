@@ -7,6 +7,7 @@
 
 @functions {
 	public DateTime ActiveDate{get;set;}
+	public PagePerformanceInsights.Handler.ViewModels.PPIOperationalInfoViewModel OperationalInfo{get;set;}
 }
 
 <!doctype html>
@@ -69,6 +70,14 @@
 		</div>
 		<div class="trend_pane pane loading_data">
 		</div>
+	</div>
+	<div class="operational_stats">
+		<ul>
+			<li>Queue size: @OperationalInfo.QueueSize</li>
+			<li>PrivateBytes (MB): @OperationalInfo.PrivateBytesMB</li>
+			<li>Analyzed request/sec: @OperationalInfo.ProcessRequestsPerSecond</li>
+			<li>Buffer flush frequency (/sec): @OperationalInfo.BufferFlushFrequence</li>
+		</ul>
 	</div>
 </div>
 </body>

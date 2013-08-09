@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Diagnostics;
 
 namespace PagePerformanceInsights.Handler.RequestHandling {
 	class HomeHandler :IHandleRoutes{
@@ -19,7 +20,19 @@ namespace PagePerformanceInsights.Handler.RequestHandling {
 				activeDate = DateTime.Parse(context.Request["date"]);
 			}
 
-			context.Response.Write(new Home { ActiveDate = activeDate }.TransformText());
+			context.Response.Write(new Home { 
+				ActiveDate = activeDate,
+				OperationalInfo = GetOperationalInfo()
+			}.TransformText());
+		}
+
+		private ViewModels.PPIOperationalInfoViewModel GetOperationalInfo() {
+			return new ViewModels.PPIOperationalInfoViewModel {
+				PrivateBytesMB = Process.GetCurrentProcess().PrivateMemorySize64 / (1024*1024),
+				QueueSize = CommBus.Buffer.GetBacklogSize(),
+				AnalyzedRequestsPerSecond  = CommBus.Buffer.GetAnalyzedRequestsPerSecond(),
+				BufferFlushFrequency =  CommBus.Buffer.GetBufferFlushFrequency()
+			};
 		}
 	}
 }
