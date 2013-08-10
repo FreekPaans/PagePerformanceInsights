@@ -12,6 +12,7 @@ namespace PagePerformanceInsights.SqlServerStore {
 		readonly string _connectionString;
 		readonly RequestsStore _requestsStore;
 		readonly SqlPageIdProvider _pageIdProvider;
+		readonly Scheduler _scheduler;
 
 
 		public SqlServerStore() : this(ConfigurationManager.ConnectionStrings["PPI.SqlServerStore"].ConnectionString) {
@@ -27,6 +28,7 @@ namespace PagePerformanceInsights.SqlServerStore {
 			_pageIdProvider = new SqlPageIdProvider(_connectionString);
 
 			_requestsStore=  new RequestsStore(_connectionString,_pageIdProvider);
+			_scheduler = new Scheduler(_requestsStore);
 		}
 
 		public Handler.PerformanceData.DataTypes.PerformanceStatisticsForPageCollection GetStatisticsForAllPages(DateTime forDate) {

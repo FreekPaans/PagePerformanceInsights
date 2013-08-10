@@ -21,7 +21,7 @@ namespace PagePerformanceInsights.SqlServerStore.Requests {
 
 			using(var conn = new SqlConnection(_connectionString)) {
 				var cmd = conn.CreateCommand();
-				cmd.CommandText = @"select * from RequestsCache rc left join PageIds pid on pid.PageSHA1 = rc.PageHash where Date=@Date";
+				cmd.CommandText = @"select * from PreCalculatedPagesStatistics rc left join PageIds pid on pid.PageSHA1 = rc.PageHash where Date=@Date";
 				cmd.Parameters.Add(new SqlParameter("Date",forDate));
 				conn.Open();
 
@@ -38,11 +38,12 @@ namespace PagePerformanceInsights.SqlServerStore.Requests {
 
 						if(rdr["PageName"]==DBNull.Value) {
 							item.PageName = "All Pages";
-							pageList.Add(item);
+							allPages = item;
 						}
 						else {
 							item.PageName=  (string)rdr["PageName"];
-							allPages = item;
+							pageList.Add(item);
+							
 						}
 					}
 

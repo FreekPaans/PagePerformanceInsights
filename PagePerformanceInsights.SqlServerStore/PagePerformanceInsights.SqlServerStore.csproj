@@ -41,11 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\SHA1Helper.cs" />
+    <Compile Include="INeedToBeWokenUp.cs" />
     <Compile Include="IProvidePageIds.cs" />
     <Compile Include="PageIdCache.cs" />
     <Compile Include="Requests\PreCalculatedReadStrategy.cs" />
     <Compile Include="Requests\IRequestStatsStrategy.cs" />
-    <Compile Include="Requests\RequestTableReadStrategy.cs" />
+    <Compile Include="Requests\RealTimeReadStrategy.cs" />
+    <Compile Include="Scheduler.cs" />
     <Compile Include="SqlPageIdProvider.cs" />
     <Compile Include="Requests\StoreRequests.cs" />
     <Compile Include="SqlServerStore.cs" />

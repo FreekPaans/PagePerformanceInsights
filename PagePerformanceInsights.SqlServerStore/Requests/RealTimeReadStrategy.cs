@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 
 namespace PagePerformanceInsights.SqlServerStore.Requests {
-	class RequestTableReadStrategy : IRequestStatsStrategy {
+	class RealTimeReadStrategy : IRequestStatsStrategy {
 		readonly string _connectionString;
 		readonly IProvidePageIds _pageIdProvider;
-		public RequestTableReadStrategy(string connectionString, IProvidePageIds pageIdProvider) {
+		public RealTimeReadStrategy(string connectionString, IProvidePageIds pageIdProvider) {
 			_connectionString = connectionString;
 			_pageIdProvider = pageIdProvider;
 		}
