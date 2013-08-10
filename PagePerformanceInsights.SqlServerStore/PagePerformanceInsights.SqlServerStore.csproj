@@ -44,15 +44,16 @@
     <Compile Include="INeedToBeWokenUp.cs" />
     <Compile Include="IProvidePageIds.cs" />
     <Compile Include="PageIdCache.cs" />
-    <Compile Include="Requests\PreCalculatedReadStrategy.cs" />
-    <Compile Include="Requests\IRequestStatsStrategy.cs" />
-    <Compile Include="Requests\RealTimeReadStrategy.cs" />
+    <Compile Include="Requests\PreCalculatedAllPagesStrategy.cs" />
+    <Compile Include="Requests\IAllPagesReadStrategy.cs" />
+    <Compile Include="Requests\RealTimeAllPagesReadStrategy.cs" />
+    <Compile Include="Requests\RequestsReader.cs" />
     <Compile Include="Scheduler.cs" />
     <Compile Include="SqlPageIdProvider.cs" />
-    <Compile Include="Requests\StoreRequests.cs" />
+    <Compile Include="Requests\RequestsWriter.cs" />
     <Compile Include="SqlServerStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Requests\RequestsStore.cs" />
+    <Compile Include="Requests\AllPagesStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PagePerformanceInsights\PagePerformanceInsights.csproj">

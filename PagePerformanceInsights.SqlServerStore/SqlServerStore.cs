@@ -1,5 +1,6 @@
 ﻿using PagePerformanceInsights.Handler.PerformanceData;
 using PagePerformanceInsights.Handler.PerformanceData.DataTypes;
+using PagePerformanceInsights.Helpers;
 using PagePerformanceInsights.SqlServerStore.Requests;
 using System;
 using System.Collections.Generic;
@@ -8,12 +9,13 @@ using System.Linq;
 using System.Text;
 
 namespace PagePerformanceInsights.SqlServerStore {
-	public class SqlServerStore:IProvidePerformanceData,IStorePerformanceData {
+	public class SqlServerStore:IProvidePerformanceData,IStorePerformanceData, INeedToBeWokenUp {
 		readonly string _connectionString;
-		readonly RequestsStore _requestsStore;
+		readonly AllPagesStore _allPagesStore;
 		readonly SqlPageIdProvider _pageIdProvider;
 		readonly Scheduler _scheduler;
-
+		readonly RequestsWriter _requestsWriter;
+		readonly RequestsReader _requestsReader;
 
 		public SqlServerStore() : this(ConfigurationManager.ConnectionStrings["PPI.SqlServerStore"].ConnectionString) {
 		}
@@ -27,12 +29,14 @@ namespace PagePerformanceInsights.SqlServerStore {
 
 			_pageIdProvider = new SqlPageIdProvider(_connectionString);
 
-			_requestsStore=  new RequestsStore(_connectionString,_pageIdProvider);
-			_scheduler = new Scheduler(_requestsStore);
+			_allPagesStore=  new AllPagesStore(_connectionString,_pageIdProvider);
+			_scheduler = new Scheduler(_allPagesStore,this);
+			_requestsWriter = new RequestsWriter(_connectionString,_pageIdProvider);
+			_requestsReader = new RequestsReader(_connectionString);
 		}
 
 		public Handler.PerformanceData.DataTypes.PerformanceStatisticsForPageCollection GetStatisticsForAllPages(DateTime forDate) {
-			return _requestsStore.GetStatisticsForAllPages(forDate);
+			return _allPagesStore.GetStatisticsForAllPages(forDate);
 		}
 
 		public Handler.PerformanceData.DataTypes.PageDurationDistributionHistogram GetPageDistribution(DateTime forDate,string forPage) {
@@ -52,7 +56,28 @@ namespace PagePerformanceInsights.SqlServerStore {
 		}
 
 		public void Store(CommBus.HttpRequestData[] res) {
-			_requestsStore.Store(res);
+			_requestsWriter.Store(res);
+		}
+
+
+		readonly static TimeSpan? _requestsDataRetentionTime;
+		
+
+		static SqlServerStore () {
+			TimeSpan retention;
+			if(TimeSpan.TryParse(ConfigurationManager.AppSettings["PPI.SqlServerStore.RequestsRetention"],out retention)) {
+				_requestsDataRetentionTime = retention;
+			}
+		}
+
+		public void Wakeup() {
+			var dates = _requestsReader.GetDatesInRequestTable();
+
+			foreach(var date in dates) {
+				if(_requestsDataRetentionTime!=null && date < DateContext.Now.Add(_requestsDataRetentionTime.Value.Negate()).Date) {
+					_requestsWriter.DeleteRealtimeData(date);
+				}
+			}
 		}
 	}
 }

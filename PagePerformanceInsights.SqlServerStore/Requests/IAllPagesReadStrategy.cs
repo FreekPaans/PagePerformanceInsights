@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 
 namespace PagePerformanceInsights.SqlServerStore.Requests {
-	interface IRequestStatsStrategy {
+	interface IAllPagesReadStrategy {
 		PerformanceStatisticsForPageCollection GetRequestStatisticsForAllPages(DateTime forDate);
 	}
 }

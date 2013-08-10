@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 
 namespace PagePerformanceInsights.SqlServerStore.Requests {
-	class StoreRequests {
+	class RequestsWriter  {
 		readonly string _connectionString;
 		readonly IProvidePageIds _pageProvider;
 
-		public StoreRequests(string connectionString, IProvidePageIds pageProvider) {
+		public RequestsWriter(string connectionString, IProvidePageIds pageProvider) {
 			_pageProvider = pageProvider;
 			_connectionString = connectionString;
 		}
@@ -18,12 +18,6 @@ namespace PagePerformanceInsights.SqlServerStore.Requests {
 			if(!res.Any()) {
 				return;
 			}
-
-			//var pageIds = _pageProvider.GetPageIds(res.Select(p=>p.Page).ToArray());
-
-			//_pageProvider.AssertPageIdsAvailable(res.Select(p=>p.Page).ToArray());
-			//var tbl = GetPageNameDataTable(res);
-
 
 			var durationTable = GetPageDurationTable(res);
 			using(var connection = new SqlConnection(_connectionString)) {
@@ -57,5 +51,28 @@ namespace PagePerformanceInsights.SqlServerStore.Requests {
 			}
 			return tbl;
 		}
+
+		public void DeleteRealtimeData(DateTime date) {
+			using(var conn = new SqlConnection(_connectionString)) {
+				var cmd = conn.CreateCommand();
+				cmd.CommandText = "delete from Requests where Timestamp >=@From and Timestamp< @Till";
+				cmd.Parameters.Add(new SqlParameter("From",date));
+				cmd.Parameters.Add(new SqlParameter("Till",date.AddDays(1)));
+				conn.Open();
+				cmd.ExecuteNonQuery();
+			}
+		}
+
+
+
+
+		//static StoreRequests() {
+		//}
+
+		//public void Wakeup() {
+		//	if(date < DateContext.Now.Add(_requestsRetentionTime.Negate()).Date) {
+		//		DeleteRealtimeData(date);
+		//	}
+		//}
 	}
 }
