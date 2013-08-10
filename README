@@ -1,4 +1,4 @@
-This is an ASP.NET Module/Handler pair for generating page performance insights. 
+This is an ASP.NET Module/Handler pair for generating page performance insights.
 
 To use it, build the project, drop DLLs in your web project's bin dir and add this to your web.config:
 <configuration>

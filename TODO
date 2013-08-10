@@ -1,8 +1,8 @@
 Prioritized
 ===========
-sql backend
 generic page filter
-remote access
+sql backend
+Remote access
 download trend data as CSV
 make buffer flush timeout configable
 make buffer limit configable
