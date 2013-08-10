@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 
-namespace PagePerformanceInsights.Modules {
+namespace PagePerformanceInsights.Module {
 	public class PopulateBufferFromFileHttpModule : IHttpModule{
 		static PopulateBufferFromFileHttpModule() {
 			new Thread(StartPopulating).Start();

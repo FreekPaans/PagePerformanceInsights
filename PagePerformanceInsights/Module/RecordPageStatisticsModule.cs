@@ -8,7 +8,7 @@ using System.Threading;
 using System.Web;
 using NLog;
 
-namespace PagePerformanceInsights.Modules {
+namespace PagePerformanceInsights.Module {
 	public class RecordPageStatisticsModule : IHttpModule{
 		public void Dispose() {
 			//throw new NotImplementedException();
