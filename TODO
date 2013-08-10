@@ -22,3 +22,6 @@ redo html
 remove/refactor logging so it doesn't intrude in code 
 test against multiple mvc versions
 improve configuration error handling
+memory store - update on write, not on read
+cache requests in mem in sql server store
+remove all pages duplication

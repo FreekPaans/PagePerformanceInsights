@@ -40,8 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\SHA1Helper.cs" />
+    <Compile Include="IProvidePageIds.cs" />
+    <Compile Include="PageIdCache.cs" />
+    <Compile Include="Requests\PreCalculatedReadStrategy.cs" />
+    <Compile Include="Requests\IRequestStatsStrategy.cs" />
+    <Compile Include="Requests\RequestTableReadStrategy.cs" />
+    <Compile Include="SqlPageIdProvider.cs" />
+    <Compile Include="Requests\StoreRequests.cs" />
     <Compile Include="SqlServerStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\RequestsStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PagePerformanceInsights\PagePerformanceInsights.csproj">

@@ -1,5 +1,6 @@
 ﻿using PagePerformanceInsights.Handler.PerformanceData;
 using PagePerformanceInsights.Handler.PerformanceData.DataTypes;
+using PagePerformanceInsights.SqlServerStore.Requests;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -9,9 +10,11 @@ using System.Text;
 namespace PagePerformanceInsights.SqlServerStore {
 	public class SqlServerStore:IProvidePerformanceData,IStorePerformanceData {
 		readonly string _connectionString;
+		readonly RequestsStore _requestsStore;
+		readonly SqlPageIdProvider _pageIdProvider;
+
 
 		public SqlServerStore() : this(ConfigurationManager.ConnectionStrings["PPI.SqlServerStore"].ConnectionString) {
-			
 		}
 
 		public SqlServerStore(string connectionStringOrConnectionStringName) {
@@ -20,10 +23,14 @@ namespace PagePerformanceInsights.SqlServerStore {
 				_connectionString = fromConfig.ConnectionString;
 			}
 			_connectionString = connectionStringOrConnectionStringName;
+
+			_pageIdProvider = new SqlPageIdProvider(_connectionString);
+
+			_requestsStore=  new RequestsStore(_connectionString,_pageIdProvider);
 		}
 
 		public Handler.PerformanceData.DataTypes.PerformanceStatisticsForPageCollection GetStatisticsForAllPages(DateTime forDate) {
-			return PerformanceStatisticsForPageCollection.Empty;
+			return _requestsStore.GetStatisticsForAllPages(forDate);
 		}
 
 		public Handler.PerformanceData.DataTypes.PageDurationDistributionHistogram GetPageDistribution(DateTime forDate,string forPage) {
@@ -43,7 +50,7 @@ namespace PagePerformanceInsights.SqlServerStore {
 		}
 
 		public void Store(CommBus.HttpRequestData[] res) {
-			return;
+			_requestsStore.Store(res);
 		}
 	}
 }

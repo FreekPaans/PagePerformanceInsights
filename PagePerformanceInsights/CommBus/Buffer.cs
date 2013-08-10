@@ -43,9 +43,7 @@ namespace PagePerformanceInsights.CommBus {
 			}).Start();
 		}
 		
-		static Dictionary<DateTime,int> counts = new Dictionary<DateTime,int>();
-
-		
+				
 		static double _analyzedRequestsFrequency;
 		readonly static object _flushFrequencyLockerObject = new object();
 
@@ -88,7 +86,22 @@ namespace PagePerformanceInsights.CommBus {
 			_lastRun = DateTime.Now;
 		}
 
+		[DebuggerStepThrough]
 		private static int RunQueue() {
+			
+
+			try {
+				return ForwardToStore();
+			}
+			catch(Exception e) {
+				_logger.LogException(LogLevel.Error, "Exception storing data", e);
+				return 0;
+			}
+
+			
+		}
+
+		private static int ForwardToStore() {
 			_seenMaxSize = false;
 			var queueSize = _requestsQueue.Count;
 
@@ -96,20 +109,10 @@ namespace PagePerformanceInsights.CommBus {
 
 			for(var i=0;i<queueSize;i++) {
 				_requestsQueue.TryDequeue(out res[i]);
-				if(!counts.ContainsKey(res[i].Timestamp.Date)) {
-					counts[res[i].Timestamp.Date] = 0;
-				}
-				counts[res[i].Timestamp.Date]++;
 			}
 
-			try {
-				_store.Store(res);
-			}
-			catch(Exception e) {
-				_logger.LogException(LogLevel.Error, "Exception storing data", e);
-				return 0;
-			}
 
+			_store.Store(res);
 			return queueSize;
 		}
 

@@ -8,8 +8,12 @@ namespace PagePerformanceInsights.Handler.PerformanceData {
 	class SettingsStoreFactory {
 		readonly static object _store;
 
+		const string DefaultStore = "PagePerformanceInsights.MemoryStore.MemoryStoreDataProvider,PagePerformanceInsights.MemoryStore";
+
 		static SettingsStoreFactory() {
-			_store = Activator.CreateInstance(Type.GetType("PagePerformanceInsights.MemoryStore.MemoryStoreDataProvider,PagePerformanceInsights.MemoryStore"));
+			var storeImplementation= ConfigurationManager.AppSettings["PPI.Store"]??DefaultStore;
+
+			_store = Activator.CreateInstance(Type.GetType(storeImplementation));
 			//Bus.Buffer.SetPerformanceDataStore((IStorePerformanceData)_store);
 		}
 

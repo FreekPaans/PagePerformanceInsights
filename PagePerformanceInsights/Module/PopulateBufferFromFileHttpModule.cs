@@ -19,11 +19,11 @@ namespace PagePerformanceInsights.Module {
 
 			var rnd = new Random();
 
-			while(true) {
+			while(data.Any()) {
 				var date = DateTime.Today.AddDays(-dateCount);
 				var total= data.Count();
 
-				foreach(var rec in data.Take(total-dateCount*200000)) {
+				foreach(var rec in data) {
 					CommBus.Buffer.EnqueueRequest(new CommBus.HttpRequestData {
 						Duration = (int)(rec.Duration),
 						Page = rec.Page,
@@ -34,6 +34,8 @@ namespace PagePerformanceInsights.Module {
 						Thread.Sleep(20);
 					}
 				}
+
+				data = data.Take(total-dateCount*200000).ToArray();
 
 				dateCount++;
 			}
