@@ -91,7 +91,7 @@ namespace PagePerformanceInsights.MemoryStore {
 				else {
 					distribution = GetPerPageDistributionDictionary(forDate)[forPage];
 				}
-				return PageDurationDistributionHistogram.FromDistribution(distribution.ToArray(),100);
+				return PageDurationDistributionHistogram.FromDistribution(distribution.ToArray());
 			}
 		}
 	}

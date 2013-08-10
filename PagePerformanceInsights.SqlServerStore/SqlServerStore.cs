@@ -16,6 +16,7 @@ namespace PagePerformanceInsights.SqlServerStore {
 		readonly Scheduler _scheduler;
 		readonly RequestsWriter _requestsWriter;
 		readonly RequestsReader _requestsReader;
+		readonly DistributionStore _distributionStore;
 
 		public SqlServerStore() : this(ConfigurationManager.ConnectionStrings["PPI.SqlServerStore"].ConnectionString) {
 		}
@@ -30,9 +31,15 @@ namespace PagePerformanceInsights.SqlServerStore {
 			_pageIdProvider = new SqlPageIdProvider(_connectionString);
 
 			_allPagesStore=  new AllPagesStore(_connectionString,_pageIdProvider);
-			_scheduler = new Scheduler(_allPagesStore,this);
+			
+			
+
 			_requestsWriter = new RequestsWriter(_connectionString,_pageIdProvider);
 			_requestsReader = new RequestsReader(_connectionString);
+
+			_distributionStore = new DistributionStore(_connectionString,_pageIdProvider,_requestsReader);
+
+			_scheduler = new Scheduler(_allPagesStore,_distributionStore,this);
 		}
 
 		public Handler.PerformanceData.DataTypes.PerformanceStatisticsForPageCollection GetStatisticsForAllPages(DateTime forDate) {
@@ -40,11 +47,11 @@ namespace PagePerformanceInsights.SqlServerStore {
 		}
 
 		public Handler.PerformanceData.DataTypes.PageDurationDistributionHistogram GetPageDistribution(DateTime forDate,string forPage) {
-			return PageDurationDistributionHistogram.Empty;
+			return _distributionStore.GetPageDistribution(forDate,forPage);
 		}
 
 		public Handler.PerformanceData.DataTypes.PageDurationDistributionHistogram GetAllPagesDistribution(DateTime forDate) {
-			return PageDurationDistributionHistogram.Empty;
+			return _distributionStore.GetPageDistribution(forDate,null);
 		}
 
 		public Handler.PerformanceData.DataTypes.PageStatisticsTrend GetHourlyTrend(DateTime forDate,string forPage) {
@@ -61,6 +68,7 @@ namespace PagePerformanceInsights.SqlServerStore {
 
 
 		readonly static TimeSpan? _requestsDataRetentionTime;
+		
 		
 
 		static SqlServerStore () {

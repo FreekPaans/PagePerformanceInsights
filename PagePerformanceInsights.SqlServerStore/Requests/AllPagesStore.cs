@@ -1,6 +1,7 @@
 ﻿using PagePerformanceInsights.CommBus;
 using PagePerformanceInsights.Handler.PerformanceData.DataTypes;
 using PagePerformanceInsights.Helpers;
+using PagePerformanceInsights.SqlServerStore.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -37,10 +38,10 @@ namespace PagePerformanceInsights.SqlServerStore.Requests {
 		}
 
 
-		readonly static TimeSpan MaxTimeSkewWindow = TimeSpan.FromMinutes(5).Negate();
+		
 
 		private bool UseRealtimeData(DateTime forDate) {
-			return forDate >= DateContext.Now.Add(MaxTimeSkewWindow).Date;
+			return forDate >= DateContext.Now.Add(TimeSkewHelper.MaxTimeSkewWindow).Date;
 		}
 
 		DateTime _lastWakeup= DateTime.MinValue;
@@ -51,6 +52,8 @@ namespace PagePerformanceInsights.SqlServerStore.Requests {
 			if((DateContext.Now - _lastWakeup) < _timeBetweenChecks) {
 				return;
 			} 
+			_lastWakeup = DateContext.Now;
+						
 
 			foreach(var date in _requestsReader.GetDatesInRequestTable().Where(d=>!UseRealtimeData(d))) {
 				if(!_preCalculatedReadStrategy.HasPreCalculatedData(date)) {
@@ -60,9 +63,6 @@ namespace PagePerformanceInsights.SqlServerStore.Requests {
 					//this means we have already aggregated data for this day, in theory this shouldn't happen (we account for clock skew with MaxTimeSkewWindow)
 					//todo: log this
 				}
-
-
-				
 			}
 			
 		}

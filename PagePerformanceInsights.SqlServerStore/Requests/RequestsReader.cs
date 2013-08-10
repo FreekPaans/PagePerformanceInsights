@@ -27,5 +27,24 @@ namespace PagePerformanceInsights.SqlServerStore.Requests {
 				return res;
 			}
 		}
+
+		public ICollection<int> ListAllPages(DateTime date) {
+			using(var conn = new SqlConnection(_connectionString)) {
+				var q = conn.CreateCommand();
+				q.CommandText = "select Distinct PageId from Requests where Timestamp>=@From and Timestamp<@Till";
+				q.Parameters.Add(new SqlParameter("From", date));
+				q.Parameters.Add(new SqlParameter("Till",date.AddDays(1)));
+
+				var res = new List<int>();
+
+				conn.Open();
+				using(var rdr=  q.ExecuteReader()) {
+					while(rdr.Read()) {
+						res.Add((int)rdr["PageId"]);
+					}
+					return res;
+				}
+			}
+		}
 	}
 }

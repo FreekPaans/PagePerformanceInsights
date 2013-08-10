@@ -41,12 +41,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\SHA1Helper.cs" />
+    <Compile Include="Helpers\TimeSkewHelper.cs" />
     <Compile Include="INeedToBeWokenUp.cs" />
     <Compile Include="IProvidePageIds.cs" />
     <Compile Include="PageIdCache.cs" />
+    <Compile Include="Requests\DistributionStore.cs" />
+    <Compile Include="Requests\IDistributionReadStrategy.cs" />
     <Compile Include="Requests\PreCalculatedAllPagesStrategy.cs" />
     <Compile Include="Requests\IAllPagesReadStrategy.cs" />
+    <Compile Include="Requests\PreCalculatedDistributionStrategy.cs" />
     <Compile Include="Requests\RealTimeAllPagesReadStrategy.cs" />
+    <Compile Include="Requests\RealTimeDistributionStrategy.cs" />
     <Compile Include="Requests\RequestsReader.cs" />
     <Compile Include="Scheduler.cs" />
     <Compile Include="SqlPageIdProvider.cs" />

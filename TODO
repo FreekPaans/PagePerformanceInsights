@@ -11,6 +11,7 @@ handle timezones
 ilmerge
 nuget
 weekly trend
+implement pageid caching to improve distribution fetching speed
 
 Non-prioritized
 ===============
@@ -26,7 +27,7 @@ memory store - update on write, not on read
 cache requests in mem in sql server store
 remove all pages duplication
 make MaxTimeSkewWindow configable
-
+Figure out good naming for performance views
 
 Bugs
 ====

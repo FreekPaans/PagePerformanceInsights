@@ -58,7 +58,10 @@ namespace PagePerformanceInsights.Handler.PerformanceData.DataTypes {
 			}
 		}
 
-		public static PageDurationDistributionHistogram FromDistribution(int[] distribution, int bucketCount) {
+		//TODO: make configable
+		const int BucketCount = 100;
+
+		public static PageDurationDistributionHistogram FromDistribution(int[] distribution) {
 			if(distribution.Length==0) {
 				return PageDurationDistributionHistogram.Empty;
 			}
@@ -66,9 +69,9 @@ namespace PagePerformanceInsights.Handler.PerformanceData.DataTypes {
 
 			//var _99 = data[(int)(data.Length*0.99)].Duration;
 
-			var bucketSize = (int)Math.Ceiling(_99/(double)bucketCount);
+			var bucketSize = (int)Math.Ceiling(_99/(double)BucketCount);
 
-			var buckets = Enumerable.Range(0,bucketCount).Select(i => new PageDurationDistributionHistogram.Bucket { Count = 0,MinIncl = i*bucketSize,MaxExcl = (i+1)*bucketSize }).ToArray();
+			var buckets = Enumerable.Range(0,BucketCount).Select(i => new PageDurationDistributionHistogram.Bucket { Count = 0,MinIncl = i*bucketSize,MaxExcl = (i+1)*bucketSize }).ToArray();
 
 			Func<int,int> getBucketIndex = d => (int)(d/(double)bucketSize);
 

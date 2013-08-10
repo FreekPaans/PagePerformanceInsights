@@ -110,5 +110,10 @@ when not matched then insert (PageSHA1,PageName) values(toinsert.PageSHA1,toinse
 			}
 		}
 
+
+
+		public int GetPageId(string forPage) {
+			return GetPageIds(new [] { forPage})[forPage];
+		}
 	}
 }

@@ -9,5 +9,7 @@ namespace PagePerformanceInsights.SqlServerStore {
 		string GetPageHash(string pageName);
 
 		Dictionary<int,string> GetPageNames(ICollection<int> pageIds);
+
+		int GetPageId(string forPage);
 	}
 }
