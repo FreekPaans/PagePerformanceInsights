@@ -35,7 +35,7 @@ namespace PagePerformanceInsights.SqlServerStore.Requests {
 		public Handler.PerformanceData.DataTypes.PerformanceStatisticsForPageCollection GetStatisticsForAllPages(DateTime forDate) {
 			forDate = forDate.Date;
 
-			if(!UseRealtimeData(forDate)) {
+			if(!UseRealtimeData(forDate) && HasPreCalculatedData(forDate)) {
 				return _preCalculatedReadStrategy.GetRequestStatisticsForAllPages(forDate);
 			}
 			return _realTimeReadStrategy.GetRequestStatisticsForAllPages(forDate);
@@ -87,15 +87,14 @@ namespace PagePerformanceInsights.SqlServerStore.Requests {
 
 		DateTime _lastWakeup= DateTime.MinValue;
 		readonly static TimeSpan _timeBetweenChecks = TimeSpan.FromMinutes(5);
+		readonly static TimeSpan _requestsRetentionTime = TimeSpan.FromMinutes(15);
 
 		public void Wakeup() {
 			if((DateContext.Now - _lastWakeup) < _timeBetweenChecks) {
 				return;
 			} 
-			foreach(var date in GetDatesInRequestTable()) {
-				if(UseRealtimeData(date)) {
-					continue;
-				}
+
+			foreach(var date in GetDatesInRequestTable().Where(d=>!UseRealtimeData(d))) {
 				if(!HasPreCalculatedData(date)) {
 					PreCalculateData(date);
 				}
@@ -104,8 +103,12 @@ namespace PagePerformanceInsights.SqlServerStore.Requests {
 					//todo: log this
 				}
 
-				DeleteRealtimeData(date);
+				
+				if(date < DateContext.Now.Add(_requestsRetentionTime.Negate()).Date) {
+					DeleteRealtimeData(date);
+				}
 			}
+			
 		}
 
 		private void DeleteRealtimeData(DateTime date) {
@@ -135,7 +138,7 @@ namespace PagePerformanceInsights.SqlServerStore.Requests {
 			using(var conn = new SqlConnection(_connectionString)) {
 				var cmd = conn.CreateCommand();
 
-				cmd.CommandText = "insert into PreCalculatedPagesStatistics(Date,PageHash,Count,Median,Mean,Sum) values(@Date,@PageHash,@Count,@Median,@Mean,@Sum)";
+				cmd.CommandText = "insert into PreCalculatedPagesStatistics(Date,PageHash,Count,Median,Mean,Sum) select Convert(Date,@Date),@PageHash,@Count,@Median,@Mean,@Sum where not exists(select * from PreCalculatedPagesStatistics pcps where pcps.Date=@Date and pcps.PageHash=@PageHash)";
 				cmd.Parameters.Add("Date",SqlDbType.Date);
 				cmd.Parameters.Add("PageHash",SqlDbType.Char);
 				cmd.Parameters.Add("Count",SqlDbType.Int);

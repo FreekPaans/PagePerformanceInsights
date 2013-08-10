@@ -26,3 +26,8 @@ memory store - update on write, not on read
 cache requests in mem in sql server store
 remove all pages duplication
 make MaxTimeSkewWindow configable
+
+
+Bugs
+====
+Static content issue

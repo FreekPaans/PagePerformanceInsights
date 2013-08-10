@@ -92,6 +92,9 @@ when not matched then insert (PageSHA1,PageName) values(toinsert.PageSHA1,toinse
 
 
 		public Dictionary<int,string> GetPageNames(ICollection<int> pageIds) {
+			if(!pageIds.Any()) {
+				return new Dictionary<int,string>();
+			}
 			using(var connection = new SqlConnection(_connectionString)) {
 				var pageQuery = connection.CreateCommand();
 				pageQuery.CommandText = string.Format("select PageName,Id from PageIds where Id in ({0})",string.Join(",",pageIds));
