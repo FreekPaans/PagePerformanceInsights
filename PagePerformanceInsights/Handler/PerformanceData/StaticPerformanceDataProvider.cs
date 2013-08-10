@@ -90,7 +90,7 @@ namespace PagePerformanceInsights.Handler.PerformanceData {
 				catch {
 					return null;
 				}
-			}).Where(r => r!=null && r.DateTime.TimeOfDay<TimeSpan.Parse("15:00")).ToArray();
+			}).Where(r => r!=null).ToArray();
 		}
 
 

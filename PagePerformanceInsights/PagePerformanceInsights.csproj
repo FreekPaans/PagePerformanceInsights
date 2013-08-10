@@ -112,6 +112,7 @@
     </Compile>
     <Compile Include="Helpers\DateContext.cs" />
     <Compile Include="Module\Filters\IdentityFilter.cs" />
+    <Compile Include="Module\Filters\RemoveNonManagedHandlersFilter.cs" />
     <Compile Include="Module\Filters\RemovePPIHandlerFilter.cs" />
     <Compile Include="Module\IFilterPagesToAnalyze.cs" />
     <Compile Include="Module\PageNameFilter.cs" />

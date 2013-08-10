@@ -60,7 +60,7 @@ namespace PagePerformanceInsights.CommBus {
 
 				if(items!=0 && sw.ElapsedMilliseconds!=0) {
 					lock(_flushFrequencyLockerObject) {
-						_analyzedRequestsFrequency =  (0.2*_analyzedRequestsFrequency) + 0.8 * (double)items/sw.ElapsedMilliseconds;
+						_analyzedRequestsFrequency =  (0.2*_analyzedRequestsFrequency) + 0.8 * (double)items/sw.Elapsed.TotalSeconds;
 					}
 				}
 								

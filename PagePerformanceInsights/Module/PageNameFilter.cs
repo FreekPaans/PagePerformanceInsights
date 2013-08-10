@@ -11,7 +11,7 @@ namespace PagePerformanceInsights.Module {
 		static PageNameFilter() {
 			var filters = new List<IFilterPagesToAnalyze> { new RemovePPIHandlerFilter() };
 
-			foreach(var toloadFilter in ConfigurationManager.AppSettings["PagePerformanceInsights.Filters"].Split(';')) {
+			foreach(var toloadFilter in ConfigurationManager.AppSettings["PPI.Filters"].Split(';')) {
 				filters.Add((IFilterPagesToAnalyze)Activator.CreateInstance(Type.GetType(toloadFilter)));
 			}
 			_filters = filters.ToArray();

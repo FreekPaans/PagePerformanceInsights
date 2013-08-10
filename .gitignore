@@ -22,3 +22,5 @@
 /PagePerformanceInsights.MemoryStore/obj
 /PagePerformanceInsights.Filters/bin
 /PagePerformanceInsights.Filters/obj
+/PagePerformanceInsights.SqlServerStore/bin
+/PagePerformanceInsights.SqlServerStore/obj

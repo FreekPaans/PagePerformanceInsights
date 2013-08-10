@@ -1,24 +1,24 @@
 Prioritized
 ===========
-generic page filter
 sql backend
 Remote access
 download trend data as CSV
 make buffer flush timeout configable
 make buffer limit configable
+use custom config section
 sort out logging
+handle timezones
+ilmerge
+nuget
+weekly trend
 
 Non-prioritized
 ===============
 filter on count in UI
-don't include ppi calls
 make ppi resources cachable
-weekly trend
 regex filter
-soap filter
-static resources filter
+soap header filter
 redo html
 remove/refactor logging so it doesn't intrude in code 
-handle timezones
-test agains mvc versions
+test against multiple mvc versions
 improve configuration error handling
