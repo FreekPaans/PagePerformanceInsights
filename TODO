@@ -20,3 +20,5 @@ static resources filter
 redo html
 remove/refactor logging so it doesn't intrude in code 
 handle timezones
+test agains mvc versions
+improve configuration error handling

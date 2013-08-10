@@ -8,6 +8,6 @@ using System.Web;
 namespace PagePerformanceInsights.Module {
 	public interface IFilterPagesToAnalyze {
 		//IFilterPagesToAnalyze Chain(IFilterPagesToAnalyze filter);
-		HttpRequestData Filter(HttpContext context);
+		string Filter(HttpContext context, string currentPageName);
 	}
 }

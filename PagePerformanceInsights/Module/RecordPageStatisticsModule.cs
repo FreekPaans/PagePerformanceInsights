@@ -35,10 +35,16 @@ namespace PagePerformanceInsights.Module {
 				var sw = (Stopwatch)HttpContext.Current.Items[PPI_Stopwatch_Key];
 				
 				sw.Stop();
+
+				var pageName = PageNameFilter.Filter(HttpContext.Current);
+
+				if(pageName==null) {
+					return;
+				}
 				CommBus.Buffer.EnqueueRequest(new HttpRequestData {
 					Duration = (int)sw.ElapsedMilliseconds,
 					Timestamp = (DateTime)HttpContext.Current.Items[PPI_StartDateTime_Key],
-					Page = HttpContext.Current.Request.Url.LocalPath
+					Page = pageName
 				});
 			});
 
@@ -48,6 +54,7 @@ namespace PagePerformanceInsights.Module {
 
 		readonly static Logger _logger = LogManager.GetCurrentClassLogger();
 
+		[DebuggerStepThrough]
 		static void LogExceptions(string @event, Action code) {
 			try {
 				code();
