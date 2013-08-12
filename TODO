@@ -1,6 +1,5 @@
 Prioritized
 ===========
-sql backend - trends
 weekly trend
 sort out logging
 ilmerge
@@ -11,7 +10,6 @@ make buffer flush timeout configable
 make buffer limit configable
 use custom config section
 handle timezones
-implement pageid caching to improve distribution fetching speed
 
 Non-prioritized
 ===============
