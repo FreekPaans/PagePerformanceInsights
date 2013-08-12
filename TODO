@@ -1,6 +1,6 @@
 Prioritized
 ===========
-sql backend
+sql backend - trends
 Remote access
 download trend data as CSV
 make buffer flush timeout configable
@@ -16,7 +16,7 @@ implement pageid caching to improve distribution fetching speed
 Non-prioritized
 ===============
 filter on count in UI
-make ppi resources cachable
+make ppi assets cachable
 regex filter
 soap header filter
 redo html
@@ -28,6 +28,8 @@ cache requests in mem in sql server store
 remove all pages duplication
 make MaxTimeSkewWindow configable
 Figure out good naming for performance views
+test web api
+api
 
 Bugs
 ====
