@@ -12,7 +12,7 @@ namespace PagePerformanceInsights.SqlServerStore {
 	public class SqlServerStore:IProvidePerformanceData,IStorePerformanceData, INeedToBeWokenUp {
 		readonly string _connectionString;
 		readonly AllPagesStore _allPagesStore;
-		readonly SqlPageIdProvider _pageIdProvider;
+		readonly IProvidePageIds _pageIdProvider;
 		readonly Scheduler _scheduler;
 		readonly RequestsWriter _requestsWriter;
 		readonly RequestsReader _requestsReader;
@@ -29,7 +29,7 @@ namespace PagePerformanceInsights.SqlServerStore {
 			}
 			_connectionString = connectionStringOrConnectionStringName;
 
-			_pageIdProvider = new SqlPageIdProvider(_connectionString);
+			_pageIdProvider = new CachedPageIdProvider(new SqlPageIdProvider(_connectionString));
 
 			_requestsWriter = new RequestsWriter(_connectionString,_pageIdProvider);
 			_requestsReader = new RequestsReader(_connectionString);

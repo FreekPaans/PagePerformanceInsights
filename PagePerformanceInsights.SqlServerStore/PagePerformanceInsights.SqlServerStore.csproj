@@ -40,11 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CachedPageIdProvider.cs" />
     <Compile Include="Helpers\SHA1Helper.cs" />
     <Compile Include="Helpers\TimeSkewHelper.cs" />
     <Compile Include="INeedToBeWokenUp.cs" />
     <Compile Include="IProvidePageIds.cs" />
-    <Compile Include="PageIdCache.cs" />
     <Compile Include="Requests\DistributionStore.cs" />
     <Compile Include="Requests\IDistributionReadStrategy.cs" />
     <Compile Include="Requests\ITrendReadStrategy.cs" />
