@@ -1,16 +1,16 @@
 Prioritized
 ===========
 sql backend - trends
+weekly trend
+sort out logging
+ilmerge
+nuget
 Remote access
 download trend data as CSV
 make buffer flush timeout configable
 make buffer limit configable
 use custom config section
-sort out logging
 handle timezones
-ilmerge
-nuget
-weekly trend
 implement pageid caching to improve distribution fetching speed
 
 Non-prioritized

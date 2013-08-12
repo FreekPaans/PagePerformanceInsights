@@ -47,12 +47,15 @@
     <Compile Include="PageIdCache.cs" />
     <Compile Include="Requests\DistributionStore.cs" />
     <Compile Include="Requests\IDistributionReadStrategy.cs" />
+    <Compile Include="Requests\ITrendReadStrategy.cs" />
     <Compile Include="Requests\PreCalculatedAllPagesStrategy.cs" />
     <Compile Include="Requests\IAllPagesReadStrategy.cs" />
     <Compile Include="Requests\PreCalculatedDistributionStrategy.cs" />
     <Compile Include="Requests\RealTimeAllPagesReadStrategy.cs" />
     <Compile Include="Requests\RealTimeDistributionStrategy.cs" />
+    <Compile Include="Requests\RealTimeTrendStrategy.cs" />
     <Compile Include="Requests\RequestsReader.cs" />
+    <Compile Include="Requests\TrendStore.cs" />
     <Compile Include="Scheduler.cs" />
     <Compile Include="SqlPageIdProvider.cs" />
     <Compile Include="Requests\RequestsWriter.cs" />

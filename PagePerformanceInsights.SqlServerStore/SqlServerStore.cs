@@ -17,6 +17,7 @@ namespace PagePerformanceInsights.SqlServerStore {
 		readonly RequestsWriter _requestsWriter;
 		readonly RequestsReader _requestsReader;
 		readonly DistributionStore _distributionStore;
+		readonly TrendStore _trendStore;
 
 		public SqlServerStore() : this(ConfigurationManager.ConnectionStrings["PPI.SqlServerStore"].ConnectionString) {
 		}
@@ -30,14 +31,12 @@ namespace PagePerformanceInsights.SqlServerStore {
 
 			_pageIdProvider = new SqlPageIdProvider(_connectionString);
 
-			_allPagesStore=  new AllPagesStore(_connectionString,_pageIdProvider);
-			
-			
-
 			_requestsWriter = new RequestsWriter(_connectionString,_pageIdProvider);
 			_requestsReader = new RequestsReader(_connectionString);
 
+			_allPagesStore=  new AllPagesStore(_connectionString,_pageIdProvider);
 			_distributionStore = new DistributionStore(_connectionString,_pageIdProvider,_requestsReader);
+			_trendStore = new TrendStore(_connectionString,_pageIdProvider);
 
 			_scheduler = new Scheduler(_allPagesStore,_distributionStore,this);
 		}
@@ -55,11 +54,11 @@ namespace PagePerformanceInsights.SqlServerStore {
 		}
 
 		public Handler.PerformanceData.DataTypes.PageStatisticsTrend GetHourlyTrend(DateTime forDate,string forPage) {
-			return PageStatisticsTrend.Empty;
+			return _trendStore.GetHourlyTrend(forDate, forPage);
 		}
 
 		public Handler.PerformanceData.DataTypes.PageStatisticsTrend GetHourlyTrend(DateTime forDate) {
-			return PageStatisticsTrend.Empty;
+			return _trendStore.GetHourlyTrend(forDate,null);
 		}
 
 		public void Store(CommBus.HttpRequestData[] res) {
@@ -69,8 +68,6 @@ namespace PagePerformanceInsights.SqlServerStore {
 
 		readonly static TimeSpan? _requestsDataRetentionTime;
 		
-		
-
 		static SqlServerStore () {
 			TimeSpan retention;
 			if(TimeSpan.TryParse(ConfigurationManager.AppSettings["PPI.SqlServerStore.RequestsRetention"],out retention)) {

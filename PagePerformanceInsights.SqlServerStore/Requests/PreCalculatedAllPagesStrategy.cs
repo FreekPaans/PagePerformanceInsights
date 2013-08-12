@@ -26,7 +26,7 @@ namespace PagePerformanceInsights.SqlServerStore.Requests {
 
 			using(var conn = new SqlConnection(_connectionString)) {
 				var cmd = conn.CreateCommand();
-				cmd.CommandText = @"select * from PreCalculatedPagesStatistics rc left join PageIds pid on pid.PageSHA1 = rc.PageHash where Date=@Date";
+				cmd.CommandText = @"select * from PreCalculatedPagesStatistics rc left join PageIds pid on pid.Id = rc.PageId where Date=@Date";
 				cmd.Parameters.Add(new SqlParameter("Date",forDate));
 				conn.Open();
 
@@ -73,9 +73,9 @@ namespace PagePerformanceInsights.SqlServerStore.Requests {
 			using(var conn = new SqlConnection(_connectionString)) {
 				var cmd = conn.CreateCommand();
 
-				cmd.CommandText = "insert into PreCalculatedPagesStatistics(Date,PageHash,Count,Median,Mean,Sum) select Convert(Date,@Date),@PageHash,@Count,@Median,@Mean,@Sum where not exists(select * from PreCalculatedPagesStatistics pcps where pcps.Date=@Date and pcps.PageHash=@PageHash)"; //where not exists for optimistic concurrency
+				cmd.CommandText = "insert into PreCalculatedPagesStatistics(Date,PageId,Count,Median,Mean,Sum) select Convert(Date,@Date),@PageId,@Count,@Median,@Mean,@Sum where not exists(select * from PreCalculatedPagesStatistics pcps where pcps.Date=@Date and pcps.PageId=@PageId)"; //where not exists for optimistic concurrency
 				cmd.Parameters.Add("Date",SqlDbType.Date);
-				cmd.Parameters.Add("PageHash",SqlDbType.Char);
+				cmd.Parameters.Add("PageId",SqlDbType.Int);
 				cmd.Parameters.Add("Count",SqlDbType.Int);
 				cmd.Parameters.Add("Median",SqlDbType.Int);
 				cmd.Parameters.Add("Mean",SqlDbType.Int);
@@ -84,15 +84,17 @@ namespace PagePerformanceInsights.SqlServerStore.Requests {
 				cmd.Parameters["Date"].Value = date;
 
 				conn.Open();
-				InsertPageInCache(cmd,"all",requests.StatisticsForAllPages.Count,requests.StatisticsForAllPages.Median,requests.StatisticsForAllPages.Mean,requests.StatisticsForAllPages.Sum);
+				InsertPageInCache(cmd,AllPagesPageId,requests.StatisticsForAllPages.Count,requests.StatisticsForAllPages.Median,requests.StatisticsForAllPages.Mean,requests.StatisticsForAllPages.Sum);
 				foreach(var page in requests.PageStatistics) {
-					InsertPageInCache(cmd,_pageIdProvider.GetPageHash(page.PageName),page.Count,page.Median,page.Mean,page.Sum); ;
+					InsertPageInCache(cmd,_pageIdProvider.GetPageId(page.PageName),page.Count,page.Median,page.Mean,page.Sum); ;
 				}
 			}
 		}
 
-		private void InsertPageInCache(SqlCommand cmd,string pageHash,int count,int median,int mean,int sum) {
-			cmd.Parameters["PageHash"].Value = pageHash;
+		const int AllPagesPageId = 0;
+
+		private void InsertPageInCache(SqlCommand cmd,int  pageId,int count,int median,int mean,int sum) {
+			cmd.Parameters["PageId"].Value = pageId;
 			cmd.Parameters["Count"].Value = count;
 			cmd.Parameters["Median"].Value = median;
 			cmd.Parameters["Mean"].Value = mean;
