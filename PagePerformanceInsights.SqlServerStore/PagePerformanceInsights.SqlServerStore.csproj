@@ -51,6 +51,7 @@
     <Compile Include="Requests\PreCalculatedAllPagesStrategy.cs" />
     <Compile Include="Requests\IAllPagesReadStrategy.cs" />
     <Compile Include="Requests\PreCalculatedDistributionStrategy.cs" />
+    <Compile Include="Requests\PreCalculatedTrendStrategy.cs" />
     <Compile Include="Requests\RealTimeAllPagesReadStrategy.cs" />
     <Compile Include="Requests\RealTimeDistributionStrategy.cs" />
     <Compile Include="Requests\RealTimeTrendStrategy.cs" />
@@ -68,6 +69,9 @@
       <Project>{cc70fced-7ea6-4311-9756-0e88dcb9c22e}</Project>
       <Name>PagePerformanceInsights</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Schema\schema.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

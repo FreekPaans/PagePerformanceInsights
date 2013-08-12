@@ -36,9 +36,9 @@ namespace PagePerformanceInsights.SqlServerStore {
 
 			_allPagesStore=  new AllPagesStore(_connectionString,_pageIdProvider);
 			_distributionStore = new DistributionStore(_connectionString,_pageIdProvider,_requestsReader);
-			_trendStore = new TrendStore(_connectionString,_pageIdProvider);
+			_trendStore = new TrendStore(_connectionString,_pageIdProvider,_requestsReader);
 
-			_scheduler = new Scheduler(_allPagesStore,_distributionStore,this);
+			_scheduler = new Scheduler(_allPagesStore,_distributionStore,_trendStore,this);
 		}
 
 		public Handler.PerformanceData.DataTypes.PerformanceStatisticsForPageCollection GetStatisticsForAllPages(DateTime forDate) {
