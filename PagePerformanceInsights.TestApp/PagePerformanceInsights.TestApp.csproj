@@ -252,6 +252,10 @@
       <Project>{617ef40e-aabb-4ec3-b91d-743af4758de8}</Project>
       <Name>PagePerformanceInsights.MemoryStore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PagePerformanceInsights.NLogLogger\PagePerformanceInsights.NLogLogger.csproj">
+      <Project>{c7e24c7d-0abd-4c46-b56c-058c63c6b4a3}</Project>
+      <Name>PagePerformanceInsights.NLogLogger</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PagePerformanceInsights.SqlServerStore\PagePerformanceInsights.SqlServerStore.csproj">
       <Project>{dc4a6b6e-7d66-4669-a8a4-04fe40d50ebc}</Project>
       <Name>PagePerformanceInsights.SqlServerStore</Name>

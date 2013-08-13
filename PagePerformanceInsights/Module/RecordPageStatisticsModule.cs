@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Web;
-using NLog;
+using PagePerformanceInsights.Events;
 
 namespace PagePerformanceInsights.Module {
 	public class RecordPageStatisticsModule : IHttpModule{
@@ -52,7 +52,7 @@ namespace PagePerformanceInsights.Module {
 			//throw new NotImplementedException();
 		}
 
-		readonly static Logger _logger = LogManager.GetCurrentClassLogger();
+		readonly static EventLogHelper _logger = new EventLogHelper(typeof(RecordPageStatisticsModule));
 
 		[DebuggerStepThrough]
 		static void LogExceptions(string @event, Action code) {
@@ -60,7 +60,7 @@ namespace PagePerformanceInsights.Module {
 				code();
 			}
 			catch(Exception e) {
-				_logger.LogException(LogLevel.Error, string.Format("Error raising {0}", @event), e);
+				_logger.LogException(string.Format("Error raising {0}", @event), e);
 			}
 		}
 	}

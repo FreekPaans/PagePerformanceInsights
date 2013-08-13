@@ -24,3 +24,5 @@
 /PagePerformanceInsights.Filters/obj
 /PagePerformanceInsights.SqlServerStore/bin
 /PagePerformanceInsights.SqlServerStore/obj
+/PagePerformanceInsights.NLogLogger/obj
+/PagePerformanceInsights.NLogLogger/bin

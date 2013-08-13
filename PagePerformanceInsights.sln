@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PagePerformanceInsights.Fil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PagePerformanceInsights.SqlServerStore", "PagePerformanceInsights.SqlServerStore\PagePerformanceInsights.SqlServerStore.csproj", "{DC4A6B6E-7D66-4669-A8A4-04FE40D50EBC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PagePerformanceInsights.NLogLogger", "PagePerformanceInsights.NLogLogger\PagePerformanceInsights.NLogLogger.csproj", "{C7E24C7D-0ABD-4C46-B56C-058C63C6B4A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{DC4A6B6E-7D66-4669-A8A4-04FE40D50EBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC4A6B6E-7D66-4669-A8A4-04FE40D50EBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC4A6B6E-7D66-4669-A8A4-04FE40D50EBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7E24C7D-0ABD-4C46-B56C-058C63C6B4A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7E24C7D-0ABD-4C46-B56C-058C63C6B4A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7E24C7D-0ABD-4C46-B56C-058C63C6B4A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7E24C7D-0ABD-4C46-B56C-058C63C6B4A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,14 +6,14 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 using System.Diagnostics;
-using NLog;
+using PagePerformanceInsights.Events;
 
 namespace PagePerformanceInsights.CommBus {
 	class Buffer {
 		readonly static ConcurrentQueue<HttpRequestData> _requestsQueue = new ConcurrentQueue<HttpRequestData>();
 		//todo config
 		readonly static TimeSpan WriteInterval = TimeSpan.FromSeconds(1);
-		readonly static Logger _logger = LogManager.GetCurrentClassLogger();
+		readonly static EventLogHelper _logger = new EventLogHelper(typeof(Buffer));
 		const int MaxQueueSize = 10000000;
 
 		static bool _seenMaxSize=  false;
@@ -38,7 +38,7 @@ namespace PagePerformanceInsights.CommBus {
 					StartReader();
 				}
 				catch(Exception e) {
-					_logger.LogException(LogLevel.Error, string.Format("Error in queue runner thread, stopping execution"), e);
+					_logger.LogException(string.Format("Error in queue runner thread, stopping execution"), e);
 				}
 			}).Start();
 		}
@@ -94,7 +94,7 @@ namespace PagePerformanceInsights.CommBus {
 				return ForwardToStore();
 			}
 			catch(Exception e) {
-				_logger.LogException(LogLevel.Error, "Exception storing data", e);
+				_logger.LogException("Exception storing data", e);
 				return 0;
 			}
 
