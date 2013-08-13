@@ -1,6 +1,5 @@
 Prioritized
 ===========
-use custom config section
 Remote access
 soap header filter
 
@@ -26,6 +25,7 @@ make MaxTimeSkewWindow configable
 Figure out good naming for performance views
 test web api
 api
+add simple names for stores/filters
 
 Bugs
 ====

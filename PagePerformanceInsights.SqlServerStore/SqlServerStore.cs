@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using PagePerformanceInsights.Configuration;
 
 namespace PagePerformanceInsights.SqlServerStore {
 	public class SqlServerStore:IProvidePerformanceData,IStorePerformanceData, INeedToBeWokenUp {
@@ -18,8 +19,10 @@ namespace PagePerformanceInsights.SqlServerStore {
 		readonly RequestsReader _requestsReader;
 		readonly DistributionStore _distributionStore;
 		readonly TrendStore _trendStore;
+		
+		
 
-		public SqlServerStore() : this(ConfigurationManager.ConnectionStrings["PPI.SqlServerStore"].ConnectionString) {
+		public SqlServerStore() : this(_configConnectionString) {
 		}
 
 		public SqlServerStore(string connectionStringOrConnectionStringName) {
@@ -27,7 +30,9 @@ namespace PagePerformanceInsights.SqlServerStore {
 			if(fromConfig!=null) {
 				_connectionString = fromConfig.ConnectionString;
 			}
-			_connectionString = connectionStringOrConnectionStringName;
+			else {
+				_connectionString = connectionStringOrConnectionStringName;
+			}
 
 			_pageIdProvider = new CachedPageIdProvider(new SqlPageIdProvider(_connectionString));
 
@@ -67,12 +72,13 @@ namespace PagePerformanceInsights.SqlServerStore {
 
 
 		readonly static TimeSpan? _requestsDataRetentionTime;
-		
+		readonly static string _configConnectionString;
+
 		static SqlServerStore () {
-			TimeSpan retention;
-			if(TimeSpan.TryParse(ConfigurationManager.AppSettings["PPI.SqlServerStore.RequestsRetention"],out retention)) {
-				_requestsDataRetentionTime = retention;
-			}
+			var settings = SqlServerStoreSection.Get();
+
+			_configConnectionString = settings.ConnectionStringOrName;
+			_requestsDataRetentionTime = settings.RequestsRetention;
 		}
 
 		public void Wakeup() {
