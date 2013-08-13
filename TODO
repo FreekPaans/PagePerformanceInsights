@@ -1,14 +1,16 @@
 Prioritized
 ===========
-weekly trend
 sort out logging
 ilmerge
 nuget
+use custom config section
 Remote access
+system.web/httpModules
+
+weekly trend
 download trend data as CSV
 make buffer flush timeout configable
 make buffer limit configable
-use custom config section
 handle timezones
 
 Non-prioritized

@@ -71,6 +71,11 @@ namespace PagePerformanceInsights.Handler.PerformanceData.DataTypes {
 
 			var bucketSize = (int)Math.Ceiling(_99/(double)BucketCount);
 
+			if(bucketSize==0) { //this happens when distribution contains only 0 values, which occaisonally happens for static content
+				bucketSize = 1;
+			}
+
+			
 			var buckets = Enumerable.Range(0,BucketCount).Select(i => new PageDurationDistributionHistogram.Bucket { Count = 0,MinIncl = i*bucketSize,MaxExcl = (i+1)*bucketSize }).ToArray();
 
 			Func<int,int> getBucketIndex = d => (int)(d/(double)bucketSize);

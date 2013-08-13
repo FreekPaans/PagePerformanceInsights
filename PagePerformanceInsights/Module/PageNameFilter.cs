@@ -11,10 +11,19 @@ namespace PagePerformanceInsights.Module {
 		static PageNameFilter() {
 			var filters = new List<IFilterPagesToAnalyze> { new RemovePPIHandlerFilter() };
 
-			foreach(var toloadFilter in ConfigurationManager.AppSettings["PPI.Filters"].Split(';')) {
+			var filterConfig = ConfigurationManager.AppSettings["PPI.Filters"];
+			if(!string.IsNullOrWhiteSpace(filterConfig)) {
+				LoadFilters(filters,filterConfig);
+			}
+
+			
+			_filters = filters.ToArray();
+		}
+
+		private static void LoadFilters(List<IFilterPagesToAnalyze> filters,string filterConfig) {
+			foreach(var toloadFilter in filterConfig.Split(';')) {
 				filters.Add((IFilterPagesToAnalyze)Activator.CreateInstance(Type.GetType(toloadFilter)));
 			}
-			_filters = filters.ToArray();
 		}
 
 		public static string Filter(HttpContext httpContext) {
