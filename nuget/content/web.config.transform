@@ -4,6 +4,7 @@
 		<section name="security" type="PagePerformanceInsights.Configuration.SecuritySection, PagePerformanceInsights"/>
 		<section name="filters" type="PagePerformanceInsights.Configuration.FiltersSection, PagePerformanceInsights"/>
 		<section name="store" type="PagePerformanceInsights.Configuration.StoreSection, PagePerformanceInsights"/>
+		<section name="sqlServerStore" type="PagePerformanceInsights.Configuration.SqlServerStoreSection, PagePerformanceInsights"/>
 	</sectionGroup>
 	<ppi>
 		<!--<buffer writeInterval="00:00:01" maxBufferSize="-1" />-->
@@ -11,11 +12,13 @@
 		<filters>
 			<!--<add nameOrType="PagePerformanceInsights.Module.Filters.RemoveNonManagedHandlersFilter,PagePerformanceInsights" />-->
 			<!--<add nameOrType="PagePerformanceInsights.Filters.GroupMvcControllerActionFilter,PagePerformanceInsights.Filters" />-->
-		</filters>-->
-		<!--<store nameOrType="" />-->
+		</filters>
+		<!--<store nameOrType="PagePerformanceInsights.SqlServerStore.SqlServerStore, PagePerformanceInsights.SqlServerStore" />-->
+		<!--<sqlServerStore connectionStringOrName="PPI" requestsDataRetentionAfterDate="1.00:00:00" />-->
 	</ppi>
-	
-	
+	<connectionStrings>
+		<!--<add name="PPI" connectionString="..."/>-->
+	</connectionStrings>
 	<system.webServer>
 		<validation validateIntegratedModeConfiguration="false" />
 		<handlers>
