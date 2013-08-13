@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>PPI</id>
+    <version>0.0.0-alpha3</version>
+    <authors>Freek Paans</authors>
+    <owners>Freek Paans</owners>
+    <licenseUrl>https://github.com/FreekPaans/PagePerformanceInsights/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/FreekPaans/PagePerformanceInsights</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This is an ASP.NET Module/Handler pair for monitoring your page performance</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2013 Freek Paans</copyright>
+    <tags>ASP.NET Monitoring Performance</tags>
+  </metadata>
+</package>
