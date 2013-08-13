@@ -1,6 +1,5 @@
 Prioritized
 ===========
-sort out logging
 ilmerge
 nuget
 use custom config section
@@ -30,7 +29,3 @@ make MaxTimeSkewWindow configable
 Figure out good naming for performance views
 test web api
 api
-
-Bugs
-====
-Static content issue
