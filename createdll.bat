@@ -1,1 +1,0 @@
-packages\ilmerge.2.13.0307\ILMerge.exe /internalize /out:PagePerformanceInsights.dll PagePerformanceInsights\bin\PagePerformanceInsights.dll PagePerformanceInsights.MemoryStore\bin\Debug\PagePerformanceInsights.MemoryStore.dll PagePerformanceInsights.SqlServerStore\bin\Debug\PagePerformanceInsights.SqlServerStore.dll PagePerformanceInsights\bin\RazorGenerator.Templating.dll
