@@ -7,21 +7,24 @@ using System.Threading;
 using System.Web;
 using System.Diagnostics;
 using PagePerformanceInsights.Events;
+using PagePerformanceInsights.Configuration;
+using System.Configuration;
 
 namespace PagePerformanceInsights.CommBus {
 	class Buffer {
 		readonly static ConcurrentQueue<HttpRequestData> _requestsQueue = new ConcurrentQueue<HttpRequestData>();
 		//todo config
-		readonly static TimeSpan WriteInterval = TimeSpan.FromSeconds(1);
-		readonly static EventLogHelper _logger = new EventLogHelper(typeof(Buffer));
-		const int MaxQueueSize = 10000000;
+		readonly static TimeSpan _writeInterval;
+		readonly static int? _maxQueueSize;
 
+		readonly static EventLogHelper _logger = new EventLogHelper(typeof(Buffer));
+		
 		static bool _seenMaxSize=  false;
 
 		public static void EnqueueRequest(HttpRequestData data) {
-			if(_requestsQueue.Count >= MaxQueueSize) {
+			if(_maxQueueSize!=null &&_requestsQueue.Count >= _maxQueueSize.Value) {
 				if(!_seenMaxSize) {
-					_logger.Warn(()=>string.Format("Queue size reached max size ({0}), ignoring", MaxQueueSize));
+					_logger.Warn(() => string.Format("Queue size reached max size ({0}), ignoring",_maxQueueSize.Value));
 				}
 				_seenMaxSize = true;
 				return;
@@ -32,6 +35,13 @@ namespace PagePerformanceInsights.CommBus {
 		readonly static IStorePerformanceData _store = null;
 
 		static Buffer() {
+			var config = BufferSection.Get();
+
+			_writeInterval = config.WriteInterval;
+			if(config.MaxBufferSize>=0) {
+				_maxQueueSize= config.MaxBufferSize;
+			}
+			
 			_store = SettingsStoreFactory.GetDataStorer();
 			new Thread(() => {
 				try {
@@ -62,7 +72,7 @@ namespace PagePerformanceInsights.CommBus {
 					}
 				}
 								
-				Thread.Sleep(WriteInterval);
+				Thread.Sleep(_writeInterval);
 				UpdateBufferFlushFrequency();
 			}
 		}

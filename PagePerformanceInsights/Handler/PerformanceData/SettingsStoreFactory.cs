@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web;
+using PagePerformanceInsights.Configuration;
+using PagePerformanceInsights.Events;
 
 namespace PagePerformanceInsights.Handler.PerformanceData {
 	class SettingsStoreFactory {
@@ -14,8 +16,12 @@ namespace PagePerformanceInsights.Handler.PerformanceData {
 			"PagePerformanceInsights.MemoryStore.MemoryStoreDataProvider,PagePerformanceInsights.MemoryStore"
 		};
 
+		readonly static EventLogHelper _eventLogger = new EventLogHelper(typeof(SettingsStoreFactory));
+
 		static SettingsStoreFactory() {
-			var configStore = ConfigurationManager.AppSettings["PPI.Store"];
+			//var configStore = ConfigurationManager.AppSettings["PPI.Store"];
+
+			var configStore = StoreSection.Get().StoreNameOrType;
 			
 			Type storeImplementation=null;
 
@@ -33,7 +39,13 @@ namespace PagePerformanceInsights.Handler.PerformanceData {
 
 			//var storeImplementation= ??DefaultStore;
 
-			_store = Activator.CreateInstance(storeImplementation);
+			try {
+				_store = Activator.CreateInstance(storeImplementation);
+			}
+			catch(Exception e) {
+				_eventLogger.LogException("Failed creating data store", e);
+				throw;
+			}
 			//Bus.Buffer.SetPerformanceDataStore((IStorePerformanceData)_store);
 		}
 

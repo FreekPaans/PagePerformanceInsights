@@ -12,6 +12,7 @@ using PagePerformanceInsights.Helpers;
 using System.Collections.Specialized;
 using PagePerformanceInsights.Handler.Views;
 using PagePerformanceInsights.Handler.RequestHandling;
+using PagePerformanceInsights.Configuration;
 
 namespace PagePerformanceInsights {
 	public class PPIHandler : IHttpHandler{
@@ -19,8 +20,15 @@ namespace PagePerformanceInsights {
 			get { return false; }
 		}
 
+		readonly static bool _allowRemote;
+
+		static PPIHandler() {
+			_allowRemote = SecuritySection.Get().AllowRemote;
+			
+		}
+
 		public void ProcessRequest(HttpContext context) {
-			if(!context.Request.IsLocal) {
+			if(!context.Request.IsLocal && !_allowRemote) {
 				throw new HttpException(403, "Not allowed");
 			}
 			var handler = new RequestRouter().GetHandler(context);

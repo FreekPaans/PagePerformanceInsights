@@ -4,18 +4,29 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web;
+using PagePerformanceInsights.Configuration;
+using PagePerformanceInsights.Events;
 
 namespace PagePerformanceInsights.Module {
 	static class PageNameFilter {
 		readonly static IFilterPagesToAnalyze[] _filters;
+		readonly static EventLogHelper _logger;
 		static PageNameFilter() {
+			_logger = new EventLogHelper(typeof(PageNameFilter));
+
 			var filters = new List<IFilterPagesToAnalyze> { new RemovePPIHandlerFilter() };
 
-			var filterConfig = ConfigurationManager.AppSettings["PPI.Filters"];
-			if(!string.IsNullOrWhiteSpace(filterConfig)) {
-				LoadFilters(filters,filterConfig);
-			}
+			var config = FiltersSection.Get();
 
+			foreach(var filter in config.Filters.Cast<FilterElement>()) {
+				var filterType = Type.GetType(filter.NameOrType);
+				if(filterType==null) {
+					_logger.Warn(() => string.Format("Couldn't load type for filter: {0}",filter.NameOrType));
+					continue;
+				}
+
+				filters.Add((IFilterPagesToAnalyze)Activator.CreateInstance(filterType));
+			}
 			
 			_filters = filters.ToArray();
 		}

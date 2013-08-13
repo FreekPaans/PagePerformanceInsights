@@ -70,6 +70,10 @@
   <ItemGroup>
     <Compile Include="CommBus\Buffer.cs" />
     <Compile Include="CommBus\HttpRequestData.cs" />
+    <Compile Include="Configuration\BufferSection.cs" />
+    <Compile Include="Configuration\FiltersSection.cs" />
+    <Compile Include="Configuration\SecuritySection.cs" />
+    <Compile Include="Configuration\StoreSection.cs" />
     <Compile Include="Events\EventLogHelper.cs" />
     <Compile Include="Events\IHandlePPIEvents.cs" />
     <Compile Include="Events\LogEvents\ExceptionEvent.cs" />
