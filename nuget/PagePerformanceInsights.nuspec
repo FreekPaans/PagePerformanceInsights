@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>PPI</id>
-    <version>0.0.0-alpha3</version>
+    <version>0.0.1-alpha001</version>
     <authors>Freek Paans</authors>
     <owners>Freek Paans</owners>
     <licenseUrl>https://github.com/FreekPaans/PagePerformanceInsights/blob/master/LICENSE</licenseUrl>

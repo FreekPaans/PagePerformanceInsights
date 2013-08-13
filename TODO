@@ -1,10 +1,8 @@
 Prioritized
 ===========
-ilmerge
-nuget
 use custom config section
 Remote access
-system.web/httpModules
+soap header filter
 
 weekly trend
 download trend data as CSV
@@ -17,7 +15,6 @@ Non-prioritized
 filter on count in UI
 make ppi assets cachable
 regex filter
-soap header filter
 redo html
 remove/refactor logging so it doesn't intrude in code 
 test against multiple mvc versions
@@ -29,3 +26,7 @@ make MaxTimeSkewWindow configable
 Figure out good naming for performance views
 test web api
 api
+
+Bugs
+====
+nonmanaged filter show content under cassini
