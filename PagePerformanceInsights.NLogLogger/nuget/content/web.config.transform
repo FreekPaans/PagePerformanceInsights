@@ -1,0 +1,13 @@
+<configuration>
+	<system.web>
+		<httpModules>
+			<add name="PPINLogLogger" type="PagePerformanceInsights.NLogLogger.RegisterLoggerModule"/>
+		</httpModules>
+	</system.web>
+	<system.webServer>
+		<validation validateIntegratedModeConfiguration="false" />
+		<modules>
+			<add name="PPINLogLogger" type="PagePerformanceInsights.NLogLogger.RegisterLoggerModule"/>
+		</modules>
+	</system.webServer>
+</configuration>

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>PPI</id>
-    <version>0.0.1-alpha003</version>
+    <id>PPI.NLogLogger</id>
+    <version>0.0.1-alpha004</version>
     <authors>Freek Paans</authors>
     <owners>Freek Paans</owners>
     <licenseUrl>https://github.com/FreekPaans/PagePerformanceInsights/blob/master/LICENSE</licenseUrl>
@@ -12,5 +12,9 @@
     <releaseNotes>Initial release</releaseNotes>
     <copyright>Copyright 2013 Freek Paans</copyright>
     <tags>ASP.NET Monitoring Performance</tags>
+	<dependencies>
+      <dependency id="NLog" version="2.0" />
+	  <dependency id="PPI" version="0.0.1-alpha003" />
+    </dependencies>
   </metadata>
 </package>

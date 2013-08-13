@@ -8,7 +8,7 @@
 		<handlers>
 			<add verb="*" name="PPIHandler" path="ppi.axd" type="PagePerformanceInsights.PPIHandler" />
 		</handlers>
-		<modules runAllManagedModulesForAllRequests="true">
+		<modules>
 			<add name="RecordPageRequestDuration" type="PagePerformanceInsights.Module.RecordPageStatisticsModule" preCondition="managedHandler" />
 		</modules>
 	</system.webServer>
