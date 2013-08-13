@@ -8,12 +8,32 @@ namespace PagePerformanceInsights.Handler.PerformanceData {
 	class SettingsStoreFactory {
 		readonly static object _store;
 
-		const string DefaultStore = "PagePerformanceInsights.MemoryStore.MemoryStoreDataProvider,PagePerformanceInsights.MemoryStore";
+		//const string DefaultStore = ;
+		readonly static string[] DefaultStores = new string[] { 
+			"PagePerformanceInsights.MemoryStore.MemoryStoreDataProvider",
+			"PagePerformanceInsights.MemoryStore.MemoryStoreDataProvider,PagePerformanceInsights.MemoryStore"
+		};
 
 		static SettingsStoreFactory() {
-			var storeImplementation= ConfigurationManager.AppSettings["PPI.Store"]??DefaultStore;
+			var configStore = ConfigurationManager.AppSettings["PPI.Store"];
+			
+			Type storeImplementation=null;
 
-			_store = Activator.CreateInstance(Type.GetType(storeImplementation));
+			if(!string.IsNullOrEmpty(configStore)) {
+				storeImplementation= Type.GetType(configStore);
+			}
+			else {
+				foreach(var store in DefaultStores) {
+					storeImplementation = Type.GetType(store);
+					if(storeImplementation!=null) {
+						break;
+					}
+				}
+			}
+
+			//var storeImplementation= ??DefaultStore;
+
+			_store = Activator.CreateInstance(storeImplementation);
 			//Bus.Buffer.SetPerformanceDataStore((IStorePerformanceData)_store);
 		}
 
