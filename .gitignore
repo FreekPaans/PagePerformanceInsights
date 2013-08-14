@@ -33,3 +33,5 @@
 /PagePerformanceInsights.TestApps.MVC3/bin
 /PagePerformanceInsights.TestApps.WebForms/bin
 /PagePerformanceInsights.TestApps.WebForms/obj
+/PagePerformanceInsights.Auth/obj
+/PagePerformanceInsights.Auth/bin

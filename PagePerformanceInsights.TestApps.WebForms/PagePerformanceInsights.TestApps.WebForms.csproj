@@ -282,6 +282,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Modules\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Account\Web.config" />
@@ -296,6 +297,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PagePerformanceInsights.Auth\PagePerformanceInsights.Auth.csproj">
+      <Project>{f2b588fc-f206-4eef-9b97-d246f895700e}</Project>
+      <Name>PagePerformanceInsights.Auth</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PagePerformanceInsights.MemoryStore\PagePerformanceInsights.MemoryStore.csproj">
       <Project>{617ef40e-aabb-4ec3-b91d-743af4758de8}</Project>
       <Name>PagePerformanceInsights.MemoryStore</Name>
