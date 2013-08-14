@@ -1,7 +1,6 @@
 Prioritized
 ===========
 Remote access
-soap header filter
 weekly trend
 
 download trend data as CSV
@@ -23,7 +22,7 @@ Figure out good naming for performance views
 test web api
 api
 add simple names for stores/filters
-handle sql store init errors gracefully
+sql server store - support for multiple apps in same table
 
 Bugs
 ====

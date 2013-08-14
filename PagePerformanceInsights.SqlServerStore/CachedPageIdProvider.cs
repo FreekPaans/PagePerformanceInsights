@@ -16,6 +16,7 @@ namespace PagePerformanceInsights.SqlServerStore {
 		}
 
 		public Dictionary<string,int> GetPageIds(ICollection<string> pageNames) {
+			pageNames = pageNames.Distinct().ToArray();
 			var notCached=  pageNames.Except(_pageNameToIdMap.Keys).ToArray();
 			//var cached = pageNames.Intersect(notCached);
 
@@ -43,6 +44,7 @@ namespace PagePerformanceInsights.SqlServerStore {
 		}
 
 		public Dictionary<int,string> GetPageNames(ICollection<int> pageIds) {
+			pageIds = pageIds.Distinct().ToArray();
 			var notCached = pageIds.Except(_pageIdToNameMap.Keys);
 			AddPageIdsToCache(notCached.ToArray());
 			return pageIds.ToDictionary(p=>p, p=>_pageIdToNameMap[p]);
@@ -52,6 +54,7 @@ namespace PagePerformanceInsights.SqlServerStore {
 			if(!pageIds.Any()) {
 				return;
 			}
+			
 			var pairs = _backend.GetPageNames(pageIds);
 			lock(_writeLock) {
 				foreach(var idNamePair in pairs) {

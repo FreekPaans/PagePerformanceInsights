@@ -43,8 +43,8 @@ namespace PagePerformanceInsights.Handler.PerformanceData {
 				_store = Activator.CreateInstance(storeImplementation);
 			}
 			catch(Exception e) {
-				_eventLogger.LogException("Failed creating data store", e);
-				throw;
+				_eventLogger.LogException("Failed creating data store, using NullStore", e);
+				_store =new NullStore();
 			}
 			//Bus.Buffer.SetPerformanceDataStore((IStorePerformanceData)_store);
 		}

@@ -90,6 +90,7 @@
     <Compile Include="Handler\PerformanceData\DataTypes\PerformanceStatisticsForPageCollection.cs" />
     <Compile Include="Handler\PerformanceData\IProvidePerformanceData.cs" />
     <Compile Include="Handler\PerformanceData\IStorePerformanceData.cs" />
+    <Compile Include="Handler\PerformanceData\NullStore.cs" />
     <Compile Include="Handler\PerformanceData\SettingsStoreFactory.cs" />
     <Compile Include="Handler\PerformanceData\StaticPerformanceDataProvider.cs" />
     <Compile Include="Handler\RequestHandling\DataHandler.cs" />

@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="CachedPageIdProvider.cs" />
     <Compile Include="Configuration\SqlServerStoreSection.cs" />
+    <Compile Include="Helpers\ConnectionHelper.cs" />
     <Compile Include="Helpers\SHA1Helper.cs" />
     <Compile Include="Helpers\TimeSkewHelper.cs" />
     <Compile Include="INeedToBeWokenUp.cs" />

@@ -8,6 +8,9 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using PagePerformanceInsights.Configuration;
+using System.Data.SqlClient;
+using PagePerformanceInsights.SqlServerStore.Helpers;
+//using PagePerformanceInsights.Events;
 
 namespace PagePerformanceInsights.SqlServerStore {
 	public class SqlServerStore:IProvidePerformanceData,IStorePerformanceData, INeedToBeWokenUp {
@@ -19,7 +22,7 @@ namespace PagePerformanceInsights.SqlServerStore {
 		readonly RequestsReader _requestsReader;
 		readonly DistributionStore _distributionStore;
 		readonly TrendStore _trendStore;
-		
+		//readonly static EventLogHelper _eventLogger = new EventLogHelper();
 		
 
 		public SqlServerStore() : this(_configConnectionString) {
@@ -34,6 +37,12 @@ namespace PagePerformanceInsights.SqlServerStore {
 				_connectionString = connectionStringOrConnectionStringName;
 			}
 
+
+			Exception outConn;
+			if(!ConnectionHelper.TestConnection(_connectionString,out outConn)) {
+				throw new ArgumentNullException("connection",outConn);
+			}
+			
 			_pageIdProvider = new CachedPageIdProvider(new SqlPageIdProvider(_connectionString));
 
 			_requestsWriter = new RequestsWriter(_connectionString,_pageIdProvider);
@@ -45,6 +54,8 @@ namespace PagePerformanceInsights.SqlServerStore {
 
 			_scheduler = new Scheduler(_allPagesStore,_distributionStore,_trendStore,this);
 		}
+
+		
 
 		public Handler.PerformanceData.DataTypes.PerformanceStatisticsForPageCollection GetStatisticsForAllPages(DateTime forDate) {
 			return _allPagesStore.GetStatisticsForAllPages(forDate);
