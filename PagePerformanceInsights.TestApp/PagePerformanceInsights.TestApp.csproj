@@ -244,9 +244,9 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PagePerformanceInsights.Filters\PagePerformanceInsights.Filters.csproj">
+    <ProjectReference Include="..\PagePerformanceInsights.Filters\PagePerformanceInsights.Filters.MVC.csproj">
       <Project>{ba24e93e-bcef-4e7b-8f4e-f0186a6849a5}</Project>
-      <Name>PagePerformanceInsights.Filters</Name>
+      <Name>PagePerformanceInsights.Filters.MVC</Name>
     </ProjectReference>
     <ProjectReference Include="..\PagePerformanceInsights.MemoryStore\PagePerformanceInsights.MemoryStore.csproj">
       <Project>{617ef40e-aabb-4ec3-b91d-743af4758de8}</Project>

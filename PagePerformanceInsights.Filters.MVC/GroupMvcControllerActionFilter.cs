@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 
-namespace PagePerformanceInsights.Filters {
+namespace PagePerformanceInsights.Filters.MVC{
 	public class GroupMvcControllerActionFilter : IFilterPagesToAnalyze {
 		public string Filter(System.Web.HttpContext context,string currentPageName) {
 			var mvcHandler = context.Handler as MvcHandler;

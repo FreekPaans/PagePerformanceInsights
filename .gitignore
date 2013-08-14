@@ -27,3 +27,5 @@
 /PagePerformanceInsights.NLogLogger/obj
 /PagePerformanceInsights.NLogLogger/bin
 /binaries
+/PagePerformanceInsights.Filters.MVC/bin
+/PagePerformanceInsights.Filters.MVC/obj

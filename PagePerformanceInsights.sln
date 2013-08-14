@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PagePerformanceInsights.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PagePerformanceInsights.MemoryStore", "PagePerformanceInsights.MemoryStore\PagePerformanceInsights.MemoryStore.csproj", "{617EF40E-AABB-4EC3-B91D-743AF4758DE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PagePerformanceInsights.Filters", "PagePerformanceInsights.Filters\PagePerformanceInsights.Filters.csproj", "{BA24E93E-BCEF-4E7B-8F4E-F0186A6849A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PagePerformanceInsights.Filters.MVC", "PagePerformanceInsights.Filters.MVC\PagePerformanceInsights.Filters.MVC.csproj", "{BA24E93E-BCEF-4E7B-8F4E-F0186A6849A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PagePerformanceInsights.SqlServerStore", "PagePerformanceInsights.SqlServerStore\PagePerformanceInsights.SqlServerStore.csproj", "{DC4A6B6E-7D66-4669-A8A4-04FE40D50EBC}"
 EndProject

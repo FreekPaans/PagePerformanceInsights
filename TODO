@@ -2,11 +2,9 @@ Prioritized
 ===========
 Remote access
 soap header filter
-
 weekly trend
+
 download trend data as CSV
-make buffer flush timeout configable
-make buffer limit configable
 handle timezones
 
 Non-prioritized
@@ -15,7 +13,6 @@ filter on count in UI
 make ppi assets cachable
 regex filter
 redo html
-remove/refactor logging so it doesn't intrude in code 
 test against multiple mvc versions
 improve configuration error handling
 memory store - update on write, not on read

@@ -7,8 +7,8 @@
     <ProjectGuid>{BA24E93E-BCEF-4E7B-8F4E-F0186A6849A5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PagePerformanceInsights.Filters</RootNamespace>
-    <AssemblyName>PagePerformanceInsights.Filters</AssemblyName>
+    <RootNamespace>PagePerformanceInsights.Filters.MVC</RootNamespace>
+    <AssemblyName>PagePerformanceInsights.Filters.MVC</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
