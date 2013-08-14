@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Transactions;
 
 namespace PagePerformanceInsights.SqlServerStore {
 	class SqlPageIdProvider : IProvidePageIds{
@@ -44,12 +45,7 @@ namespace PagePerformanceInsights.SqlServerStore {
 		}
 
 		private static SqlCommand InsertNotKnownPagesFromTempTable(DataTable tbl,SqlConnection connection, string fromTableName) {
-			using(var copy = new SqlBulkCopy(connection)) {
-				copy.ColumnMappings.Add("PageName","PageName");
-				copy.ColumnMappings.Add("PageSHA1","PageSHA1");
-				copy.DestinationTableName = TempInsertTableName;
-				copy.WriteToServer(tbl);
-			}
+			InsertPagesToTempTable(tbl,connection,fromTableName);
 
 			var cmd = connection.CreateCommand();
 			cmd.CommandText = string.Format(
@@ -59,6 +55,22 @@ when not matched then insert (PageSHA1,PageName) values(toinsert.PageSHA1,toinse
 
 			cmd.ExecuteNonQuery();
 			return cmd;
+		}
+
+		private static void InsertPagesToTempTable(DataTable tbl,SqlConnection connection, string fromTableName) {
+			var cmd = connection.CreateCommand();
+			cmd.CommandText = string.Format("insert into {0} (PageName,PageSHA1) values(@PageName,@PageSHA1)",fromTableName);
+			cmd.Parameters.Add(new SqlParameter("PageName", SqlDbType.NVarChar));
+			cmd.Parameters.Add(new SqlParameter("PageSHA1",SqlDbType.Char));
+
+			using(var ts = new TransactionScope()) {
+				foreach(var row in tbl.Rows.Cast<DataRow>()) {
+					cmd.Parameters["PageName"].Value = row["PageName"];
+					cmd.Parameters["PageSHA1"].Value = row["PageSHA1"];
+					cmd.ExecuteNonQuery();
+				}
+				ts.Complete();
+			}
 		}
 
 		private void CreateTempTable(SqlConnection connection,string tableName) {

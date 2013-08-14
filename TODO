@@ -27,3 +27,4 @@ sql server store - support for multiple apps in same table
 Bugs/Issues
 ===========
 nonmanaged filter show content under cassini
+mem backend error when page not found

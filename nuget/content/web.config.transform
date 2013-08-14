@@ -6,6 +6,7 @@
 			<section name="filters" type="PagePerformanceInsights.Configuration.FiltersSection, PagePerformanceInsights"/>
 			<section name="store" type="PagePerformanceInsights.Configuration.StoreSection, PagePerformanceInsights"/>
 			<section name="sqlServerStore" type="PagePerformanceInsights.Configuration.SqlServerStoreSection, PagePerformanceInsights"/>
+			<section name="auth" type="PagePerformanceInsights.Configuration.AuthenticationSection, PagePerformanceInsights"/>
 		</sectionGroup>
 	</configSections>
 	<ppi>
@@ -19,25 +20,41 @@
 		<!--<store nameOrType="PagePerformanceInsights.SqlServerStore.SqlServerStore" />-->
 		<!--<sqlServerStore connectionStringOrName="PPI" />-->
 		<!--<sqlServerStore connectionStringOrName="PPI" requestsDataRetentionAfterDate="1.00:00:00" />-->
+		<!--<auth PPIPath="/ppi.axd" principalUsername="ppi">
+			<add name="localhostv4" ip="127.0.0.1" />
+			<add name="localhostv6" ip="::1" />
+		</auth>-->
 	</ppi>
 	<connectionStrings>
 		<!--<add name="PPI" connectionString="..."/>-->
 	</connectionStrings>
 	<system.webServer>
 		<validation validateIntegratedModeConfiguration="false" />
-		<handlers>
-			<add verb="*" name="PPIHandler" path="ppi.axd" type="PagePerformanceInsights.PPIHandler" />
-		</handlers>
 		<modules>
 			<add name="RecordPageRequestDuration" type="PagePerformanceInsights.Module.RecordPageStatisticsModule" preCondition="managedHandler" />
+			<!--<add name="PPIAuthModule" type="PagePerformanceInsights.Auth.Modules.PPIAuthModule" preCondition="managedHandler" />-->
 		</modules>
 	</system.webServer>
 	<system.web>
-		<httpHandlers>
-			<add verb="*" path="ppi.axd" type="PagePerformanceInsights.PPIHandler" />
-		</httpHandlers>
 		<httpModules>
 			<add name="RecordPageRequestDuration" type="PagePerformanceInsights.Module.RecordPageStatisticsModule" />
+			<!--<add name="PPIAuthModule" type="PagePerformanceInsights.Auth.Modules.PPIAuthModule" />-->
 		</httpModules>
 	</system.web>
+	<location path="ppi.axd">
+		<system.web>
+			<httpHandlers>
+				<add verb="*" path="ppi.axd" type="PagePerformanceInsights.PPIHandler" />
+			</httpHandlers>
+			<authorization>
+				<!--<allow users="ppi"/>-->
+				<deny users="*"/>
+			</authorization>
+		</system.web>
+		<system.webServer>
+			<handlers>
+				<add verb="*" name="PPIHandler" path="ppi.axd" type="PagePerformanceInsights.PPIHandler" />
+			</handlers>
+		</system.webServer>
+	</location>
 </configuration>
