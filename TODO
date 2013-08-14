@@ -1,6 +1,5 @@
 Prioritized
 ===========
-Remote access
 weekly trend
 
 download trend data as CSV
@@ -23,8 +22,10 @@ test web api
 api
 add simple names for stores/filters
 sql server store - support for multiple apps in same table
+shutdown store on error
 
 Bugs/Issues
 ===========
 nonmanaged filter show content under cassini
 mem backend error when page not found
+all times 00:00 in trend view
