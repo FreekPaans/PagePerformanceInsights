@@ -29,3 +29,4 @@ Bugs/Issues
 nonmanaged filter show content under cassini
 mem backend error when page not found
 all times 00:00 in trend view
+distribution chart - handle case where mean 90 percentile
