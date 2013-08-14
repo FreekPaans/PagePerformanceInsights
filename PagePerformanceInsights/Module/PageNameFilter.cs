@@ -14,7 +14,7 @@ namespace PagePerformanceInsights.Module {
 		static PageNameFilter() {
 			_logger = new EventLogHelper(typeof(PageNameFilter));
 
-			var filters = new List<IFilterPagesToAnalyze> { new RemovePPIHandlerFilter() };
+			var filters = new List<IFilterPagesToAnalyze> {  };
 
 			var config = FiltersSection.Get();
 

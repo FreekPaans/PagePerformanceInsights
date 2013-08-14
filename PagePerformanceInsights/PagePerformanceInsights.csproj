@@ -119,6 +119,7 @@
       <DependentUpon>ResponseDistribution.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\DateContext.cs" />
+    <Compile Include="Module\Filters\AppendSoapActionFilter.cs" />
     <Compile Include="Module\Filters\IdentityFilter.cs" />
     <Compile Include="Module\Filters\RemoveNonManagedHandlersFilter.cs" />
     <Compile Include="Module\Filters\RemovePPIHandlerFilter.cs" />

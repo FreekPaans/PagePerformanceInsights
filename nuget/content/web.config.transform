@@ -12,7 +12,9 @@
 		<!--<buffer writeInterval="00:00:01" maxBufferSize="-1" />-->
 		<!--<security allowRemote="false" />-->
 		<filters>
+			<add nameOrType="PagePerformanceInsights.Module.Filters.RemovePPIHandlerFilter" />
 			<!--<add nameOrType="PagePerformanceInsights.Module.Filters.RemoveNonManagedHandlersFilter,PagePerformanceInsights" />-->
+			<!--<add nameOrType="PagePerformanceInsights.Module.Filters.AppendSoapActionFilter" />-->
 		</filters>
 		<!--<store nameOrType="PagePerformanceInsights.SqlServerStore.SqlServerStore" />-->
 		<!--<sqlServerStore connectionStringOrName="PPI" />-->

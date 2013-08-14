@@ -244,7 +244,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PagePerformanceInsights.Filters\PagePerformanceInsights.Filters.MVC.csproj">
+    <ProjectReference Include="..\PagePerformanceInsights.Filters.MVC\PagePerformanceInsights.Filters.MVC.csproj">
       <Project>{ba24e93e-bcef-4e7b-8f4e-f0186a6849a5}</Project>
       <Name>PagePerformanceInsights.Filters.MVC</Name>
     </ProjectReference>
