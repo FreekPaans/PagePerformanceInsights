@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2EBAE9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PagePerformanceInsights", "PagePerformanceInsights\PagePerformanceInsights.csproj", "{CC70FCED-7EA6-4311-9756-0E88DCB9C22E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PagePerformanceInsights.TestApp", "PagePerformanceInsights.TestApp\PagePerformanceInsights.TestApp.csproj", "{5249341F-9785-403C-9E37-A568370B8AF5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PagePerformanceInsights.TestApps.MVC3", "PagePerformanceInsights.TestApps.MVC3\PagePerformanceInsights.TestApps.MVC3.csproj", "{5249341F-9785-403C-9E37-A568370B8AF5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PagePerformanceInsights.MemoryStore", "PagePerformanceInsights.MemoryStore\PagePerformanceInsights.MemoryStore.csproj", "{617EF40E-AABB-4EC3-B91D-743AF4758DE8}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PagePerformanceInsights.SqlServerStore", "PagePerformanceInsights.SqlServerStore\PagePerformanceInsights.SqlServerStore.csproj", "{DC4A6B6E-7D66-4669-A8A4-04FE40D50EBC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PagePerformanceInsights.NLogLogger", "PagePerformanceInsights.NLogLogger\PagePerformanceInsights.NLogLogger.csproj", "{C7E24C7D-0ABD-4C46-B56C-058C63C6B4A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PagePerformanceInsights.TestApps.WebForms", "PagePerformanceInsights.TestApps.WebForms\PagePerformanceInsights.TestApps.WebForms.csproj", "{71836730-5845-4887-82BD-B2D137B98322}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{C7E24C7D-0ABD-4C46-B56C-058C63C6B4A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7E24C7D-0ABD-4C46-B56C-058C63C6B4A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7E24C7D-0ABD-4C46-B56C-058C63C6B4A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71836730-5845-4887-82BD-B2D137B98322}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71836730-5845-4887-82BD-B2D137B98322}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71836730-5845-4887-82BD-B2D137B98322}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71836730-5845-4887-82BD-B2D137B98322}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

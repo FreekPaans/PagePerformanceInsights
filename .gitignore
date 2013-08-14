@@ -29,3 +29,7 @@
 /binaries
 /PagePerformanceInsights.Filters.MVC/bin
 /PagePerformanceInsights.Filters.MVC/obj
+/PagePerformanceInsights.TestApps.MVC3/obj
+/PagePerformanceInsights.TestApps.MVC3/bin
+/PagePerformanceInsights.TestApps.WebForms/bin
+/PagePerformanceInsights.TestApps.WebForms/obj
